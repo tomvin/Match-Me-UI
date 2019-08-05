@@ -4,7 +4,6 @@ import './App.css';
 const App: React.FC = () => {
   const [ appState ] = useState({
     appName: 'Match Me',
-    username: 'Tom Vinnicombe'
   });
 
   return (
@@ -12,6 +11,7 @@ const App: React.FC = () => {
       <header className="App-header">
         <h1>{appState.appName}</h1>
         <p>Hello.. welcome to our empty app.</p>
+        <p>Hopefully heroku is working. </p>
       </header>
     </div>
   );
