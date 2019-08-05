@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 const App: React.FC = () => {
-  const [ appState, setAppState ] = useState({
+  const [ appState ] = useState({
     appName: 'Match Me',
     username: 'Tom Vinnicombe'
   });
