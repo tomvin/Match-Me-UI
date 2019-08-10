@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
-import './App.css';
-import Button from '@material-ui/core/Button';
+import React from 'react';
+import './App.scss';
+import { Router } from '@reach/router';
+import Container from '@material-ui/core/Container';
+import Start from './Start/Start';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import SeekerJobSearch from './SeekerJobSearch/SeekerJobSearch';
+import { NotFound } from './NotFound/NotFound';
 
 const App: React.FC = () => {
-  const [ appState ] = useState({
-    appName: 'Match Me',
-  });
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>{appState.appName}</h1>
-        <p>Hello.. welcome to our empty app.</p>
-        <p>Hopefully heroku is working. </p>
-        <Button variant="outlined">Test</Button>
-      </header>
+    <div className="app-root">
+      <CssBaseline />
+      <main className="content">
+        <Container className="container" maxWidth="lg">
+          <Grid container spacing={0}>
+            <Grid item xs={12}>
+              <Router>
+                <Start path="/" />
+                <SeekerJobSearch path="/seeker/search" />
+                <NotFound default />
+              </Router>
+            </Grid>
+          </Grid>
+        </Container>
+      </main>
     </div>
   );
 }
