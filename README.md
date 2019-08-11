@@ -4,6 +4,10 @@
 2. In the root directory of this repo run the command `npm install`
 3. After install finishes running, in the root directory run command `npm start` to start the app. 
 
+## Using libraries
+- Material UI - https://material-ui.com
+- Reach Router - https://reach.tech/router/
+- notistac - https://github.com/iamhosseindhv/notistack
 ---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
