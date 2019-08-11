@@ -1,0 +1,14 @@
+@import "./Style/Variables.scss";
+
+.app-root {
+  background-color: #e3e8ee;
+  color: #3c4257;
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.content {
+  flex-grow: 1;
+  height: 100vh;
+  overflow: auto;
+}
