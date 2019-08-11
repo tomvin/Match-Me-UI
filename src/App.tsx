@@ -1,26 +1,37 @@
 import React from 'react';
 import './App.scss';
-import { Router } from '@reach/router';
+import { Router, Redirect } from '@reach/router';
 import Container from '@material-ui/core/Container';
-import Start from './Start/Start';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import SeekerJobSearch from './SeekerJobSearch/SeekerJobSearch';
+import SeekerJobSearch from './NewJobs/NewJobs';
 import { NotFound } from './NotFound/NotFound';
+import SideBar from './SideBar/SideBar';
+import { MenuItem } from './Models/MenuItem';
+import TopBar from './TopBar/TopBar';
+import { SnackbarProvider } from 'notistack';
+import { JobSeekerMatches } from './JobSeekerMatches/JobSeekerMatches';
+import { JobSeekerProfile } from './JobSeekerProfle/JobSeekerProfile';
 
 const App: React.FC = () => {
+  const [menuItems] = React.useState(DEFAULT_MENU_ITEMS);
+
   return (
     <div className="app-root">
-      <CssBaseline />
+      <SideBar menuItems={menuItems}></SideBar>
       <main className="content">
-        <Container className="container" maxWidth="lg">
+        <TopBar menuItems={menuItems}></TopBar>
+        <Container maxWidth="xl">
           <Grid container spacing={0}>
             <Grid item xs={12}>
-              <Router>
-                <Start path="/" />
-                <SeekerJobSearch path="/seeker/search" />
-                <NotFound default />
-              </Router>
+              <SnackbarProvider anchorOrigin={ {vertical: 'top', horizontal: 'center'} } maxSnack={3}>
+                <Router>
+                  <Redirect noThrow from="/" to="new-jobs" />
+                  <SeekerJobSearch path="/new-jobs" />
+                  <JobSeekerMatches path="/matches"></JobSeekerMatches>
+                  <JobSeekerProfile path="profile"></JobSeekerProfile>
+                  <NotFound default />
+                </Router>
+              </SnackbarProvider>
             </Grid>
           </Grid>
         </Container>
@@ -30,3 +41,17 @@ const App: React.FC = () => {
 }
 
 export default App;
+
+const DEFAULT_MENU_ITEMS: MenuItem[] = [{
+  label: 'New Jobs',
+  icon: 'search',
+  route: '/new-jobs'
+}, {
+  label: 'Matches',
+  icon: 'mood',
+  route: '/matches'
+}, {
+  label: 'Profile',
+  icon: 'person',
+  route: '/profile'
+}];
