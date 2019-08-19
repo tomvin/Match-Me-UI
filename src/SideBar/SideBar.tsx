@@ -20,7 +20,7 @@ class SideBar extends React.Component<SideBarProps> {
                 getProps={({ isCurrent }) => 
                   { return { className: isCurrent ? 'menu-item menu-item--active' : 'menu-item' } }} 
                 to={menuItem.route}>
-                <Icon fontSize="large">{ menuItem.icon }</Icon>
+                <Icon fontSize="default">{ menuItem.icon }</Icon>
               </Link>
             </Tooltip>
           ))

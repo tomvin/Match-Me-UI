@@ -5,6 +5,8 @@ import './NewJobs.scss';
 import { NewJob } from '../Models/NewJob';
 import JobCard from './JobCard/JobCard';
 import { useSnackbar } from 'notistack';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';       
 
 const mockJobs: NewJob[] = [{
   id: 1,
@@ -24,6 +26,14 @@ const SeekerJobSearch: React.FC<RouteComponentProps> = () => {
   const [jobs] = React.useState(mockJobs);
   // const numberOfJobs: number = jobs.length;
   const { enqueueSnackbar } = useSnackbar();
+  /*const { loading, error, data } = useQuery<{ jobSeekers: { _id: any, name: string }[] }>(gql`
+  {
+    jobSeekers{
+      _id
+      name
+    }
+  }
+`);*/
 
   function handleApply(jobId: number) {
     enqueueSnackbar(`You've just applied for job ${jobId}, this isn't implemented yet. `, { variant: 'info' });
