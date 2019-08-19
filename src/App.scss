@@ -1,8 +1,8 @@
 @import "./Style/Variables.scss";
 
 .app-root {
-  background-color: #e3e8ee;
-  color: #3c4257;
+  background-color: var(--page-background-color);
+  color: var(--text-color);
   display: flex;
   font-family: 'Open Sans', sans-serif;
 }

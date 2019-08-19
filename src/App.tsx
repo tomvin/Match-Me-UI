@@ -11,31 +11,45 @@ import TopBar from './TopBar/TopBar';
 import { SnackbarProvider } from 'notistack';
 import { JobSeekerMatches } from './JobSeekerMatches/JobSeekerMatches';
 import { JobSeekerProfile } from './JobSeekerProfle/JobSeekerProfile';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+
+const BACKEND_API: string = 'https://matchme-test-graphql.herokuapp.com/graphql';
+const client = new ApolloClient({
+  uri: BACKEND_API,
+  fetchOptions: {
+    fetchOptions: {
+      mode: 'no-cors'
+    }
+  }
+});
 
 const App: React.FC = () => {
   const [menuItems] = React.useState(DEFAULT_MENU_ITEMS);
 
   return (
     <div className="app-root">
-      <SideBar menuItems={menuItems}></SideBar>
-      <main className="content">
-        <TopBar menuItems={menuItems}></TopBar>
-        <Container maxWidth="xl">
-          <Grid container spacing={0}>
-            <Grid item xs={12}>
-              <SnackbarProvider anchorOrigin={ {vertical: 'top', horizontal: 'center'} } maxSnack={3}>
-                <Router>
-                  <Redirect noThrow from="/" to="new-jobs" />
-                  <SeekerJobSearch path="/new-jobs" />
-                  <JobSeekerMatches path="/matches"></JobSeekerMatches>
-                  <JobSeekerProfile path="profile"></JobSeekerProfile>
-                  <NotFound default />
-                </Router>
-              </SnackbarProvider>
+      <ApolloProvider client={client}>
+        <SideBar menuItems={menuItems}></SideBar>
+        <main className="content">
+          <TopBar menuItems={menuItems}></TopBar>
+          <Container maxWidth="xl">
+            <Grid container spacing={0}>
+              <Grid item xs={12}>
+                <SnackbarProvider anchorOrigin={ {vertical: 'top', horizontal: 'center'} } maxSnack={3}>
+                  <Router>
+                    <Redirect noThrow from="/" to="new-jobs" />
+                    <SeekerJobSearch path="/new-jobs" />
+                    <JobSeekerMatches path="/matches"></JobSeekerMatches>
+                    <JobSeekerProfile path="profile"></JobSeekerProfile>
+                    <NotFound default />
+                  </Router>
+                </SnackbarProvider>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </main>
+          </Container>
+        </main>
+      </ApolloProvider>
     </div>
   );
 }
