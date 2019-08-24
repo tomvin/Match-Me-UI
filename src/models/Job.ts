@@ -1,9 +1,10 @@
-import { Company } from "./Company";
+import { Company } from './Company';
+import { Education } from './Education';
 
 export interface Job {
-  id: number;
+  _id: string;
   company: Company;
-  title: string;
+  name: string;
   description: string;
-  skills: string[];
+  education: Education[];
 }

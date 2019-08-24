@@ -1,0 +1,61 @@
+.job-details {
+  display: flex;
+
+  &__left {
+
+  }
+
+  &__right {
+    flex-grow: 1;
+
+    .details-body {
+      color: var(--gray-700);
+      margin-top: var(--spacing-3);
+    }
+
+    .details-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .job-title {
+        display: flex;
+        flex-direction: column;
+
+        .job-name {
+          font-size: 22px;
+          color: var(--gray-900);
+          margin-bottom: var(--spacing-2);
+        }
+
+        .company-name {
+          color: var(--purple-900);
+        }
+      }
+
+      .education-container {
+        .education {
+          display: flex;
+          align-items: center;
+          margin-bottom: var(--spacing-1);
+
+          &__icon {
+            font-size: 16px;
+            color: var(--purple-800);
+            margin-right: var(--spacing-1);
+          }
+
+          &__field {
+            color: var(--gray-700);
+          }
+        }
+      }
+    }
+  }
+
+  &__logo {
+    width: 64px;
+    height: auto;
+    margin-right: var(--spacing-4);
+  }
+}

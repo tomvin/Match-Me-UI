@@ -3,5 +3,5 @@ export interface MatchListItemVM {
   imageUrl: string;
   title: string;
   description: string;
-  matchPercentage: number;
+  score: number;
 }
