@@ -1,0 +1,36 @@
+.navigation-item {
+  text-decoration: none;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 3px solid transparent;
+  padding: 0 var(--spacing-4);
+
+  &__label {
+    color: var(--gray-600);
+  }
+
+  &__icon {
+    color: var(--gray-500);
+    margin-right: var(--spacing-2);
+  }
+
+  &--active {
+    border-color: var(--purple-200);
+
+    .navigation-item__label {
+      color: var(--purple-900);
+    }
+
+    .navigation-item__icon {
+      color: var(--purple-800);
+    }
+  }
+
+  &:hover {
+    .navigation-item__label, .navigation-item__icon {
+      color: var(--purple-700);
+    }
+  }
+}
