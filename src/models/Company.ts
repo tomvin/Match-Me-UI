@@ -1,6 +1,7 @@
 export interface Company {
-  id: number;
+  _id: string;
   name: string;
-  description: string;
+  phone: string;
+  email: string;
   logoUrl: string;
 }

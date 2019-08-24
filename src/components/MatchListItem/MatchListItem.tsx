@@ -25,7 +25,7 @@ const MatchListItem = (props: MatchListItemProps) => {
         <div className="match-list-item__info">
           <div className="info__header">
             <div className="header__title">{props.item.title}</div>
-            <Pill text={`${props.item.matchPercentage}% match!`} variant={convertPercentageToPillVariant(props.item.matchPercentage)} />
+            <Pill text={`${props.item.score}% match!`} variant={convertPercentageToPillVariant(props.item.score)} />
           </div>
           <div className="info__description">{trimStringAddEllipsis(props.item.description, 90)}</div>
         </div>

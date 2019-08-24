@@ -1,55 +1,61 @@
 import React, { Component } from 'react'
 import './PotentialJobDetailsPage.scss';
-import { RouteComponentProps } from "react-router-dom";
-import { PotentialJobMatch } from '../../models/PotentialJobMatch';
+import { RouteComponentProps, NavLink } from "react-router-dom";
 import pageWrapper from '../../components/PageWrapper/PageWrapper';
-import { MOCK_POTENTIAL_JOBS } from '../../mock/PotentialJobs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Job } from '../../models/Job';
+import { MOCK_JOBS } from '../../mock/Jobs';
+import JobDetails from '../../components/JobDetails/JobDetails';
 
 interface Params {
-  potentialJobId: string;
+  jobId: string;
 }
 
 interface State {
-  potentialJob: PotentialJobMatch | undefined;
-  loadingJobDetails: boolean;
+  job: Job | undefined;
+  loading: boolean;
 }
 
 class PotentialJobDetailsPage extends Component<RouteComponentProps<Params>, State> {
   constructor(props: RouteComponentProps<Params>) {
     super(props);
     this.state = {
-      potentialJob: undefined,
-      loadingJobDetails: true
+      job: undefined,
+      loading: true
     };
   }
 
   componentDidMount() {
-    const potentialJobId: number = parseInt(this.props.match.params.potentialJobId);
+    const jobId: string = this.props.match.params.jobId;
     
-    if (!potentialJobId) {
+    if (!jobId) {
       this.setState({
-        potentialJob: undefined,
-        loadingJobDetails: false
+        job: undefined,
+        loading: false
       });
       return;
     }
 
-    this.loadPotentialJob(potentialJobId);
+    this.loadJob(jobId);
   }
 
-  loadPotentialJob(id: number) {
-    const job = MOCK_POTENTIAL_JOBS.find(j => j.id === id);
+  loadJob(id: string) {
+    const job = MOCK_JOBS.find(j => j._id === id);
     
     this.setState({
-      potentialJob: job,
-      loadingJobDetails: false
+      job: job,
+      loading: false
     });
   }
   
   render() {
     return (
-      <div>
-        { this.state.potentialJob ? this.state.potentialJob.job.title : '?' }
+      <div className="potential-job-details-page">
+        <NavLink to="/potential-jobs" className="back-link">
+          <FontAwesomeIcon className="back-link__icon" icon={['fas', 'chevron-left']} />
+          <span className="back-link__text">Back to Results</span>
+        </NavLink>
+        { this.state.job ? <JobDetails job={this.state.job} /> : <div>Job not found. </div> }
       </div>
     )
   }

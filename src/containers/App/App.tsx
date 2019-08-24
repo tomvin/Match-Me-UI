@@ -19,7 +19,7 @@ const App: React.FC = () => {
       <Navigation></Navigation>
       <Switch>
         <Route path="/matched-jobs" component={MatchedJobs}></Route>
-        <Route path="/potential-jobs/:potentialJobId" component={PotentialJobDetailsPage}></Route>
+        <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>
         <Route path="/potential-jobs" component={PotentialJobs}></Route>
         <Route exact path="/" render={() => (<Redirect to="/matched-jobs" />)}></Route>
       </Switch>

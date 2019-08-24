@@ -12,7 +12,7 @@ const MatchList = (props: MatchListProps) => {
     <div className="match-list">
       {
         props.items
-          .sort((itemA, itemB) => (itemB.matchPercentage - itemA.matchPercentage))
+          .sort((itemA, itemB) => (itemB.score - itemA.score))
           .map((item, i) => (
             <MatchListItem className="match-list__item" key={i} item={item} />
           )
