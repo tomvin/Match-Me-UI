@@ -5,6 +5,8 @@
   padding: var(--spacing-4);
   background-color: #fff;
   text-decoration: none;
+  border-radius: 6px;
+  transition: .15s ease all;
 
   &__left {
     display: flex;
@@ -44,6 +46,14 @@
     .info__description {
       font-size: 16px;
       color: var(--gray-600);
+    }
+  }
+
+  &:hover {
+    box-shadow: var(--hover-shadow);
+
+    .match-list-item__icon {
+      color: var(--purple-900);
     }
   }
 }
