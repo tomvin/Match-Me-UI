@@ -1,0 +1,35 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    width: var(--app-width);
+
+    .header__left {
+      display: flex;
+      align-items: center;
+
+      .app-logo {
+        margin-right: var(--spacing-2);
+      }
+
+      .app-title {
+        color: var(--gray-600);
+        font-weight: bold;
+        font-size: 16px;
+      }
+    }
+
+    .header__right {
+      .user {
+        font-size: 14px;
+        color: var(--gray-600);
+      }
+    }
+  }
+}
