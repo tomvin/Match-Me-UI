@@ -9,4 +9,22 @@
       margin-right: var(--spacing-2);
     }
   }
+
+  .job-response {
+    margin-top: var(--spacing-4);
+
+    &__text {
+      margin-left: 96px;
+      color: var(--purple-900);
+      margin-bottom: var(--spacing-3);
+    }
+
+    &__buttons {
+      margin-left: 96px;
+      
+      .interested-button {
+        margin-right: var(--spacing-1);
+      }
+    }
+  }
 }

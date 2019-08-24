@@ -2,6 +2,7 @@ import React from 'react'
 import './JobDetails.scss';
 import { Job } from '../../models/Job';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Card from '../Card/Card';
 
 interface Props {
   job: Job;
@@ -9,7 +10,7 @@ interface Props {
 
 const JobDetails = (props: Props) => {
   return (
-    <div className="job-details">
+    <Card className="job-details">
       <div className="job-details__left">
         <img className="job-details__logo" src={props.job.company.logoUrl} alt={props.job.company.name} />
       </div>
@@ -34,7 +35,7 @@ const JobDetails = (props: Props) => {
           {props.job.description}
         </div>
       </div>
-    </div>
+    </Card>
   )
 }
 

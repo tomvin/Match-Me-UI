@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Job } from '../../models/Job';
 import { MOCK_JOBS } from '../../mock/Jobs';
 import JobDetails from '../../components/JobDetails/JobDetails';
+import Card from '../../components/Card/Card';
+import Button from '../../components/Button/Button';
 
 interface Params {
   jobId: string;
@@ -56,6 +58,15 @@ class PotentialJobDetailsPage extends Component<RouteComponentProps<Params>, Sta
           <span className="back-link__text">Back to Results</span>
         </NavLink>
         { this.state.job ? <JobDetails job={this.state.job} /> : <div>Job not found. </div> }
+        <Card className="job-response">
+          <div className="job-response__text">
+            Are you interested in meeting with this employer about this job?
+          </div>
+          <div className="job-response__buttons">
+            <Button className="interested-button" icon="check" variant="primary">I'm Interested</Button>
+            <Button variant="secondary">I'm not interested</Button>
+          </div>
+        </Card>
       </div>
     )
   }
