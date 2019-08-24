@@ -1,0 +1,10 @@
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+
+  &__inner {
+    margin-top: var(--spacing-3);
+    width: var(--app-width);
+  }
+}
+

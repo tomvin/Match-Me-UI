@@ -1,4 +1,5 @@
 import React from 'react'
+import pageWrapper from '../../components/PageWrapper/PageWrapper';
 
 const PotentialJobs = () => {
   return (
@@ -8,4 +9,4 @@ const PotentialJobs = () => {
   )
 }
 
-export default PotentialJobs
+export default pageWrapper(PotentialJobs)
