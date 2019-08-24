@@ -1,12 +1,12 @@
 import React from 'react'
 import pageWrapper from '../../components/PageWrapper/PageWrapper';
 
-const PotentialJobs = () => {
+const MatchedJobsPage = () => {
   return (
     <div>
-      Potential Jobs
+      Matched Jobs
     </div>
   )
 }
 
-export default pageWrapper(PotentialJobs)
+export default pageWrapper(MatchedJobsPage)

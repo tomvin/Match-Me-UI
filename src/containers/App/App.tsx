@@ -3,8 +3,8 @@ import './App.scss';
 import Header from '../../components/Header/Header';
 import Navigation from '../Navigation/Navigation';
 import { Route, Switch, Redirect } from 'react-router';
-import PotentialJobs from '../PotentialJobs/PotentialJobs';
-import MatchedJobs from '../MatchedJobs/MatchedJobs';
+import PotentialJobs from '../PotentialJobsPage/PotentialJobsPage';
+import MatchedJobs from '../MatchedJobsPage/MatchedJobsPage';
 
 const App: React.FC = () => {
   const [appState] = useState({
