@@ -40,6 +40,8 @@ const PotentialJobDetailsPage = (props: RouteComponentProps<Params>) => {
       }
       education{
         _id
+        field
+        level
       }
     }
   }

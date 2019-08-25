@@ -25,7 +25,7 @@ const JobDetails = (props: Props) => {
               props.job.education.map((education, i) => (
                 <div key={i} className="education">
                   <FontAwesomeIcon className="education__icon" icon={['fas', 'graduation-cap']} />
-                  <span className="education__field">{`${education.level} in ${education.field}`}</span>
+                  <span className="education__field">{`${education.level}  (${education.field})`}</span>
                 </div>
               ))
             }
