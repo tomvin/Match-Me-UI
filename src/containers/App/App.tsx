@@ -9,7 +9,7 @@ import PotentialJobDetailsPage from '../PotentialJobDetailsPage/PotentialJobDeta
 
 const App: React.FC = () => {
   const [appState] = useState({
-    appName: 'Match Me',
+    appName: process.env.REACT_APP_TITLE,
     userName: 'Mr Job Seeker'
   });
 

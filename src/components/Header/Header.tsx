@@ -3,7 +3,7 @@ import './Header.scss';
 import logo from '../../images/match-me-logo.svg';
 
 export interface HeaderProps {
-  appName: string;
+  appName: string | undefined;
   userName: string;
 }
 

@@ -4,7 +4,7 @@ import pageWrapper from '../../components/PageWrapper/PageWrapper';
 const MatchedJobsPage = () => {
   return (
     <div>
-      Matched Jobs
+      You have no matches. 
     </div>
   )
 }
