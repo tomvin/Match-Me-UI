@@ -1,3 +1,6 @@
+## Match Me
+Live deployment built from the current version of master branch can be viewed here https://match-me-rmit.herokuapp.com/
+
 ## To get started
 
 1. I recommend using VSCode editor. Can download it at https://code.visualstudio.com/Download 
