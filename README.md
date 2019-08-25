@@ -14,6 +14,7 @@ Live deployment built from the current version of master branch can be viewed he
 - React - https://reactjs.org/
 - React dom router - https://reacttraining.com/react-router/web/guides/quick-start
 - notistac - https://github.com/iamhosseindhv/notistack
+- Apollo Client (for graphql) - https://www.apollographql.com/docs/react/
 ---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
