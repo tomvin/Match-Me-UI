@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^4.3.5",
+    "eslint": "^6.3.0",
     "node-sass": "^4.12.0"
   }
 }
