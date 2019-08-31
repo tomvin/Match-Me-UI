@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/tomvin/Match-Me-UI.svg?branch=master)](https://travis-ci.com/tomvin/Match-Me-UI)
+
 ## Match Me
 Live deployment built from the current version of master branch can be viewed here https://match-me-rmit.herokuapp.com/
 
