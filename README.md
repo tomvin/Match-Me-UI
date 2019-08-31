@@ -1,7 +1,16 @@
-[![Build Status](https://travis-ci.com/tomvin/Match-Me-UI.svg?branch=master)](https://travis-ci.com/tomvin/Match-Me-UI)
-
 ## Match Me
-Live deployment built from the current version of master branch can be viewed here https://match-me-rmit.herokuapp.com/
+
+A new way for both job seekers and employers to find each other. Sign up as either a job seeker looking for their next job, or as an employer looking for their next hire!
+
+#### Production
+[![Build Status](https://travis-ci.com/tomvin/Match-Me-UI.svg?branch=master)](https://travis-ci.com/tomvin/Match-Me-UI)
+- https://match-me-rmit.herokuapp.com/
+- Deploys automatically from master. 
+
+#### Development
+[![Build Status](https://travis-ci.com/tomvin/Match-Me-UI.svg?branch=dev)](https://travis-ci.com/tomvin/Match-Me-UI)
+- https://dev-match-me-rmit.herokuapp.com/
+- Deploys automatically from dev. 
 
 ## To get started
 
