@@ -16,7 +16,7 @@
     background-color: var(--purple-900);
     color: var(--purple-100);
 
-    &:hover {
+    &:not(.button--loading):hover {
       background-color: var(--purple-700);
       box-shadow: var(--hover-shadow);
     }
@@ -26,8 +26,18 @@
     background-color: transparent;
     color: var(--purple-900);
 
-    &:hover {
+    &:not(.button--loading):hover {
       background-color: var(--gray-200);
     }
+  }
+
+  &--loading {
+    padding: 1px 0;
+    cursor: not-allowed;
+    background-color: var(--gray-400);
+  }
+
+  &:focus, &:active {
+    outline: none;
   }
 }
