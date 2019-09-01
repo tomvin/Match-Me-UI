@@ -11,6 +11,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import LoginPage from '../LoginPage/LoginPage';
 
 library.add(far, fas);
 
@@ -19,22 +20,34 @@ const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL
 });
 
+interface AppState {
+  appName: string | undefined;
+  user: { email: string } | undefined;
+}
+
 const App: React.FC = () => {
-  const [appState] = useState({
+  const [appState]: [AppState, any] = useState({
     appName: process.env.REACT_APP_TITLE,
-    userName: 'Mr Job Seeker'
+    user: undefined
   });
 
   return (
     <div className="app">
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <Header appName={appState.appName} userName={appState.userName}></Header>
-          <Navigation></Navigation>
+          {
+            appState.user ? (
+              <div>
+                <Header appName={appState.appName} userName={appState.user.email}></Header>
+                <Navigation></Navigation>
+              </div>
+            ) : <Redirect to="/login" />
+          }
           <Switch>
             <Route path="/matched-jobs" component={MatchedJobs}></Route>
             <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>
             <Route path="/potential-jobs" component={PotentialJobs}></Route>
+            <Route path="/login" component={LoginPage}></Route>
             <Route exact path="/" render={() => (<Redirect to="/matched-jobs" />)}></Route>
           </Switch>
         </BrowserRouter>
