@@ -28,8 +28,8 @@ const LoginPage = () => {
         <h1 className="login-page-card__title">Welcome back,</h1>
         <p className="login-page-card__subtitle">Sign in to continue using Match Me</p>
         <form className="login-page-card__form">
-          <Input type="email" label="Email Address" placeholder="username@email.com" />
-          <Input type="password" label="Password" placeholder="******" />
+          <Input required type="email" label="Email Address" placeholder="username@email.com" />
+          <Input required type="password" label="Password" placeholder="******" />
           <Button 
             loading={state.attemptingLogin}
             onClick={handleButtonClick} 

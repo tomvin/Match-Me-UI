@@ -10,7 +10,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import Loading from '../../components/Loading/Loading';
 import Error from '../../components/Error/Error';
-import { Job } from '../../models/Job';
+import { IJob } from '../../models/Job';
 import Alert from '../../components/Alert/Alert';
 import emptyImg from '../../images/empty.svg';
 
@@ -19,7 +19,7 @@ interface Params {
 }
 
 const PotentialJobDetailsPage = (props: RouteComponentProps<Params>) => {
-  const getJobFromQueryResult = (jobs: Job[]): Job | undefined => {
+  const getJobFromQueryResult = (jobs: IJob[]): IJob | undefined => {
     if (!jobs) {
       return undefined;
     }
@@ -50,7 +50,7 @@ const PotentialJobDetailsPage = (props: RouteComponentProps<Params>) => {
   if (loading) return <Loading />;
   if (error) return <Error route="/potential-jobs" />;
 
-  const job: Job | undefined = getJobFromQueryResult(data.jobs);
+  const job: IJob | undefined = getJobFromQueryResult(data.jobs);
 
   if (!job) {
     return (

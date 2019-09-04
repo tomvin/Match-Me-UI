@@ -11,6 +11,7 @@ interface InputProps {
   tabIndex?: number;
   type?: string;
   value?: string;
+  required?: boolean;
 }
 
 const Input = (props: InputProps) => {
@@ -20,6 +21,7 @@ const Input = (props: InputProps) => {
         props.label ? (<label className={`form-group__label ${props.labelClassName ? props.labelClassName : ''}`}>{props.label}</label>) : ''
       }
       <input 
+        required={props.required}
         id={props.id}
         type={props.type} 
         value={props.value}

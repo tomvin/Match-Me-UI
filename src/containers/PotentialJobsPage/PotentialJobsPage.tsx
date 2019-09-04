@@ -1,5 +1,5 @@
 import React from 'react'
-import { JobSeekerMatch } from '../../models/JobSeekerMatch';
+import { IJobSeekerMatch } from '../../models/JobSeekerMatch';
 import './PotentialJobsPage.scss';
 import pageWrapper from '../../components/PageWrapper/PageWrapper';
 import MatchList from '../../components/MatchList/MatchList';
@@ -10,7 +10,7 @@ import Loading from '../../components/Loading/Loading';
 import Error from '../../components/Error/Error';
 
 const PotentialJobsPage = () => {  
-  const potentialJobsToMatchList = (jobs: JobSeekerMatch[]): MatchListItemVM[] => jobs.map(potentialJob => ({
+  const potentialJobsToMatchList = (jobs: IJobSeekerMatch[]): MatchListItemVM[] => jobs.map(potentialJob => ({
     route: `/potential-jobs/${potentialJob.job._id}`,
     imageUrl: potentialJob.job.company.logoUrl,
     title: potentialJob.job.name,
@@ -54,5 +54,5 @@ const PotentialJobsPage = () => {
 export default pageWrapper(PotentialJobsPage)
 
 interface PotentialJobsState {
-  potentialJobs: JobSeekerMatch[]; 
+  potentialJobs: IJobSeekerMatch[]; 
 }
