@@ -12,46 +12,44 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import LoginPage from '../LoginPage/LoginPage';
+import { useSelector } from 'react-redux';
+import { IUser } from '../../models/User';
+import { IAppState } from '../../redux/appState';
 
 library.add(far, fas);
 
 // Setup apollo client for graphql queries, mutations, etc. 
-const client = new ApolloClient({
+export const apolloClient = new ApolloClient({
   uri: process.env.REACT_APP_API_URL
 });
 
-interface AppState {
-  appName: string | undefined;
-  user: { email: string } | undefined;
-}
-
 const App: React.FC = () => {
-  const [appState]: [AppState, any] = useState({
+  const [appState] = useState({
     appName: process.env.REACT_APP_TITLE,
-    user: undefined
   });
+  const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
 
   return (
     <div className="app">
-      <ApolloProvider client={client}>
-        <BrowserRouter>
-          {
-            appState.user ? (
-              <div>
-                <Header appName={appState.appName} userName={appState.user.email}></Header>
-                <Navigation></Navigation>
-              </div>
-            ) : <Redirect to="/login" />
-          }
-          <Switch>
-            <Route path="/matched-jobs" component={MatchedJobs}></Route>
-            <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>
-            <Route path="/potential-jobs" component={PotentialJobs}></Route>
-            <Route path="/login" component={LoginPage}></Route>
-            <Route exact path="/" render={() => (<Redirect to="/matched-jobs" />)}></Route>
-          </Switch>
-        </BrowserRouter>
-      </ApolloProvider>
+        <ApolloProvider client={apolloClient}>
+          <BrowserRouter>
+            {
+              user ? (
+                <React.Fragment>
+                  <Header appName={appState.appName} userEmail={user.email}></Header>
+                  <Navigation></Navigation>
+                </React.Fragment>
+              ) : <Redirect to="/login" />
+            }
+            <Switch>
+              <Route path="/matched-jobs" component={MatchedJobs}></Route>
+              <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>
+              <Route path="/potential-jobs" component={PotentialJobs}></Route>
+              <Route path="/login" component={LoginPage}></Route>
+              <Route exact path="/" render={() => (<Redirect to="/matched-jobs" />)}></Route>
+            </Switch>
+          </BrowserRouter>
+        </ApolloProvider>
     </div>
   );
 }

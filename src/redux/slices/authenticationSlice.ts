@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 import { IUser } from '../../models/User';
+import { AppThunk } from '../configureStore';
+import userApi from '../../api/userApi';
 
-interface IAuthenticationState {
+/**
+ * State
+ */
+
+export interface IAuthenticationState {
   loggedIn: boolean;
   loggingIn: boolean;
   loginFailed: boolean;
@@ -17,10 +23,10 @@ const initialState: IAuthenticationState = {
   user: null
 };
 
-interface ILogin {
-  email: string;
-  password: string;
-}
+/**
+ * Actions
+ */
+interface ILogin {}
 
 interface ILoginFail {
   reasonForFailure: string;
@@ -29,6 +35,24 @@ interface ILoginFail {
 interface ILoginSuccess {
   user: IUser;
 }
+
+export const fetchUser: AppThunk = (
+  email: string, password: string
+) => async (dispatch, state) => {
+  try {
+    const user: IUser | null = await userApi.login(email, password)
+
+    if (!user) {
+      dispatch(loginFail({ reasonForFailure: 'Invalid email address or password. ' }))
+      return;
+    } 
+
+    dispatch(loginSuccess({user}));
+  } catch (err) {
+    console.error(err);
+    dispatch(loginFail({ reasonForFailure: 'Error trying to login. ' }))
+  }
+};
 
 const authenticationSlice = createSlice({
   slice: 'authentication',
@@ -55,5 +79,5 @@ const authenticationSlice = createSlice({
   }
 });
 
-export const { login } = authenticationSlice.actions
+export const { login, loginSuccess, loginFail } = authenticationSlice.actions
 export default authenticationSlice.reducer

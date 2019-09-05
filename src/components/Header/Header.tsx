@@ -4,7 +4,7 @@ import MatchMeLogo from '../MatchMeLogo/MatchMeLogo';
 
 export interface HeaderProps {
   appName: string | undefined;
-  userName: string;
+  userEmail: string;
 }
 
 const Header = (props: HeaderProps) => {
@@ -15,7 +15,7 @@ const Header = (props: HeaderProps) => {
           <MatchMeLogo className="app-logo" />
         </div>
         <div className="header__right">
-          <span className="user">{props.userName}</span>
+          <span className="user">{props.userEmail}</span>
         </div>
       </div>
     </header>

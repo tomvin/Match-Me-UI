@@ -12,6 +12,8 @@ interface InputProps {
   type?: string;
   value?: string;
   required?: boolean;
+  name?: string;
+  onChange?: any;
 }
 
 const Input = (props: InputProps) => {
@@ -21,6 +23,8 @@ const Input = (props: InputProps) => {
         props.label ? (<label className={`form-group__label ${props.labelClassName ? props.labelClassName : ''}`}>{props.label}</label>) : ''
       }
       <input 
+        onChange={props.onChange}
+        name={props.name}
         required={props.required}
         id={props.id}
         type={props.type} 
