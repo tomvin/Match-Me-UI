@@ -7,15 +7,19 @@ import Loading from '../../components/Loading/Loading';
 import Error from '../../components/Error/Error';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { useSelector } from 'react-redux';
+import { IAppState } from '../../redux/appState';
+import { IUser } from '../../models/User';
 
 const MatchedJobsPage = () => {
+  const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
   const { loading, error, data } = useQuery(gql`
-  query potentialJobs{
-    jobSeekerMatch(id:"${process.env.REACT_APP_JOB_SEEKER_USER_ID}"){
+  query potentialJobs($id:String!){
+    jobSeekerMatch(id:$id){
       score
     }
   }
-  `);
+  `, { variables: { id: user ? user._id : '' } });
 
   if (loading) return <Loading />;
   if (error) return <Error />;
