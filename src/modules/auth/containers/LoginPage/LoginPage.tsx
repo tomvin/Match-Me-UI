@@ -52,7 +52,7 @@ const LoginPage = () => {
   return (
     <div className="login-page">
       {
-        authState.loggedIn ? <Redirect to="/matched-jobs" /> : ''
+        authState.loggedIn ? <Redirect to="/" /> : ''
       }
       <Card className="login-page-card">
         <MatchMeLogo className="login-page-card__logo" />
