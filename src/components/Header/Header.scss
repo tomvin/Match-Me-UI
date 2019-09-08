@@ -15,7 +15,8 @@ header {
       align-items: center;
 
       .app-logo {
-        margin-right: var(--spacing-2);
+        height: 40px;
+        width: auto;
       }
 
       .app-title {
@@ -26,7 +27,7 @@ header {
     }
 
     .header__right {
-      .user {
+      .user-dropdown {
         font-size: 14px;
         color: var(--gray-600);
       }

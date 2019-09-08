@@ -1,6 +1,6 @@
-import { Job } from './Job';
+import { IJob } from './Job';
 
-export interface JobSeekerMatch {
-  job: Job;
+export interface IJobSeekerMatch {
+  job: IJob;
   score: number;
 }

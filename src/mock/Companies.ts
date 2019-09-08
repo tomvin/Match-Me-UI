@@ -1,6 +1,6 @@
-import { Company } from "../models/Company";
+import { ICompany } from "../models/Company";
 
-export const MOCK_COMPANY: Company = {
+export const MOCK_COMPANY: ICompany = {
   _id: '1',
   name: 'Google',
   phone: `0408961345`,

@@ -1,4 +1,4 @@
-export interface Company {
+export interface ICompany {
   _id: string;
   name: string;
   phone: string;

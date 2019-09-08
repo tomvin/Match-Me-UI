@@ -1,10 +1,10 @@
-import { Company } from './Company';
-import { Education } from './Education';
+import { ICompany } from './Company';
+import { IEducation } from './Education';
 
-export interface Job {
+export interface IJob {
   _id: string;
-  company: Company;
+  company: ICompany;
   name: string;
   description: string;
-  education: Education[];
+  education: IEducation[];
 }

@@ -1,22 +1,30 @@
 import React from 'react'
 import './Header.scss';
-import logo from '../../images/match-me-logo.svg';
+import MatchMeLogo from '../MatchMeLogo/MatchMeLogo';
+import DropdownMenu from '../DropdownMenu/DropdownMenu';
 
 export interface HeaderProps {
   appName: string | undefined;
-  userName: string;
+  userEmail: string;
+  logoutFn: any;
 }
 
 const Header = (props: HeaderProps) => {
+  const handleLogout = () => {
+    props.logoutFn();
+  }
+
   return (
     <header>
       <div className="header">
         <div className="header__left">
-          <img className="app-logo" src={logo} alt={props.appName + ' Logo'} />
-          <span className="app-title">{props.appName}</span>
+          <MatchMeLogo className="app-logo" />
         </div>
         <div className="header__right">
-          <span className="user">{props.userName}</span>
+          <DropdownMenu 
+            className="user-dropdown" 
+            label={props.userEmail} 
+            menuItems={[{ label: 'Logout', icon: 'sign-out-alt', callbackFunction: handleLogout }]}/>
         </div>
       </div>
     </header>

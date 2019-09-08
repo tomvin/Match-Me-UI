@@ -1,5 +1,5 @@
 import React from 'react'
-import { JobSeekerMatch } from '../../models/JobSeekerMatch';
+import { IJobSeekerMatch } from '../../models/JobSeekerMatch';
 import './PotentialJobsPage.scss';
 import pageWrapper from '../../components/PageWrapper/PageWrapper';
 import MatchList from '../../components/MatchList/MatchList';
@@ -8,9 +8,12 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import Loading from '../../components/Loading/Loading';
 import Error from '../../components/Error/Error';
+import { useSelector } from 'react-redux';
+import { IAppState } from '../../redux/appState';
 
 const PotentialJobsPage = () => {  
-  const potentialJobsToMatchList = (jobs: JobSeekerMatch[]): MatchListItemVM[] => jobs.map(potentialJob => ({
+  const userId = useSelector((state: IAppState) => state.authentication.user ? state.authentication.user._id : -1)
+  const potentialJobsToMatchList = (jobs: IJobSeekerMatch[]): MatchListItemVM[] => jobs.map(potentialJob => ({
     route: `/potential-jobs/${potentialJob.job._id}`,
     imageUrl: potentialJob.job.company.logoUrl,
     title: potentialJob.job.name,
@@ -20,7 +23,7 @@ const PotentialJobsPage = () => {
 
   const { loading, error, data } = useQuery(gql`
   query JobSeekerMatch{
-    jobSeekerMatch(id:"${process.env.REACT_APP_JOB_SEEKER_USER_ID}"){
+    jobSeekerMatch(id:"${userId}"){
       score
       job{
          _id
@@ -54,5 +57,5 @@ const PotentialJobsPage = () => {
 export default pageWrapper(PotentialJobsPage)
 
 interface PotentialJobsState {
-  potentialJobs: JobSeekerMatch[]; 
+  potentialJobs: IJobSeekerMatch[]; 
 }
