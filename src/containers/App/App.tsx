@@ -12,9 +12,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import LoginPage from '../LoginPage/LoginPage';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IUser } from '../../models/User';
 import { IAppState } from '../../redux/appState';
+import { logout } from '../../redux/slices/authenticationSlice';
 
 library.add(far, fas);
 
@@ -24,10 +25,17 @@ export const apolloClient = new ApolloClient({
 });
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
   const [appState] = useState({
     appName: process.env.REACT_APP_TITLE,
   });
   const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  }
+
+  console.log('Re-render', user);
 
   return (
     <div className="app">
@@ -36,8 +44,12 @@ const App: React.FC = () => {
             {
               user ? (
                 <React.Fragment>
-                  <Header appName={appState.appName} userEmail={user.email}></Header>
-                  <Navigation></Navigation>
+                  <Header 
+                    appName={appState.appName} 
+                    userEmail={user.email}
+                    logoutFn={handleLogout}
+                  />  
+                  <Navigation />
                 </React.Fragment>
               ) : <Redirect to="/login" />
             }

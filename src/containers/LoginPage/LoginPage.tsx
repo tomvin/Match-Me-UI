@@ -7,7 +7,7 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { useDispatch } from 'react-redux';
 import { useSelector } from "react-redux";
-import { login, IAuthenticationState, fetchUser } from "../../redux/slices/authenticationSlice";
+import { login, IAuthenticationState, fetchUser, modifyLoginForm } from "../../redux/slices/authenticationSlice";
 import { IAppState } from '../../redux/appState';
 import { Redirect } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const LoginPage = () => {
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
   const [state, setState]: [LoginPageState, any] = useState({
     attemptingLogin: false,
-    email: '',
+    email: 'jobSeeker@match.com',
     password: ''
   });
 
@@ -42,6 +42,7 @@ const LoginPage = () => {
   }
 
   const handleInputChange = ({target: {name, value}}: any) => {
+    dispatch(modifyLoginForm());
     setState({
       ...state,
       [name]: value
@@ -60,7 +61,7 @@ const LoginPage = () => {
         <form className="login-page-card__form" onSubmit={handleSubmit}>
           <Input value={state.email} onChange={handleInputChange} name="email" required type="email" label="Email Address" placeholder="username@email.com" />
           <Input value={state.password} onChange={handleInputChange} name="password" required type="password" label="Password" placeholder="******" />
-          { authState.loginFailed ? <p>{authState.loginFailureMessage}</p> : ''}
+          { authState.loginFailed ? <p className="color--red">{authState.loginFailureMessage}</p> : ''}
           <Button 
             loading={authState.loggingIn} 
             className="form__button" 

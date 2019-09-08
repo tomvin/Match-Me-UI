@@ -28,6 +28,8 @@ const initialState: IAuthenticationState = {
  */
 interface ILogin {}
 
+interface IModifyLoginForm {}
+
 interface ILoginFail {
   reasonForFailure: string;
 }
@@ -35,6 +37,8 @@ interface ILoginFail {
 interface ILoginSuccess {
   user: IUser;
 }
+
+interface ILogout {}
 
 export const fetchUser: AppThunk = (
   email: string, password: string
@@ -58,6 +62,10 @@ const authenticationSlice = createSlice({
   slice: 'authentication',
   initialState,
   reducers: {
+    modifyLoginForm(state) {
+      state.loginFailed = false;
+      state.loginFailureMessage = null;
+    },
     login(state, action: PayloadAction<ILogin>) {
       state.loggingIn = true;
       state.loggedIn = false;
@@ -75,9 +83,16 @@ const authenticationSlice = createSlice({
       state.loggedIn = true;
       state.loggingIn = false;
       state.user = action.payload.user;
+    },
+    logout(state) {
+      state.loggedIn = false;
+      state.loggingIn = false;
+      state.user = null;
+      state.loginFailed = false;
+      state.loginFailureMessage = null;
     }
   }
 });
 
-export const { login, loginSuccess, loginFail } = authenticationSlice.actions
+export const { login, loginSuccess, loginFail, logout, modifyLoginForm } = authenticationSlice.actions
 export default authenticationSlice.reducer
