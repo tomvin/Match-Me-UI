@@ -50,11 +50,14 @@
     ]
   },
   "devDependencies": {
+    "@types/enzyme": "^3.10.3",
     "@types/lodash": "^4.14.138",
     "@types/react-router-dom": "^4.3.5",
+    "@types/sinon": "^7.0.13",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^6.3.0",
-    "node-sass": "^4.12.0"
+    "node-sass": "^4.12.0",
+    "sinon": "^7.4.2"
   }
 }
