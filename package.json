@@ -52,6 +52,8 @@
   "devDependencies": {
     "@types/lodash": "^4.14.138",
     "@types/react-router-dom": "^4.3.5",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^6.3.0",
     "node-sass": "^4.12.0"
   }
