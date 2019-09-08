@@ -1,7 +1,7 @@
 import React from 'react'
 import './Header.scss';
-import MatchMeLogo from '../MatchMeLogo/MatchMeLogo';
-import DropdownMenu from '../DropdownMenu/DropdownMenu';
+import MatchMeLogo from '../../../shared/components/MatchMeLogo/MatchMeLogo';
+import DropdownMenu from '../../../shared/components/DropdownMenu/DropdownMenu';
 
 export interface HeaderProps {
   appName: string | undefined;

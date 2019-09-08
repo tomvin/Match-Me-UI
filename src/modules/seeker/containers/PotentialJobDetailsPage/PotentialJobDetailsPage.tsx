@@ -1,18 +1,18 @@
 import React from 'react'
 import './PotentialJobDetailsPage.scss';
 import { RouteComponentProps, NavLink } from "react-router-dom";
-import pageWrapper from '../../components/PageWrapper/PageWrapper';
+import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import JobDetails from '../../components/JobDetails/JobDetails';
-import Card from '../../components/Card/Card';
-import Button from '../../components/Button/Button';
+import Card from '../../../shared/components/Card/Card';
+import Button from '../../../shared/components/Button/Button';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import Loading from '../../components/Loading/Loading';
-import Error from '../../components/Error/Error';
-import { IJob } from '../../models/Job';
-import Alert from '../../components/Alert/Alert';
-import emptyImg from '../../images/empty.svg';
+import Loading from '../../../shared/components/Loading/Loading';
+import Error from '../../../shared/components/Error/Error';
+import { IJob } from '../../../../models/Job';
+import emptyImg from '../../../../images/empty.svg';
+import Alert from '../../../shared/components/Alert/Alert';
 
 interface Params {
   jobId: string;

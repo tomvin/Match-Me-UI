@@ -1,7 +1,7 @@
 import React from 'react'
 import './Error.scss';
 import Alert from '../Alert/Alert';
-import errorImg from '../../images/error.svg';
+import errorImg from '../../../../images/error.svg';
 
 interface Props {
   errorDescription?: string;

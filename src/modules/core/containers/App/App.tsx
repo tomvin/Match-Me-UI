@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import './App.scss';
-import Header from '../../components/Header/Header';
-import Navigation from '../Navigation/Navigation';
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
-import PotentialJobs from '../PotentialJobsPage/PotentialJobsPage';
-import MatchedJobs from '../MatchedJobsPage/MatchedJobsPage';
-import PotentialJobDetailsPage from '../PotentialJobDetailsPage/PotentialJobDetailsPage';
+import MatchedJobs from '../../../seeker/containers/MatchedJobsPage/MatchedJobsPage';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import LoginPage from '../LoginPage/LoginPage';
+import LoginPage from '../../../auth/containers/LoginPage/LoginPage';
 import { useSelector, useDispatch } from 'react-redux';
-import { IUser } from '../../models/User';
-import { IAppState } from '../../redux/appState';
-import { logout } from '../../redux/slices/authenticationSlice';
+import { IUser } from '../../../../models/User';
+import { IAppState } from '../../../../redux/appState';
+import { logout } from '../../../../redux/slices/authenticationSlice';
+import Navigation from '../Navigation/Navigation';
+import PotentialJobsPage from '../../../seeker/containers/PotentialJobsPage/PotentialJobsPage';
+import PotentialJobDetailsPage from '../../../seeker/containers/PotentialJobDetailsPage/PotentialJobDetailsPage';
+import Header from '../../components/Header/Header';
 
 library.add(far, fas);
 
@@ -34,8 +34,6 @@ const App: React.FC = () => {
   const handleLogout = () => {
     dispatch(logout());
   }
-
-  console.log('Re-render', user);
 
   return (
     <div className="app">
@@ -56,7 +54,7 @@ const App: React.FC = () => {
             <Switch>
               <Route path="/matched-jobs" component={MatchedJobs}></Route>
               <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>
-              <Route path="/potential-jobs" component={PotentialJobs}></Route>
+              <Route path="/potential-jobs" component={PotentialJobsPage}></Route>
               <Route path="/login" component={LoginPage}></Route>
               <Route exact path="/" render={() => (<Redirect to="/matched-jobs" />)}></Route>
             </Switch>

@@ -4,7 +4,7 @@ import { MatchListItemVM } from './MatchListItemModels';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pill from '../Pill/Pill';
-import { trimStringAddEllipsis } from '../../utils/TrimString';
+import { trimStringAddEllipsis } from '../../../../utils/TrimString';
 
 interface MatchListItemProps {
   className?: string;

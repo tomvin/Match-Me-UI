@@ -1,15 +1,15 @@
 import React from 'react'
-import { IJobSeekerMatch } from '../../models/JobSeekerMatch';
+import { IJobSeekerMatch } from '../../../../models/JobSeekerMatch';
 import './PotentialJobsPage.scss';
-import pageWrapper from '../../components/PageWrapper/PageWrapper';
-import MatchList from '../../components/MatchList/MatchList';
-import { MatchListItemVM } from '../../components/MatchListItem/MatchListItemModels';
+import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
+import MatchList from '../../../shared/components/MatchList/MatchList';
+import { MatchListItemVM } from '../../../shared/components/MatchListItem/MatchListItemModels';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import Loading from '../../components/Loading/Loading';
-import Error from '../../components/Error/Error';
+import Loading from '../../../shared/components/Loading/Loading';
+import Error from '../../../shared/components/Error/Error';
 import { useSelector } from 'react-redux';
-import { IAppState } from '../../redux/appState';
+import { IAppState } from '../../../../redux/appState';
 
 const PotentialJobsPage = () => {  
   const userId = useSelector((state: IAppState) => state.authentication.user ? state.authentication.user._id : -1)

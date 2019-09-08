@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../../images/match-me-logo-2.svg';
+import logo from '../../../../images/match-me-logo-2.svg';
 import './MatchMeLogo.scss';
 
 export interface MatchMeLogoProps {

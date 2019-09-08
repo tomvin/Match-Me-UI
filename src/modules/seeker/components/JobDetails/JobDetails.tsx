@@ -1,8 +1,8 @@
 import React from 'react'
 import './JobDetails.scss';
-import { IJob } from '../../models/Job';
+import { IJob } from '../../../../models/Job';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Card from '../Card/Card';
+import Card from '../../../shared/components/Card/Card';
 
 interface Props {
   job: IJob;

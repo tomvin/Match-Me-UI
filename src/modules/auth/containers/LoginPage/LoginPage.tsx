@@ -1,14 +1,14 @@
 import React, { useState, FormEvent } from 'react'
-import pageWrapper from '../../components/PageWrapper/PageWrapper';
+import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import './LoginPage.scss';
-import Card from '../../components/Card/Card';
-import MatchMeLogo from '../../components/MatchMeLogo/MatchMeLogo';
-import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button';
+import Card from '../../../shared/components/Card/Card';
+import MatchMeLogo from '../../../shared/components/MatchMeLogo/MatchMeLogo';
+import Input from '../../../shared/components/Input/Input';
+import Button from '../../../shared/components/Button/Button';
 import { useDispatch } from 'react-redux';
 import { useSelector } from "react-redux";
-import { login, IAuthenticationState, fetchUser, modifyLoginForm } from "../../redux/slices/authenticationSlice";
-import { IAppState } from '../../redux/appState';
+import { login, IAuthenticationState, fetchUser, modifyLoginForm } from "../../../../redux/slices/authenticationSlice";
+import { IAppState } from '../../../../redux/appState';
 import { Redirect } from 'react-router-dom';
 
 interface LoginPageState {
