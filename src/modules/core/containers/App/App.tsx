@@ -61,7 +61,7 @@ const App: React.FC = () => {
               <Route exact path="/" render={() => {
                 if (user && user.isCompany) {
                   return (<Redirect to="/company/jobs" />)
-                } else {
+                } else if (user && !user.isCompany) {
                   return (<Redirect to="/matched-jobs" />)
                 }
               }}></Route>
