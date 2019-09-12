@@ -1,38 +1,41 @@
 import React from 'react'
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import './MatchedJobsPage.scss';
-import Alert from '../../../shared/components/Alert/Alert';
-import noJobsImg from '../../../../images/empty.svg';
-import Loading from '../../../shared/components/Loading/Loading';
-import Error from '../../../shared/components/Error/Error';
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IAppState } from '../../../../redux/appState';
 import { IUser } from '../../../../models/User';
+import { fetchJobSeekerMatchOverviews } from '../../../../redux/slices/jobSeekerMatchesSlice';
+import NoMatchesFound from '../NoMatchesFound/NoMatchesFound';
+import Loading from '../../../shared/components/Loading/Loading';
+import Error from '../../../shared/components/Error/Error';
+import MatchList from '../../../shared/components/MatchList/MatchList';
+import { IJob } from '../../../../models/Job';
+import { MatchListItemVM } from '../../../shared/components/MatchListItem/MatchListItemModels';
 
 const MatchedJobsPage = () => {
+  const dispatch = useDispatch();
+  const { matches, loadingMatches, loadingFailed, loadingFailureMessage } = useSelector((state: IAppState) => state.jobSeekerMatches);
   const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
-  const { loading, error, data } = useQuery(gql`
-  query potentialJobs($id:String!){
-    jobSeekerMatch(id:$id){
-      score
-    }
-  }
-  `, { variables: { id: user ? user._id : '' } });
+  dispatch(fetchJobSeekerMatchOverviews(user ? user._id : ''));
 
-  if (loading) return <Loading />;
-  if (error) return <Error />;
+  const jobsToMatchList = (jobs: IJob[]): MatchListItemVM[] => jobs.map(job => ({
+    route: ``,
+    imageUrl: job.company.logoUrl,
+    title: job.name,
+    description: job.description,
+    score: 1
+  }));
+
+  if (loadingMatches) return <Loading />;
+  if (loadingFailed) return <Error errorDescription={loadingFailureMessage} />;
+  if (!matches || matches.length === 0) return <NoMatchesFound />;
   
   return (
     <div className="matched-jobs-page">
-      <Alert 
-        variant="purple" 
-        title="No Matches" 
-        message={`Start looking at the ${data.jobSeekerMatch.length} new jobs we found for you`} 
-        route="/potential-jobs"
-      />
-      <img className="matched-jobs-page__image" src={noJobsImg} alt="Error" />
+      <div className="search-info">
+        Woohoo! You have successfully matched with {matches.length} job!
+      </div>
+      <MatchList items={jobsToMatchList(matches)} />
     </div>
   )
 }

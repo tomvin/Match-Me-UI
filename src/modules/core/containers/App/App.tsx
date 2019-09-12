@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import './App.scss';
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import MatchedJobs from '../../../seeker/containers/MatchedJobsPage/MatchedJobsPage';
-import ApolloClient from 'apollo-boost';
+import { InMemoryCache, HttpLink } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloClient } from 'apollo-client';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -21,8 +22,14 @@ import JobPostings from '../../../company/containers/JobPostings';
 library.add(far, fas);
 
 // Setup apollo client for graphql queries, mutations, etc. 
-export const apolloClient = new ApolloClient({
+const cache = new InMemoryCache();
+const link = new HttpLink({
   uri: process.env.REACT_APP_API_URL
+})
+
+export const apolloClient = new ApolloClient({
+  cache,
+  link
 });
 
 const App: React.FC = () => {

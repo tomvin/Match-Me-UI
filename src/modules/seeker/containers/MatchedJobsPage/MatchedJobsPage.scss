@@ -1,11 +1,8 @@
 .matched-jobs-page {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 
-  &__image {
-    opacity: .3;
-    margin: 128px var(--spacing-4) 0;
-    max-width: 600px;
+  .search-info {
+    font-size: 14px;
+    color: var(--gray-700);
+    margin-bottom: var(--spacing-3);
   }
 }

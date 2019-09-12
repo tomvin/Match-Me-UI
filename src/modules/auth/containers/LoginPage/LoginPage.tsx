@@ -32,12 +32,7 @@ const LoginPage = () => {
       return;
     }
 
-    dispatch(
-      login({
-        email: state.email,
-        password: state.password
-      })
-    );
+    dispatch(login());
     dispatch(fetchUser(state.email, state.password));
   }
 

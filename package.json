@@ -17,6 +17,7 @@
     "@types/redux-logger": "^3.0.7",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "apollo-boost": "^0.4.4",
+    "apollo-client": "^2.6.4",
     "graphql": "^14.5.3",
     "lodash": "^4.17.15",
     "react": "^16.9.0",
