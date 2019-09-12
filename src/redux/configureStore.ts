@@ -2,11 +2,12 @@ import { configureStore, getDefaultMiddleware, ActionCreator, Action } from 'red
 import logger from 'redux-logger';
 import { reduxBatch } from '@manaflair/redux-batch';
 import initialState from './initialState';
-import reducer from './slices/authenticationSlice';
 import { loadState, saveState} from './localStorage';
 import { IAppState } from './appState';
 import { ThunkAction } from 'redux-thunk';
 import { throttle } from 'lodash';
+import authentication from './slices/authenticationSlice';
+import jobSeekerMatches from './slices/jobSeekerMatchesSlice';
 
 export type AppThunk = ActionCreator<ThunkAction<void, IAppState, null, Action<string>>>;
 
@@ -14,7 +15,8 @@ const persistedState = loadState();
 
 const store = configureStore<IAppState>({
     reducer: {
-        authentication: reducer,
+        authentication,
+        jobSeekerMatches 
     },
     middleware: [...getDefaultMiddleware(), logger],
     devTools: process.env.NODE_ENV !== 'production',

@@ -32,12 +32,7 @@ const LoginPage = () => {
       return;
     }
 
-    dispatch(
-      login({
-        email: state.email,
-        password: state.password
-      })
-    );
+    dispatch(login());
     dispatch(fetchUser(state.email, state.password));
   }
 
@@ -52,7 +47,7 @@ const LoginPage = () => {
   return (
     <div className="login-page">
       {
-        authState.loggedIn ? <Redirect to="/matched-jobs" /> : ''
+        authState.loggedIn ? <Redirect to="/" /> : ''
       }
       <Card className="login-page-card">
         <MatchMeLogo className="login-page-card__logo" />

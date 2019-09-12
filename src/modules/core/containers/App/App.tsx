@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import './App.scss';
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import MatchedJobs from '../../../seeker/containers/MatchedJobsPage/MatchedJobsPage';
-import ApolloClient from 'apollo-boost';
+import { InMemoryCache, HttpLink } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloClient } from 'apollo-client';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -16,12 +17,19 @@ import Navigation from '../Navigation/Navigation';
 import PotentialJobsPage from '../../../seeker/containers/PotentialJobsPage/PotentialJobsPage';
 import PotentialJobDetailsPage from '../../../seeker/containers/PotentialJobDetailsPage/PotentialJobDetailsPage';
 import Header from '../../components/Header/Header';
+import JobPostings from '../../../company/containers/JobPostings';
 
 library.add(far, fas);
 
 // Setup apollo client for graphql queries, mutations, etc. 
-export const apolloClient = new ApolloClient({
+const cache = new InMemoryCache();
+const link = new HttpLink({
   uri: process.env.REACT_APP_API_URL
+})
+
+export const apolloClient = new ApolloClient({
+  cache,
+  link
 });
 
 const App: React.FC = () => {
@@ -56,7 +64,14 @@ const App: React.FC = () => {
               <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>
               <Route path="/potential-jobs" component={PotentialJobsPage}></Route>
               <Route path="/login" component={LoginPage}></Route>
-              <Route exact path="/" render={() => (<Redirect to="/matched-jobs" />)}></Route>
+              <Route path="/company/jobs" component={JobPostings}></Route>
+              <Route exact path="/" render={() => {
+                if (user && user.isCompany) {
+                  return (<Redirect to="/company/jobs" />)
+                } else if (user && !user.isCompany) {
+                  return (<Redirect to="/matched-jobs" />)
+                }
+              }}></Route>
             </Switch>
           </BrowserRouter>
         </ApolloProvider>

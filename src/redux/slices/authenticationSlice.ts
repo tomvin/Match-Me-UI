@@ -3,10 +3,6 @@ import { IUser } from '../../models/User';
 import { AppThunk } from '../configureStore';
 import userApi from '../../api/userApi';
 
-/**
- * State
- */
-
 export interface IAuthenticationState {
   loggedIn: boolean;
   loggingIn: boolean;
@@ -23,13 +19,6 @@ const initialState: IAuthenticationState = {
   user: null
 };
 
-/**
- * Actions
- */
-interface ILogin {}
-
-interface IModifyLoginForm {}
-
 interface ILoginFail {
   reasonForFailure: string;
 }
@@ -37,8 +26,6 @@ interface ILoginFail {
 interface ILoginSuccess {
   user: IUser;
 }
-
-interface ILogout {}
 
 export const fetchUser: AppThunk = (
   email: string, password: string
@@ -66,7 +53,7 @@ const authenticationSlice = createSlice({
       state.loginFailed = false;
       state.loginFailureMessage = null;
     },
-    login(state, action: PayloadAction<ILogin>) {
+    login(state) {
       state.loggingIn = true;
       state.loggedIn = false;
       state.user = null;

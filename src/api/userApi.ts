@@ -18,6 +18,7 @@ const login = async (email: string, password: string): Promise<IUser | null> => 
     Users: users{
       _id
       email
+      isCompany
       jobSeeker{
         _id
         name
