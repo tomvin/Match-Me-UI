@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { login, IAuthenticationState, fetchUser, modifyLoginForm } from "../../../../redux/slices/authenticationSlice";
 import { IAppState } from '../../../../redux/appState';
 import { Redirect } from 'react-router-dom';
+import { EUserType } from '../../../../models/UserType';
 
 interface LoginPageState {
   email: string;
@@ -70,4 +71,14 @@ const LoginPage = () => {
   )
 }
 
-export default pageWrapper(LoginPage, { noAuthRequired: true });
+export default pageWrapper(
+  LoginPage, 
+  { 
+    authorisedUserTypes: [
+      EUserType.Unknown,
+      EUserType.Company,
+      EUserType.Admin,
+      EUserType.JobSeeker
+    ] 
+  }
+);

@@ -11,6 +11,7 @@ import Error from '../../../shared/components/Error/Error';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../../../../redux/appState';
 import { PillVariant } from '../../../shared/components/Pill/Pill';
+import { EUserType } from '../../../../models/UserType';
 
 const PotentialJobsPage = () => {  
   const userId = useSelector((state: IAppState) => state.authentication.user ? state.authentication.user._id : -1)
@@ -65,4 +66,4 @@ const PotentialJobsPage = () => {
   )
 }
 
-export default pageWrapper(PotentialJobsPage)
+export default pageWrapper(PotentialJobsPage, { authorisedUserTypes: [EUserType.JobSeeker] })

@@ -13,6 +13,7 @@ import Error from '../../../shared/components/Error/Error';
 import { IJob } from '../../../../models/Job';
 import emptyImg from '../../../../images/empty.svg';
 import Alert from '../../../shared/components/Alert/Alert';
+import { EUserType } from '../../../../models/UserType';
 
 interface Params {
   jobId: string;
@@ -81,4 +82,4 @@ const PotentialJobDetailsPage = (props: RouteComponentProps<Params>) => {
   )
 }
 
-export default pageWrapper(PotentialJobDetailsPage)
+export default pageWrapper(PotentialJobDetailsPage, { authorisedUserTypes: [EUserType.JobSeeker] })

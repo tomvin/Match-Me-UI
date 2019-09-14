@@ -11,6 +11,7 @@ import emptyImg from '../../../../images/empty.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import JobDetails from '../../components/JobDetails/JobDetails';
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
+import { EUserType } from '../../../../models/UserType';
 
 interface Params {
   jobId: string;
@@ -70,4 +71,4 @@ const MatchedJobDetailsPage = (props: RouteComponentProps<Params>) => {
     )
   }
   
-  export default pageWrapper(MatchedJobDetailsPage)
+  export default pageWrapper(MatchedJobDetailsPage, { authorisedUserTypes: [EUserType.JobSeeker] })

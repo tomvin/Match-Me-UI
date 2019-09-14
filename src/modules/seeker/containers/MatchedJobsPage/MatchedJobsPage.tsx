@@ -11,6 +11,7 @@ import Error from '../../../shared/components/Error/Error';
 import List from '../../../shared/components/List/List';
 import { IJob } from '../../../../models/Job';
 import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels';
+import { EUserType } from '../../../../models/UserType';
 
 const MatchedJobsPage = () => {
   const dispatch = useDispatch();
@@ -43,4 +44,4 @@ const MatchedJobsPage = () => {
   )
 }
 
-export default pageWrapper(MatchedJobsPage)
+export default pageWrapper(MatchedJobsPage, { authorisedUserTypes: [EUserType.JobSeeker] })
