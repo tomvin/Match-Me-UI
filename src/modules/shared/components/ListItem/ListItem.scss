@@ -1,4 +1,4 @@
-.match-list-item {
+.list-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -52,7 +52,7 @@
   &:hover {
     box-shadow: var(--hover-shadow);
 
-    .match-list-item__icon {
+    .list-item__icon {
       color: var(--purple-900);
     }
   }

@@ -2,8 +2,8 @@ import React from 'react'
 import { IJobSeekerMatch } from '../../../../models/JobSeekerMatch';
 import './PotentialJobsPage.scss';
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
-import MatchList from '../../../shared/components/MatchList/MatchList';
-import { MatchListItemVM } from '../../../shared/components/MatchListItem/MatchListItemModels';
+import List from '../../../shared/components/List/List';
+import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import Loading from '../../../shared/components/Loading/Loading';
@@ -13,7 +13,7 @@ import { IAppState } from '../../../../redux/appState';
 
 const PotentialJobsPage = () => {  
   const userId = useSelector((state: IAppState) => state.authentication.user ? state.authentication.user._id : -1)
-  const potentialJobsToMatchList = (jobs: IJobSeekerMatch[]): MatchListItemVM[] => jobs.map(potentialJob => ({
+  const potentialJobsToMatchList = (jobs: IJobSeekerMatch[]): ListItemVM[] => jobs.map(potentialJob => ({
     route: `/potential-jobs/${potentialJob.job._id}`,
     imageUrl: potentialJob.job.company.logoUrl,
     title: potentialJob.job.name,
@@ -47,7 +47,7 @@ const PotentialJobsPage = () => {
       <div className="search-info">
         We have found {data.jobSeekerMatch.length} jobs you might be interested in!
       </div>
-      <MatchList 
+      <List 
         items={potentialJobsToMatchList(data.jobSeekerMatch)}
       />
     </div>
@@ -55,7 +55,3 @@ const PotentialJobsPage = () => {
 }
 
 export default pageWrapper(PotentialJobsPage)
-
-interface PotentialJobsState {
-  potentialJobs: IJobSeekerMatch[]; 
-}

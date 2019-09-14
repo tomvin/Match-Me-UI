@@ -8,9 +8,9 @@ import { fetchJobSeekerMatchOverviews } from '../../../../redux/slices/jobSeeker
 import NoMatchesFound from '../NoMatchesFound/NoMatchesFound';
 import Loading from '../../../shared/components/Loading/Loading';
 import Error from '../../../shared/components/Error/Error';
-import MatchList from '../../../shared/components/MatchList/MatchList';
+import List from '../../../shared/components/List/List';
 import { IJob } from '../../../../models/Job';
-import { MatchListItemVM } from '../../../shared/components/MatchListItem/MatchListItemModels';
+import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels';
 
 const MatchedJobsPage = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const MatchedJobsPage = () => {
   const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
   dispatch(fetchJobSeekerMatchOverviews(user ? user._id : ''));
 
-  const jobsToMatchList = (jobs: IJob[]): MatchListItemVM[] => jobs.map(job => ({
+  const jobsToMatchList = (jobs: IJob[]): ListItemVM[] => jobs.map(job => ({
     route: ``,
     imageUrl: job.company.logoUrl,
     title: job.name,
@@ -35,7 +35,7 @@ const MatchedJobsPage = () => {
       <div className="search-info">
         Woohoo! You have successfully matched with {matches.length} job!
       </div>
-      <MatchList items={jobsToMatchList(matches)} />
+      <List items={jobsToMatchList(matches)} />
     </div>
   )
 }

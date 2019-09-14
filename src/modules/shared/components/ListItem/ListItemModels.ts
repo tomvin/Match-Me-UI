@@ -1,4 +1,4 @@
-export interface MatchListItemVM {
+export interface ListItemVM {
   route: string;
   imageUrl: string;
   title: string;
