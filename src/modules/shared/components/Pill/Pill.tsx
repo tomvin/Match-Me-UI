@@ -1,10 +1,12 @@
 import React from 'react'
 import './Pill.scss';
 
+export type PillVariant = 'green' | 'orange' | 'red';
+
 interface PillProps {
   className?: string;
   text: string;
-  variant: 'green' | 'orange' | 'red';
+  variant: PillVariant;
 }
 
 const Pill = (props: PillProps) => {

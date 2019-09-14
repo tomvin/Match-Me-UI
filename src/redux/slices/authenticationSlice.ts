@@ -70,16 +70,9 @@ const authenticationSlice = createSlice({
       state.loggedIn = true;
       state.loggingIn = false;
       state.user = action.payload.user;
-    },
-    logout(state) {
-      state.loggedIn = false;
-      state.loggingIn = false;
-      state.user = null;
-      state.loginFailed = false;
-      state.loginFailureMessage = null;
     }
   }
 });
 
-export const { login, loginSuccess, loginFail, logout, modifyLoginForm } = authenticationSlice.actions
+export const { login, loginSuccess, loginFail, modifyLoginForm } = authenticationSlice.actions
 export default authenticationSlice.reducer

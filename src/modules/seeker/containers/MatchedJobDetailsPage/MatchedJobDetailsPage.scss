@@ -1,0 +1,42 @@
+.matched-job-details-page--not-found {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .image {
+    opacity: .3;
+    max-width: 600px;
+    margin-top: 96px;
+  }
+}
+
+.matched-job-details-page {
+  .back-link {
+    margin-bottom: var(--spacing-3);
+    display: flex;
+    align-items: center;
+
+    &__icon {
+      font-size: 20px;
+      margin-right: var(--spacing-2);
+    }
+  }
+
+  .job-response {
+    margin-top: var(--spacing-4);
+
+    &__text {
+      margin-left: 96px;
+      color: var(--purple-900);
+      margin-bottom: var(--spacing-3);
+    }
+
+    &__buttons {
+      margin-left: 96px;
+      
+      .interested-button {
+        margin-right: var(--spacing-1);
+      }
+    }
+  }
+}

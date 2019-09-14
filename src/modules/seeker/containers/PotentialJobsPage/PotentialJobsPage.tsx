@@ -2,23 +2,34 @@ import React from 'react'
 import { IJobSeekerMatch } from '../../../../models/JobSeekerMatch';
 import './PotentialJobsPage.scss';
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
-import MatchList from '../../../shared/components/MatchList/MatchList';
-import { MatchListItemVM } from '../../../shared/components/MatchListItem/MatchListItemModels';
+import List from '../../../shared/components/List/List';
+import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import Loading from '../../../shared/components/Loading/Loading';
 import Error from '../../../shared/components/Error/Error';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../../../../redux/appState';
+import { PillVariant } from '../../../shared/components/Pill/Pill';
 
 const PotentialJobsPage = () => {  
   const userId = useSelector((state: IAppState) => state.authentication.user ? state.authentication.user._id : -1)
-  const potentialJobsToMatchList = (jobs: IJobSeekerMatch[]): MatchListItemVM[] => jobs.map(potentialJob => ({
+
+  const convertJobMatchScoreToPillVariant = (percentage: number): PillVariant => {
+    if (percentage > .6) return 'green';
+    else if (percentage > .3) return 'orange';
+    else return 'red';
+  };
+
+  const potentialJobsToListItems = (jobs: IJobSeekerMatch[]): ListItemVM[] => jobs.sort((jobA, jobB) => jobB.score - jobA.score).map<ListItemVM>(potentialJob => ({
+    type: 'image',
     route: `/potential-jobs/${potentialJob.job._id}`,
     imageUrl: potentialJob.job.company.logoUrl,
     title: potentialJob.job.name,
     description: potentialJob.job.description,
-    score: potentialJob.score
+    pillText: `${potentialJob.score * 100}% match!`,
+    pillVariant: convertJobMatchScoreToPillVariant(potentialJob.score),
+    variant: 'primary'
   }));
 
   const { loading, error, data } = useQuery(gql`
@@ -47,15 +58,11 @@ const PotentialJobsPage = () => {
       <div className="search-info">
         We have found {data.jobSeekerMatch.length} jobs you might be interested in!
       </div>
-      <MatchList 
-        items={potentialJobsToMatchList(data.jobSeekerMatch)}
+      <List 
+        items={potentialJobsToListItems(data.jobSeekerMatch)}
       />
     </div>
   )
 }
 
 export default pageWrapper(PotentialJobsPage)
-
-interface PotentialJobsState {
-  potentialJobs: IJobSeekerMatch[]; 
-}

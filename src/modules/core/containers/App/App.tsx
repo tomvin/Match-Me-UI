@@ -11,13 +11,14 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import LoginPage from '../../../auth/containers/LoginPage/LoginPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { IUser } from '../../../../models/User';
-import { IAppState } from '../../../../redux/appState';
-import { logout } from '../../../../redux/slices/authenticationSlice';
+import { IAppState, resetState } from '../../../../redux/appState';
 import Navigation from '../Navigation/Navigation';
 import PotentialJobsPage from '../../../seeker/containers/PotentialJobsPage/PotentialJobsPage';
 import PotentialJobDetailsPage from '../../../seeker/containers/PotentialJobDetailsPage/PotentialJobDetailsPage';
 import Header from '../../components/Header/Header';
 import JobPostings from '../../../company/containers/JobPostings';
+import MatchedJobDetailsPage from '../../../seeker/containers/MatchedJobDetailsPage/MatchedJobDetailsPage';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 library.add(far, fas);
 
@@ -40,7 +41,7 @@ const App: React.FC = () => {
   const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(resetState());
   }
 
   return (
@@ -57,9 +58,10 @@ const App: React.FC = () => {
                   />  
                   <Navigation />
                 </React.Fragment>
-              ) : <Redirect to="/login" />
+              ) : ''
             }
             <Switch>
+              <Route path="/matched-jobs/:jobId" component={MatchedJobDetailsPage}></Route>
               <Route path="/matched-jobs" component={MatchedJobs}></Route>
               <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>
               <Route path="/potential-jobs" component={PotentialJobsPage}></Route>
@@ -70,8 +72,11 @@ const App: React.FC = () => {
                   return (<Redirect to="/company/jobs" />)
                 } else if (user && !user.isCompany) {
                   return (<Redirect to="/matched-jobs" />)
+                } else {
+                  return <Redirect to="/login" />
                 }
               }}></Route>
+              <Route path='*' exact={true} component={NotFoundPage} />
             </Switch>
           </BrowserRouter>
         </ApolloProvider>
