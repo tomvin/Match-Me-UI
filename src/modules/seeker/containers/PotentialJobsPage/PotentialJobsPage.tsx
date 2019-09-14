@@ -21,7 +21,7 @@ const PotentialJobsPage = () => {
     else return 'red';
   };
 
-  const potentialJobsToListItems = (jobs: IJobSeekerMatch[]): ListItemVM[] => jobs.map<ListItemVM>(potentialJob => ({
+  const potentialJobsToListItems = (jobs: IJobSeekerMatch[]): ListItemVM[] => jobs.sort((jobA, jobB) => jobB.score - jobA.score).map<ListItemVM>(potentialJob => ({
     type: 'image',
     route: `/potential-jobs/${potentialJob.job._id}`,
     imageUrl: potentialJob.job.company.logoUrl,
