@@ -1,8 +1,9 @@
-import { createSlice, PayloadAction } from 'redux-starter-kit';
+import { createSlice, PayloadAction, createSelector } from 'redux-starter-kit';
 import { IUser } from '../../models/User';
 import { EUserType } from '../../models/UserType';
 import { AppThunk } from '../configureStore';
 import userApi from '../../api/userApi';
+import { IAppState } from '../appState';
 
 export interface IAuthenticationState {
   loggedIn: boolean;
@@ -79,6 +80,12 @@ const authenticationSlice = createSlice({
     }
   }
 });
+
+const userWithNullSelector = (state: IAppState) => state.authentication.user;
+export const userSelector = createSelector(
+  [ userWithNullSelector ],
+  (user: IUser) => user
+);
 
 const determineUserType = (user: IUser | undefined): EUserType => {
   if (!user) {
