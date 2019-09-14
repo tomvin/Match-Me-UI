@@ -3,21 +3,27 @@ import './PageWrapper.scss';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../../../../redux/appState';
 import { Redirect } from 'react-router-dom';
+import { EUserType } from '../../../../models/UserType';
+import Unauthorised from '../../../auth/components/Unauthorised/Unauthorised';
 
 interface PageWrapperConfig {
-  noAuthRequired?: boolean; // If true, user can access this page without being signd in. 
+  authorisedUserTypes: EUserType[];
 }
 
 const DEFAULT_CONFIG: PageWrapperConfig = {
-  noAuthRequired: false
+  authorisedUserTypes: [
+    EUserType.Company,
+    EUserType.JobSeeker,
+    EUserType.Admin
+  ]
 }
 
 const pageWrapper = (WrappedPage: any, config: PageWrapperConfig = DEFAULT_CONFIG) => {
   return (props: any) => {
-    const { noAuthRequired } = config;
-    const user = useSelector((state: IAppState) => state.authentication.user);
+    const { authorisedUserTypes } = config;
+    const userType: EUserType = useSelector((state: IAppState) => state.authentication.userType); 
 
-    if (noAuthRequired === true || user) {
+    if (authorisedUserTypes.includes(userType) || userType === EUserType.Admin) {
       return (
         <div className="page-wrapper">
           <div className="page-wrapper__inner">
@@ -27,7 +33,17 @@ const pageWrapper = (WrappedPage: any, config: PageWrapperConfig = DEFAULT_CONFI
       );
     }
 
-    return <Redirect to="/login" />
+    if (userType === EUserType.Unknown) {
+      return <Redirect to="/login" />
+    }
+
+    return (
+      <div className="page-wrapper">
+        <div className="page-wrapper__inner">
+          <Unauthorised />
+        </div>
+      </div>
+    )
   }
 }
 

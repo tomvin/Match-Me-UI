@@ -16,7 +16,7 @@ import Navigation from '../Navigation/Navigation';
 import PotentialJobsPage from '../../../seeker/containers/PotentialJobsPage/PotentialJobsPage';
 import PotentialJobDetailsPage from '../../../seeker/containers/PotentialJobDetailsPage/PotentialJobDetailsPage';
 import Header from '../../components/Header/Header';
-import JobPostings from '../../../company/containers/JobPostings';
+import JobPostingsPage from '../../../company/containers/JobPostingsPage';
 import MatchedJobDetailsPage from '../../../seeker/containers/MatchedJobDetailsPage/MatchedJobDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -66,7 +66,7 @@ const App: React.FC = () => {
               <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>
               <Route path="/potential-jobs" component={PotentialJobsPage}></Route>
               <Route path="/login" component={LoginPage}></Route>
-              <Route path="/company/jobs" component={JobPostings}></Route>
+              <Route path="/company/jobs" component={JobPostingsPage}></Route>
               <Route exact path="/" render={() => {
                 if (user && user.isCompany) {
                   return (<Redirect to="/company/jobs" />)
