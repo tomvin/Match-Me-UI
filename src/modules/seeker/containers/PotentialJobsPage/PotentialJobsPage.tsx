@@ -10,15 +10,26 @@ import Loading from '../../../shared/components/Loading/Loading';
 import Error from '../../../shared/components/Error/Error';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../../../../redux/appState';
+import { PillVariant } from '../../../shared/components/Pill/Pill';
 
 const PotentialJobsPage = () => {  
   const userId = useSelector((state: IAppState) => state.authentication.user ? state.authentication.user._id : -1)
-  const potentialJobsToMatchList = (jobs: IJobSeekerMatch[]): ListItemVM[] => jobs.map(potentialJob => ({
+
+  const convertJobMatchScoreToPillVariant = (percentage: number): PillVariant => {
+    if (percentage > .6) return 'green';
+    else if (percentage > .3) return 'orange';
+    else return 'red';
+  };
+
+  const potentialJobsToListItems = (jobs: IJobSeekerMatch[]): ListItemVM[] => jobs.map<ListItemVM>(potentialJob => ({
+    type: 'image',
     route: `/potential-jobs/${potentialJob.job._id}`,
     imageUrl: potentialJob.job.company.logoUrl,
     title: potentialJob.job.name,
     description: potentialJob.job.description,
-    score: potentialJob.score
+    pillText: `${potentialJob.score * 100}% match!`,
+    pillVariant: convertJobMatchScoreToPillVariant(potentialJob.score),
+    variant: 'primary'
   }));
 
   const { loading, error, data } = useQuery(gql`
@@ -48,7 +59,7 @@ const PotentialJobsPage = () => {
         We have found {data.jobSeekerMatch.length} jobs you might be interested in!
       </div>
       <List 
-        items={potentialJobsToMatchList(data.jobSeekerMatch)}
+        items={potentialJobsToListItems(data.jobSeekerMatch)}
       />
     </div>
   )

@@ -18,12 +18,15 @@ const MatchedJobsPage = () => {
   const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
   dispatch(fetchJobSeekerMatchOverviews(user ? user._id : ''));
 
-  const jobsToMatchList = (jobs: IJob[]): ListItemVM[] => jobs.map(job => ({
-    route: ``,
+  const jobsToListItems = (jobs: IJob[]): ListItemVM[] => jobs.map<ListItemVM>(job => ({
+    type: 'image',
+    route: `/matched-jobs/${job._id}`,
     imageUrl: job.company.logoUrl,
     title: job.name,
     description: job.description,
-    score: 1
+    pillText: 'Matched!',
+    pillVariant: 'green',
+    variant: 'primary'
   }));
 
   if (loadingMatches) return <Loading />;
@@ -35,7 +38,7 @@ const MatchedJobsPage = () => {
       <div className="search-info">
         Woohoo! You have successfully matched with {matches.length} job!
       </div>
-      <List items={jobsToMatchList(matches)} />
+      <List items={jobsToListItems(matches)} />
     </div>
   )
 }

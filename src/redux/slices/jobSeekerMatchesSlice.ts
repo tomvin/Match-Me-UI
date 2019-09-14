@@ -54,6 +54,8 @@ const jobSeekerMatchesSlice = createSlice({
     },
     loadJobSeekerMatchesSuccess(state, action: PayloadAction<ILoadJobSeekerMatchesSuccess>) {
       state.loadingMatches = false;
+      state.loadingFailureMessage = undefined;
+      state.loadingFailed = false;
       state.matches = action.payload.matches;
     },
     loadJobSeekerMatchesFail(state, action: PayloadAction<ILoadJobSeekerMatchesFail>) {

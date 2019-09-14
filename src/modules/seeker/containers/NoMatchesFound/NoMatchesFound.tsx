@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import noJobsImg from '../../../../images/empty.svg';
 import Loading from '../../../shared/components/Loading/Loading';
 import Error from '../../../shared/components/Error/Error';
+import './NoMatchesFound.scss';
 
 const NoMatchesFound = () => {
   const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
@@ -30,7 +31,7 @@ const NoMatchesFound = () => {
         message={`Start looking at the ${data.jobSeekerMatch.length} new jobs we found for you`} 
         route="/potential-jobs"
       />
-      <img className="matched-jobs-page__image" src={noJobsImg} alt="Error" />
+      <img className="no-matches-found__image" src={noJobsImg} alt="Error" />
     </div>
   )
 }

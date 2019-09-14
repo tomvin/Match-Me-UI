@@ -70,4 +70,4 @@ const LoginPage = () => {
   )
 }
 
-export default pageWrapper(LoginPage);
+export default pageWrapper(LoginPage, { noAuthRequired: true });

@@ -12,7 +12,6 @@ const List = (props: Props) => {
     <div className="list">
       {
         props.items
-          .sort((itemA, itemB) => (itemB.score - itemA.score))
           .map((item, i) => (
             <ListItem className="list__item" key={i} item={item} />
           )
