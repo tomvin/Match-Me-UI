@@ -4,7 +4,7 @@ import { IJobSeeker } from './JobSeeker';
 export interface IUser {
   _id: number;
   email: string;
-  company: ICompany;
-  jobSeeker: IJobSeeker;
+  company: ICompany | undefined;
+  jobSeeker: IJobSeeker | undefined;
   isCompany: boolean;
 }
