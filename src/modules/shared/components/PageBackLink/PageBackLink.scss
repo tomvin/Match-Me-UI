@@ -1,0 +1,10 @@
+.page-back-link {
+  margin-bottom: var(--spacing-3);
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    font-size: 20px;
+    margin-right: var(--spacing-2);
+  }
+}

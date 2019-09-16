@@ -15,13 +15,13 @@ import { IUser } from '../../../models/User'
 const JobPostingsPage = () => {
   const user: IUser = useSelector(userSelector);
 
-  const filterOutJobsNotPartOfUsersCompany = (jobs: IJob[]) => jobs.filter(job => job.company._id === user.company._id);
+  const filterOutJobsNotPartOfUsersCompany = (jobs: IJob[]) => jobs.filter(job => job.company._id === (user.company ? user.company._id : -99999));
 
   const convertJobsToListItems = (jobs: IJob[]): ListItemVM[] => {
     return jobs.map<ListItemVM>(job => ({
       type: 'icon',
       icon: 'file-alt',
-      route: '',
+      route: `/company/jobs/${job._id}`,
       title: job.name,
       description: job.description,
       pillText: `${job.completeJobSeekerMatch.length} Matched Applicants`,
