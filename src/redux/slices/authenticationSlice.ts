@@ -1,11 +1,9 @@
-import { createSlice, PayloadAction } from 'redux-starter-kit';
+import { createSlice, PayloadAction, createSelector } from 'redux-starter-kit';
 import { IUser } from '../../models/User';
+import { EUserType } from '../../models/UserType';
 import { AppThunk } from '../configureStore';
 import userApi from '../../api/userApi';
-
-/**
- * State
- */
+import { IAppState } from '../appState';
 
 export interface IAuthenticationState {
   loggedIn: boolean;
@@ -13,6 +11,7 @@ export interface IAuthenticationState {
   loginFailed: boolean;
   loginFailureMessage: string | null;
   user: IUser | null;
+  userType: EUserType;
 }
 
 const initialState: IAuthenticationState = {
@@ -20,15 +19,9 @@ const initialState: IAuthenticationState = {
   loggingIn: false,
   loginFailed: false,
   loginFailureMessage: null,
-  user: null
+  user: null,
+  userType: EUserType.Unknown
 };
-
-/**
- * Actions
- */
-interface ILogin {}
-
-interface IModifyLoginForm {}
 
 interface ILoginFail {
   reasonForFailure: string;
@@ -37,8 +30,6 @@ interface ILoginFail {
 interface ILoginSuccess {
   user: IUser;
 }
-
-interface ILogout {}
 
 export const fetchUser: AppThunk = (
   email: string, password: string
@@ -66,10 +57,11 @@ const authenticationSlice = createSlice({
       state.loginFailed = false;
       state.loginFailureMessage = null;
     },
-    login(state, action: PayloadAction<ILogin>) {
+    login(state) {
       state.loggingIn = true;
       state.loggedIn = false;
       state.user = null;
+      state.userType = EUserType.Unknown;
       state.loginFailed = false;
       state.loginFailureMessage = null;
     },
@@ -83,16 +75,29 @@ const authenticationSlice = createSlice({
       state.loggedIn = true;
       state.loggingIn = false;
       state.user = action.payload.user;
-    },
-    logout(state) {
-      state.loggedIn = false;
-      state.loggingIn = false;
-      state.user = null;
-      state.loginFailed = false;
-      state.loginFailureMessage = null;
+      state.userType = determineUserType(action.payload.user);
+      console.log(state.userType);
     }
   }
 });
 
-export const { login, loginSuccess, loginFail, logout, modifyLoginForm } = authenticationSlice.actions
+const userWithNullSelector = (state: IAppState) => state.authentication.user;
+export const userSelector = createSelector(
+  [ userWithNullSelector ],
+  (user: IUser) => user
+);
+
+const determineUserType = (user: IUser | undefined): EUserType => {
+  if (!user) {
+    return EUserType.Unknown;
+  }
+
+  if (user.isCompany) {
+    return EUserType.Company;
+  }
+
+  return EUserType.JobSeeker;
+}
+
+export const { login, loginSuccess, loginFail, modifyLoginForm } = authenticationSlice.actions
 export default authenticationSlice.reducer

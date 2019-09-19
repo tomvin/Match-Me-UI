@@ -20,6 +20,9 @@ A new way for both job seekers and employers to find each other. Sign up as eith
 4. After install finishes running, in the root directory run command `npm start` to start the app. 
 5. Open http://localhost:3000 to see the app. 
 
+## To Update Apollo Engine Schema
+npx apollo service:push --endpoint=http://dev-match-me-backend-rmit.herokuapp.com/graphql
+
 ## Using libraries
 - Generated with create-react-app - https://facebook.github.io/create-react-app/docs/getting-started
 - React - https://reactjs.org/

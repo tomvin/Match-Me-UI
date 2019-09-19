@@ -1,7 +1,7 @@
 import { IJob } from '../models/Job';
 import { MOCK_COMPANY } from './Companies';
 
-export const MOCK_JOBS: IJob[] = [{
+export const MOCK_JOBS: Partial<IJob>[] = [{
   _id: '1',
   company: MOCK_COMPANY,
   name: 'Software Engineer',

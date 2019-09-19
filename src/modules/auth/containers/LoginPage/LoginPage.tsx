@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { login, IAuthenticationState, fetchUser, modifyLoginForm } from "../../../../redux/slices/authenticationSlice";
 import { IAppState } from '../../../../redux/appState';
 import { Redirect } from 'react-router-dom';
+import { EUserType } from '../../../../models/UserType';
 
 interface LoginPageState {
   email: string;
@@ -32,12 +33,7 @@ const LoginPage = () => {
       return;
     }
 
-    dispatch(
-      login({
-        email: state.email,
-        password: state.password
-      })
-    );
+    dispatch(login());
     dispatch(fetchUser(state.email, state.password));
   }
 
@@ -52,7 +48,7 @@ const LoginPage = () => {
   return (
     <div className="login-page">
       {
-        authState.loggedIn ? <Redirect to="/matched-jobs" /> : ''
+        authState.loggedIn ? <Redirect to="/" /> : ''
       }
       <Card className="login-page-card">
         <MatchMeLogo className="login-page-card__logo" />
@@ -75,4 +71,14 @@ const LoginPage = () => {
   )
 }
 
-export default pageWrapper(LoginPage);
+export default pageWrapper(
+  LoginPage, 
+  { 
+    authorisedUserTypes: [
+      EUserType.Unknown,
+      EUserType.Company,
+      EUserType.Admin,
+      EUserType.JobSeeker
+    ] 
+  }
+);

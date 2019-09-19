@@ -4,13 +4,13 @@ import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
-export interface NavigationItemProps {
+export interface NavItem {
+  label: string;
   route: string;
   icon: IconProp;
-  label: string;
 }
 
-const NavigationItem = (props: NavigationItemProps) => {
+const NavigationItem = (props: NavItem) => {
   return (
     <NavLink className="navigation-item" activeClassName="navigation-item--active" to={props.route}>
       <FontAwesomeIcon className="navigation-item__icon" icon={props.icon} />

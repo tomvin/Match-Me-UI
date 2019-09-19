@@ -1,19 +1,19 @@
 .dropdown-menu {
   position: relative;
 
-  &__button {
+  &__btn {
     display: flex;
     align-items: center;
     cursor: pointer;
     color: var(--gray-600);
     font-size: 14px;
 
-    .button__icon {
+    .btn__icon {
       margin-left: var(--spacing-1);
     }
 
     &:hover {
-      .button__label, .button__icon {
+      .btn__label, .btn__icon {
         color: var(--purple-700);
       }
     }

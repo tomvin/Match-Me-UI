@@ -1,37 +1,35 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './Navigation.scss';
-import NavigationItem from '../../components/NavigationItem/NavigationItem';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-
-interface NavState {
-  navItems: NavItem[];
-}
-
-interface NavItem {
-  label: string;
-  route: string;
-  icon: IconProp;
-}
+import { NavItem } from '../../components/NavigationItem/NavigationItem';
+import { IUser } from '../../../../models/User';
+import { useSelector } from 'react-redux';
+import { IAppState } from '../../../../redux/appState';
+import NavigationItemList from '../../components/NavigationItemList/NavigationItemList';
 
 const Navigation = () => {
-  const [navState]: [NavState, any] = useState({
-    navItems: [
+  const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
+  let navItems: NavItem[] = [
+    // { label: 'Profile', route: '/profile', icon: ['far', 'user'] }
+  ];
+
+  if (!user) {
+    return null;
+  } else if (user.isCompany) { // User is logged in as a company user so build company nav menu
+    navItems = [
+      { label: 'Job Postings', route: '/company/jobs', icon: ['fas', 'file-contract'] },
+      { label: 'My Company', route: '/company/profile', icon: ['fas', 'industry'] },
+      ...navItems
+    ];
+  } else { // User is logged in as a job seeker to build seeker menu
+    navItems = [
       { label: 'My Matches', route: '/matched-jobs', icon: ['far', 'handshake'] },
       { label: 'Potential Jobs', route: '/potential-jobs', icon: ['fas', 'search'] },
-      // { label: 'Profile', route: '/profile', icon: ['far', 'user'] },
-    ]
-  });
+      ...navItems
+    ];
+  }
 
   return (
-    <div className="nav-wrapper">
-      <nav>
-        {
-          navState.navItems.map((navItem, i) => (
-            <NavigationItem key={i} route={navItem.route} label={navItem.label} icon={navItem.icon}></NavigationItem>
-          ))
-        }
-      </nav>
-    </div>
+    <NavigationItemList navItems={navItems}/>
   )
 }
 

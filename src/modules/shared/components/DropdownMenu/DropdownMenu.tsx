@@ -51,9 +51,9 @@ class DropdownMenu extends React.Component<Props, State> {
   render() {
     return (
         <div className="dropdown-menu">
-          <div className={`dropdown-menu__button ${this.props.className}`} onClick={this.showDropdownMenu}>
-            <span className="button__label">{this.props.label}</span>
-            <FontAwesomeIcon className="button__icon" icon={this.state.displayMenu ? 'caret-up' : 'caret-down'}/>
+          <div className={`dropdown-menu__btn ${this.props.className}`} onClick={this.showDropdownMenu}>
+            <span className="btn__label">{this.props.label}</span>
+            <FontAwesomeIcon className="btn__icon" icon={this.state.displayMenu ? 'caret-up' : 'caret-down'}/>
           </div>
           { 
             this.state.displayMenu ? 
