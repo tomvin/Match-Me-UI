@@ -29,47 +29,62 @@ const JobPostingDetailsPage = (props: RouteComponentProps<Params>) => {
   }
 
   const { loading, error, data } = useQuery(gql`
-  query JobPostings {
-    jobs{
-      _id
-      name
-      description
-      company{
+    query JobPostingss {
+      jobs{
         _id
         name
-        logoUrl
-      }
-      education{
-        _id
-        field
-        level
+        description
+        completeJobSeekerMatch {
+          _id
+          email
+        }
+        company{
+          _id
+          name
+          logoUrl
+        }
+        education{
+          _id
+          field
+          level
+        }
       }
     }
+  `);
+
+  const buildMatchedUsersList = (users: IUser[]): ListItemVM[] => {
+    if (!users) {
+      return [];
+    }
+
+    return users.map<ListItemVM>(user => ({
+      type: 'icon',
+      route: '',
+      title: user.email,
+      description: 'This user is a great match!',
+      pillText: 'Matched!',
+      pillVariant: 'green',
+      variant: 'primary',
+      icon: 'handshake'
+    }));
   }
-`);
 
-const buildMatchedUsersList = (users: IUser[]): ListItemVM[] => {
-  if (!users) {
-    return [];
+  const buildPotentialMatchUsersList = (users: IUser[]): ListItemVM[] => {
+    if (!users) {
+      return [];
+    }
+
+    return users.map<ListItemVM>(user => ({
+      type: 'icon',
+      route: '',
+      title: user.email,
+      description: 'This user is a great match!',
+      pillText: '100% Match',
+      pillVariant: 'green',
+      variant: 'primary',
+      icon: 'user'
+    }));
   }
-
-  return users.map<ListItemVM>(user => ({
-    type: 'icon',
-    route: '',
-    title: user.email,
-    description: 'This user is a great match!',
-    pillText: '100% Match',
-    pillVariant: 'green',
-    variant: 'primary',
-    icon: 'user'
-  }));
-}
-
-// TODO: Add to query once backend stops erroring. 
-// completeJobSeekerMatch {
-//   _id
-//   email
-// }
 
   if (loading) return <Loading />;
   if (error) return <Error route="/company/jobs" />;
@@ -96,7 +111,7 @@ const buildMatchedUsersList = (users: IUser[]): ListItemVM[] => {
       <List items={buildMatchedUsersList(MOCK_USERS)}></List>
       <h3>Potential Jobs (Found with our awesome algorithm)</h3>
       <p>You have {MOCK_USERS.length} good looking candidates which you might like to  for this job!</p>
-      <List items={buildMatchedUsersList(MOCK_USERS)}></List>
+      <List items={buildPotentialMatchUsersList(MOCK_USERS)}></List>
     </div>
   )
 }

@@ -35,7 +35,7 @@ const PotentialJobsPage = () => {
 
   const { loading, error, data } = useQuery(gql`
   query JobSeekerMatch{
-    jobSeekerMatch(id:"${userId}"){
+    jobSeekerMatch(jobSeekerUserId:"${userId}"){
       score
       job{
          _id
