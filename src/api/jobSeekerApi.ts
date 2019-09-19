@@ -5,7 +5,7 @@ import { IJob } from '../models/Job';
 const getJobSeekerMatchOverviews = async (userId: string): Promise<IJob[] | null> => {
   const query = gql`
   query JobSeekerCompleteMatches($userId:String!) {
-    JobSeekerMatchOverviews: jobSeekerCompleteMatches(id:$userId){
+    JobSeekerMatchOverviews: jobSeekerCompleteMatches(jobSeekerUserId:$userId){
       _id
       name
       description
