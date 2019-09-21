@@ -28,7 +28,7 @@ const PotentialJobsPage = () => {
     imageUrl: potentialJob.job.company.logoUrl,
     title: potentialJob.job.name,
     description: potentialJob.job.description,
-    pillText: `${potentialJob.score * 100}% match!`,
+    pillText: `${(potentialJob.score * 100).toFixed(0)}% match!`,
     pillVariant: convertJobMatchScoreToPillVariant(potentialJob.score),
     variant: 'primary'
   }));
