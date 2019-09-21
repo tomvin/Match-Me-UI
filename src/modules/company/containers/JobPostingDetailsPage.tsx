@@ -29,11 +29,13 @@ const JobPostingDetailsPage = (props: RouteComponentProps<Params>) => {
   }
 
   const { loading, error, data } = useQuery(gql`
-    query JobPostingss {
+    query JobPostings {
       jobs{
         _id
         name
         description
+        location
+        salary
         completeJobSeekerMatch {
           _id
           email
@@ -47,6 +49,11 @@ const JobPostingDetailsPage = (props: RouteComponentProps<Params>) => {
           _id
           field
           level
+        }
+        competence{
+          _id
+          level
+          skill
         }
       }
     }

@@ -32,6 +32,8 @@ const MatchedJobDetailsPage = (props: RouteComponentProps<Params>) => {
         _id
         name
         description
+        location
+      salary
         company{
           _id
           name
@@ -41,6 +43,11 @@ const MatchedJobDetailsPage = (props: RouteComponentProps<Params>) => {
           _id
           field
           level
+        }
+        competence{
+          _id
+          level
+          skill
         }
       }
     }

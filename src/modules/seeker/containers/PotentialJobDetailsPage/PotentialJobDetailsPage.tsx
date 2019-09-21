@@ -34,6 +34,8 @@ const PotentialJobDetailsPage = (props: RouteComponentProps<Params>) => {
       _id
       name
       description
+      location
+      salary
       company{
         _id
         name
@@ -43,6 +45,11 @@ const PotentialJobDetailsPage = (props: RouteComponentProps<Params>) => {
         _id
         field
         level
+      }
+      competence{
+        _id
+        level
+        skill
       }
     }
   }

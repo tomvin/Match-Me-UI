@@ -1,0 +1,33 @@
+.icon-list-title {
+  color: var(--purple-800);
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0 0 12px;
+}
+
+.icon-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+
+  &__item {
+    display: flex;
+    align-items: center;
+
+    .item__icon {
+      width: 24px;
+      font-size: 16px;
+      color: var(--purple-800);
+      margin-right: var(--spacing-1);
+    }
+
+    .item__label {
+      color: var(--gray-700);
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
+  }
+}
