@@ -14,6 +14,7 @@ import PageBackLink from '../../shared/components/PageBackLink/PageBackLink';
 import List from '../../shared/components/List/List';
 import { ListItemVM } from '../../shared/components/ListItem/ListItemModels';
 import { IUser } from '../../../models/User';
+import { JOB_DETAILS_FRAGMENT } from '../../../api/fragments/jobDetailsFragment';
 
 interface Params {
   jobId: string;
@@ -30,33 +31,11 @@ const JobPostingDetailsPage = (props: RouteComponentProps<Params>) => {
 
   const { loading, error, data } = useQuery(gql`
     query JobPostings {
-      jobs{
-        _id
-        name
-        description
-        location
-        salary
-        completeJobSeekerMatch {
-          _id
-          email
-        }
-        company{
-          _id
-          name
-          logoUrl
-        }
-        education{
-          _id
-          field
-          level
-        }
-        competence{
-          _id
-          level
-          skill
-        }
+      jobs {
+        ...JobDetails
       }
     }
+    ${JOB_DETAILS_FRAGMENT}
   `);
 
   const buildMatchedUsersList = (users: IUser[]): ListItemVM[] => {
