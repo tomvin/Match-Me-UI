@@ -8,6 +8,11 @@
   border-radius: 8px;
   cursor: pointer;
 
+  &--disabled {
+    cursor: not-allowed;
+    opacity: .7;
+  }
+
   &__icon {
     margin-right: var(--spacing-2);
   }

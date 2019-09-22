@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import JobDetails from '../../components/JobDetails/JobDetails';
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import { EUserType } from '../../../../models/UserType';
+import { JOB_DETAILS_FRAGMENT } from '../../../../api/fragments/jobDetailsFragment';
 
 interface Params {
   jobId: string;
@@ -27,30 +28,12 @@ const MatchedJobDetailsPage = (props: RouteComponentProps<Params>) => {
     }
   
     const { loading, error, data } = useQuery(gql`
-    query MatchedJobDetails {
-      matchedJobDetails: jobs{
-        _id
-        name
-        description
-        location
-      salary
-        company{
-          _id
-          name
-          logoUrl
-        }
-        education{
-          _id
-          field
-          level
-        }
-        competence{
-          _id
-          level
-          skill
+      query MatchedJobDetails {
+        matchedJobDetails: jobs{
+          ...JobDetails
         }
       }
-    }
+      ${JOB_DETAILS_FRAGMENT}
     `);
   
     if (loading) return <Loading />;
