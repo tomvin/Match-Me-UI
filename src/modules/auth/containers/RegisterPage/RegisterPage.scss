@@ -1,0 +1,29 @@
+.register-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &-card {
+    width: 560px;
+    margin-top: var(--spacing-5);
+
+    &__logo {
+      height: 128px;
+    }
+
+    &__title {
+      margin-bottom: 0;
+    }
+
+    &__subtitle {
+      margin-bottom: var(--spacing-5);
+    }
+  }
+
+  .form {
+    &__button {
+      width: 100%;
+      margin-top: var(--spacing-3);
+    }
+  }
+}
