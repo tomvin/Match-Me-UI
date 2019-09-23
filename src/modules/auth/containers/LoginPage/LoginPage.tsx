@@ -73,9 +73,10 @@ const LoginPage = () => {
           <Input value={state.email} onChange={handleInputChange} name="email" required type="email" label="Email Address" placeholder="username@email.com" />
           <Input value={state.password} onChange={handleInputChange} name="password" required type="password" label="Password" placeholder="******" />
           { authState.loginFailed ? <p className="color--red">{authState.loginFailureMessage}</p> : ''}
+          <div className="loginButton">
           <Button 
             loading={authState.loggingIn} 
-            className="form__button" 
+            className="form__button login" 
             variant="primary" 
             type="submit">
             Login
@@ -87,6 +88,7 @@ const LoginPage = () => {
             type="submit">
             Register
           </Button>
+          </div>
         </form>
       </Card>
     </div>

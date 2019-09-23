@@ -12,6 +12,9 @@ import { login, IAuthenticationState, fetchUser, modifyLoginForm } from "../../.
 import { IAppState } from '../../../../redux/appState';
 import { Redirect } from 'react-router-dom';
 import { EUserType } from '../../../../models/UserType';
+import { isFlowBaseAnnotation } from '@babel/types';
+
+
 
 
 interface RegisterPageState {
@@ -22,6 +25,11 @@ interface RegisterPageState {
   location: string;
   salary: string;
   phone: string;
+  option: 'Job Seeker' | 'Company';
+  competence: string[];
+  education: string[];
+  typeofwork: string;
+
   }
 
 const RegisterPage = () => {
@@ -35,43 +43,90 @@ const RegisterPage = () => {
     fname: "",
     location: "",
     salary: "",
-    phone: ""
-    
+    phone: "",
+    option: "Job Seeker",
+    competence:[],
+    education: [],
+    typeofwork: ''
+
 
   });
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-
-    if (authState.loggingIn) {
-      return;
-    }
-
-    dispatch(login());
-    dispatch(fetchUser(state.email, state.password));
   }
 
   const handleInputChange = ({target: {name, value}}: any) => {
-    dispatch(modifyLoginForm());
     setState({
       ...state,
       [name]: value,
-      selectedOption: null
-
     });
-    handleChange = selectedOption => {
-      this.setState({ selectedOption });
-      console.log(`Option selected:`, selectedOption);
-    };
+    console.log(state)
   }
-  const options = [
+  const handleRadioChange = ({target: {checked, value}}: any) => {
+  
+  if(checked == true)
+  {
+  setState({
+      ...state,
+      option: value,
+    });
+  }}
+  const handleskillChange = (event: any) => {
+   
+    setState({
+      ...state,
+      competence: event ? event.map((old: any) => {
+        return old.value
+      })
+:
+[]
+    })
+  }
+  const handleeducationChange = (event: any) => {
+    setState({
+      ...state,
+      education: event ? event.map((old: any) => {
+        return old.value
+      })
+:
+[]
+    })
+  }
+  const handleworkChange = (event: any) => {
+    setState({
+      ...state,
+      typeofwork: event ? event.value 
+:
+""
+    })
+  }
+
+
+  
+
+  const Skills = [
     { value: 'chocolate', label: 'Chocolate' },
     { value: 'strawberry', label: 'Strawberry' },
     { value: 'vanilla', label: 'Vanilla' },
   ];
 
+  const Education = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+  ];
 
+  const typeofwork = [
+    { value: '1', label: 'Full Time' },
+    { value: '2', label: 'Part Time' },
+    { value: '3', label: 'Casual' },
+    { value: '4', label: 'Full Time/Casual' },
+    { value: '5', label: 'Part Time/Casual' },
+    { value: '6', label: 'Full Time/Part Time' },
+    { value: '7', label: 'Full Time/Part Time/Casual' },
 
+  ];
 
 
 
@@ -96,7 +151,8 @@ const RegisterPage = () => {
               type="radio"
               name="react-tips"
               value="Company"
-              checked={true}
+              checked={state.option === "Company"}
+              onChange={handleRadioChange}
               className="form-check-input"
             />
             Company
@@ -106,31 +162,65 @@ const RegisterPage = () => {
             <input
               type="radio"
               name="react-tips"
-              value="jobSeeker"
-              checked={true}
+              value="Job Seeker"
+              checked={state.option === "Job Seeker"}
+              onChange={handleRadioChange}
               className="form-check-input"
             />
             Job Seeker
           </label>
           <br></br>
           <br></br>
-          <p className="register-page-card__subtitle">If the radio button is on Company</p>
+          {
+            state.option === "Company" ? (
+              <div className="Company">
+              <Input value={state.company} onChange={handleInputChange} name="company" required type="company" label="Company Name" placeholder="MatchMe" />
+              </div>
+            ) : (
+              <div>
+          <div className="Job seeker">
+          <Input value={state.fname} onChange={handleInputChange} name="fname" required type="text" label="Your Name" placeholder="John Johnson" />
+          <Input value={state.phone} onChange={handleInputChange} name="phone" required type="number" label="Your Phone number" placeholder="0459632145" />
+          <Input value={state.salary} onChange={handleInputChange} name="salary" required type="salary" label="Desired Salary" placeholder="40000" />
+         <br></br>
+         <label>Select your skills</label>
+          <Select
+            label="Select your skills"
+            isMulti
+            name="competence"
+            options={Skills}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            onChange={handleskillChange}
+          />
+                   <br></br>
+          <label>Select your education</label>
+          <Select
+            label="Select your education"
+            isMulti
+            name="education"
+            options={Education}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            onChange={handleeducationChange}
 
-          <Input value={state.company} onChange={handleInputChange} name="company" required type="company" label="Company Name" placeholder="MatchMe" />
+          />
+                   <br></br>
+         <label>Select your work type</label>
+          <Select
+            label="Select your work type"
+            name="typeofwork"
+            options={typeofwork}
+            className="basic-single"
+            classNamePrefix="select"
+            onChange={handleworkChange}
+          />
+             </div>
+             </div>
+            )
+          }
 
-          <p className="register-page-card__subtitle">If the radio button is on Job Seeker</p>
-
-          <Input value={state.fname} onChange={handleInputChange} name="name" required type="name" label="Your Name" placeholder="" />
-          <Input value={state.phone} onChange={handleInputChange} name="phone" required type="phone" label="Your Phone number" placeholder="" />
-          <Input value={state.salary} onChange={handleInputChange} name="salary" required type="salary" label="Desired Salary" placeholder="" />
-    
-
-         
-
-
-
-          
-          <Button 
+            <Button 
             loading={authState.loggingIn} 
             className="form__button" 
             variant="primary" 
