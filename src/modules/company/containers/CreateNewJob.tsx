@@ -1,4 +1,6 @@
 import React from 'react';
+import pageWrapper from '../../shared/components/PageWrapper/PageWrapper'
+import { EUserType } from '../../../models/UserType'
 
 const CreateNewJob = () => {
     return <div>
@@ -6,4 +8,4 @@ const CreateNewJob = () => {
     </div>;
 };
 
-export default CreateNewJob;
+export default pageWrapper(CreateNewJob, { authorisedUserTypes: [EUserType.Company] })
