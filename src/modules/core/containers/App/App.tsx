@@ -20,6 +20,7 @@ import JobPostingsPage from '../../../company/containers/JobPostingsPage';
 import MatchedJobDetailsPage from '../../../seeker/containers/MatchedJobDetailsPage/MatchedJobDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import JobPostingDetailsPage from '../../../company/containers/JobPostingDetailsPage';
+import CreateNewJob from '../../../company/containers/CreateNewJob';
 
 library.add(far, fas);
 
@@ -69,6 +70,7 @@ const App: React.FC = () => {
               <Route path="/login" component={LoginPage}></Route>
               <Route path="/company/jobs/:jobId" component={JobPostingDetailsPage}></Route>
               <Route path="/company/jobs" component={JobPostingsPage}></Route>
+              <Route path="/company/new" component={CreateNewJob}></Route>
               <Route exact path="/" render={() => {
                 if (user && user.isCompany) {
                   return (<Redirect to="/company/jobs" />)
