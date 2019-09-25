@@ -3,7 +3,6 @@ import React from 'react';
 import { RouteComponentProps, NavLink } from 'react-router-dom';
 import { IJob } from '../../../../models/Job';
 import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import Loading from '../../../shared/components/Loading/Loading';
 import Error from '../../../shared/components/Error/Error';
 import Alert from '../../../shared/components/Alert/Alert';
@@ -12,44 +11,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import JobDetails from '../../components/JobDetails/JobDetails';
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import { EUserType } from '../../../../models/UserType';
+import { MATCHED_JOB_DETAILS_QUERY, MatchedJobDetailsResult } from '../../../../api/queries/matchedJobDetailsQuery';
 
 interface Params {
   jobId: string;
 }
 
 const MatchedJobDetailsPage = (props: RouteComponentProps<Params>) => {
-    const getJobFromQueryResult = (jobs: IJob[]): IJob | undefined => {
-      if (!jobs) {
+    const getJobFromQueryResult = (data: MatchedJobDetailsResult | undefined): IJob | undefined => {
+      if (!data || !data.matchedJobDetails) {
         return undefined;
       }
   
-      return jobs.find(job => job._id === props.match.params.jobId);
+      return data.matchedJobDetails.find(job => job._id === props.match.params.jobId);
     }
   
-    const { loading, error, data } = useQuery(gql`
-    query MatchedJobDetails {
-      matchedJobDetails: jobs{
-        _id
-        name
-        description
-        company{
-          _id
-          name
-          logoUrl
-        }
-        education{
-          _id
-          field
-          level
-        }
-      }
-    }
-    `);
+    const { loading, error, data } = useQuery<MatchedJobDetailsResult>(MATCHED_JOB_DETAILS_QUERY);
   
     if (loading) return <Loading />;
     if (error) return <Error route="/" />;
   
-    const job: IJob | undefined = getJobFromQueryResult(data.matchedJobDetails);
+    const job: IJob | undefined = getJobFromQueryResult(data);
   
     if (!job) {
       return (

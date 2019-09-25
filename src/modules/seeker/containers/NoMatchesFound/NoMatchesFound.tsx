@@ -14,7 +14,7 @@ const NoMatchesFound = () => {
   const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
   const { loading, error, data } = useQuery(gql`
   query potentialJobs($id:String!){
-    jobSeekerMatch(id:$id){
+    jobSeekerMatch(jobSeekerUserId:$id){
       score
     }
   }
