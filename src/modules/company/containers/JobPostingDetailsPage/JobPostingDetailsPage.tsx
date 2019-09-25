@@ -11,6 +11,10 @@ import Error from '../../../shared/components/Error/Error';
 import PageBackLink from '../../../shared/components/PageBackLink/PageBackLink';
 import { ALL_JOB_DETAILS_QUERY, AllJobDetailsResult } from '../../../../api/queries/allJobsDetailsQuery';
 import JobPotentialMatches from '../JobPotentialMatches/JobPotentialMatches';
+import TabGroup from '../../../shared/components/TabGroup/TabGroup';
+import Tab from '../../../shared/components/Tab/Tab';
+import JobMatches from '../JobMatches/JobMatches';
+import './JobPostingDetailsPage.scss';
 
 interface Params {
   jobId: string;
@@ -47,9 +51,20 @@ const JobPostingDetailsPage = (props: RouteComponentProps<Params>) => {
         text="Back to Job Postings"
       ></PageBackLink>
       <JobDetails job={job} />
-      <h3>New Candidates</h3>
-      <p>Found with our awesome algorithm!</p>
-      <JobPotentialMatches jobId={props.match.params.jobId} />
+      <TabGroup className="job-posting-details-page__tabs">
+        <Tab 
+          label="Matched Applicants" 
+          description="You have matched with 0 candidates!"
+        >
+          <JobMatches jobId={props.match.params.jobId} />
+        </Tab>
+        <Tab 
+          label="Find More Matches" 
+          description="Search for more candidates"
+        >
+          <JobPotentialMatches jobId={props.match.params.jobId} />
+        </Tab>
+      </TabGroup>
     </div>
   )
 }
