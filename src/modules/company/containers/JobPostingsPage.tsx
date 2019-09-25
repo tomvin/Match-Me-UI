@@ -1,18 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper'
-import { EUserType } from '../../../../models/UserType'
-import List from '../../../shared/components/List/List'
-import { IJob } from '../../../../models/Job'
-import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels'
+import pageWrapper from '../../shared/components/PageWrapper/PageWrapper'
+import { EUserType } from '../../../models/UserType'
+import List from '../../shared/components/List/List'
+import { IJob } from '../../../models/Job'
+import { ListItemVM } from '../../shared/components/ListItem/ListItemModels'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import Loading from '../../../shared/components/Loading/Loading'
-import Error from '../../../shared/components/Error/Error'
+import Loading from '../../shared/components/Loading/Loading'
+import Error from '../../shared/components/Error/Error'
 import { useSelector } from 'react-redux'
-import { userSelector } from '../../../../redux/slices/authenticationSlice'
-import { IUser } from '../../../../models/User'
-import './JobPostingsPage.scss'
+import { userSelector } from '../../../redux/slices/authenticationSlice'
+import { IUser } from '../../../models/User'
 
 const JobPostingsPage = () => {
   const user: IUser = useSelector(userSelector);
@@ -69,8 +67,7 @@ const JobPostingsPage = () => {
   if (error) return <Error />;
 
   return (
-    <div className="job-postings">
-      <Link className="job-postings__new" to="/company/new">Create new job</Link>
+    <div>
       <List items={buildJobPostings(data.jobs)}></List>
     </div>
   )
