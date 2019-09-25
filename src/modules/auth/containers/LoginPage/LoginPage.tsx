@@ -11,6 +11,10 @@ import { login, IAuthenticationState, fetchUser, modifyLoginForm } from "../../.
 import { IAppState } from '../../../../redux/appState';
 import { Redirect } from 'react-router-dom';
 import { EUserType } from '../../../../models/UserType';
+import ListItem from '../../../shared/components/ListItem/ListItem';
+import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels';
+import { PillVariant } from '../../../shared/components/Pill/Pill';
+import { isCallExpression } from '@babel/types';
 
 interface LoginPageState {
   email: string;
@@ -26,9 +30,20 @@ const LoginPage = () => {
     email: 'jobSeeker@match.com',
     password: '',
     showRegisterRedirect: false
-
+    
     
   });
+
+/*const register: ListItemVM = {
+  title: "Register",
+  description: "Don't have an account? Create one now!",
+  route: "/register",
+  pillText: "",
+  pillVariant: PillVariant.,
+  type: "icon",
+  icon: "user"
+
+}*/
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -91,6 +106,7 @@ const LoginPage = () => {
           </div>
         </form>
       </Card>
+
     </div>
   )
 }
