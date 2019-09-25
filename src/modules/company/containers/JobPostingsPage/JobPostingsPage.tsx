@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper'
 import { EUserType } from '../../../../models/UserType'
 import List from '../../../shared/components/List/List'
@@ -11,6 +12,7 @@ import Error from '../../../shared/components/Error/Error'
 import { useSelector } from 'react-redux'
 import { userSelector } from '../../../../redux/slices/authenticationSlice'
 import { IUser } from '../../../../models/User'
+import './JobPostingsPage.scss'
 
 const JobPostingsPage = () => {
   const user: IUser = useSelector(userSelector);
@@ -67,7 +69,8 @@ const JobPostingsPage = () => {
   if (error) return <Error />;
 
   return (
-    <div>
+    <div className="job-postings">
+      <Link className="job-postings__new" to="/company/new">Create new job</Link>
       <List items={buildJobPostings(data.jobs)}></List>
     </div>
   )
