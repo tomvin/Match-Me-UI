@@ -13,6 +13,8 @@ import { IAppState } from '../../../../redux/appState';
 import { Redirect } from 'react-router-dom';
 import { EUserType } from '../../../../models/UserType';
 import { isFlowBaseAnnotation } from '@babel/types';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
 
 
@@ -103,19 +105,39 @@ const RegisterPage = () => {
   }
 
 
+  const Skills = [];
+  const Education = [];
+  const educationArray = [useQuery(gql`
+  query {
+education{
+      _id
+      level
+      field
+        }
+      }
+  `)];
+
+const CompetenceArray = useQuery(gql`
+query {
+competence{
+    _id
+    skill
+    level
+      }
+    }
+`);
+for (var i = 0; i < CompetenceArray.data.competence.length; ++i) {
+  var value = CompetenceArray.data.competence[i]._id
+  var label = CompetenceArray.data.competence[i].skill + " : " + CompetenceArray.data.competence[i].level
+  Skills.push({value: value, label: label})
+
+}
+for (var i = 0; i < educationArray.data.education.length; ++i) {
+  var value = educationArray.data.education[i]._id
+  var label = educationArray.data.education[i].level + " : " + educationArray.data.education[i].field
+  Education.push({value: value, label: label})
+  }
   
-
-  const Skills = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
-
-  const Education = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
 
   const typeofwork = [
     { value: '1', label: 'Full Time' },
