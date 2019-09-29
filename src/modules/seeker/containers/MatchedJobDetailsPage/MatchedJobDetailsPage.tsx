@@ -8,10 +8,10 @@ import Error from '../../../shared/components/Error/Error';
 import Alert from '../../../shared/components/Alert/Alert';
 import emptyImg from '../../../../images/empty.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import JobDetails from '../../components/JobDetails/JobDetails';
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import { EUserType } from '../../../../models/UserType';
 import { ALL_JOB_DETAILS_QUERY, AllJobDetailsResult } from '../../../../api/queries/allJobsDetailsQuery';
+import JobDetails from '../../../shared/components/JobDetails/JobDetails';
 
 interface Params {
   jobId: string;
