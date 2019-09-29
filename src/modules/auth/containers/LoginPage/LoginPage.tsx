@@ -11,10 +11,6 @@ import { login, IAuthenticationState, fetchUser, modifyLoginForm } from "../../.
 import { IAppState } from '../../../../redux/appState';
 import { Redirect } from 'react-router-dom';
 import { EUserType } from '../../../../models/UserType';
-import ListItem from '../../../shared/components/ListItem/ListItem';
-import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels';
-import { PillVariant } from '../../../shared/components/Pill/Pill';
-import { isCallExpression } from '@babel/types';
 
 interface LoginPageState {
   email: string;
