@@ -31,7 +31,11 @@ interface RegisterPageState {
   competence: string[];
   education: string[];
   typeofwork: string;
-
+  education_p: string;
+  competence_p: string;
+  salary_p: string;
+  typeofwork_p: string;
+  location_p: string;
   }
 
 const RegisterPage = () => {
@@ -48,7 +52,12 @@ const RegisterPage = () => {
     option: "Job Seeker",
     competence:[],
     education: [],
-    typeofwork: ''
+    typeofwork: '',
+    education_p: '',
+    competence_p: '',
+    salary_p: '',
+    typeofwork_p: '',
+    location_p: ''
   });
 
   const handleSubmit = (event: FormEvent) => {
@@ -112,10 +121,18 @@ const RegisterPage = () => {
     }));
   }
 
+  const mapEducationToDropdown = (educations: any): { value: string, label: string }[] => {
+    if (!educations || !educations.education) {
+      return [];
+    }
 
- const Skills = [];
-  //const Education = [];
-  const educationArray = [useQuery(gql`
+    return educations.education.map((education: any) => ({
+      value: education._id,
+      label: `${education.level} : ${education.field}`
+    }));
+  }
+
+  const { loading: loadingEducation, error: errorLoadingEducation, data: educationData } = useQuery(gql`
   query {
 education{
       _id
@@ -123,7 +140,7 @@ education{
       field
         }
       }
-  `)];
+  `);
 
 const { loading: loadingCompetence, error: errorLoadingCompetence, data: competenceData } = useQuery(gql`
   query AllCompetences {
@@ -134,27 +151,7 @@ const { loading: loadingCompetence, error: errorLoadingCompetence, data: compete
     }
   }
 `);
-/*
-console.log(CompetenceArray.data.competence)
 
-for (var i = 0; i < CompetenceArray.data.length; ++i )
-{
-  console.log(CompetenceArray.data.competence[i].skill)
-} 
-for (var i = 0; i < CompetenceArray.data.competence.length; ++i) {
-
-  var value = CompetenceArray.data.competence[i]._id
-  var label = CompetenceArray.data.competence[i].skill + " : " + CompetenceArray.data.competence[i].level
-  Skills.push({value: value, label: label})
-}
-
-console.log('Skills', Skills)*/
-/*for (var i = 0; i < educationArray.data.education.length; ++i) {
-  var value = educationArray.data.education[i]._id
-  var label = educationArray.data.education[i].level + " : " + educationArray.data.education[i].field
-  Education.push({value: value, label: label})
-  }*/
-  
 
   const typeofwork = [
     { value: '1', label: 'Full Time' },
@@ -221,6 +218,8 @@ console.log('Skills', Skills)*/
           <Input value={state.fname} onChange={handleInputChange} name="fname" required type="text" label="Your Name" placeholder="John Johnson" />
           <Input value={state.phone} onChange={handleInputChange} name="phone" required type="number" label="Your Phone number" placeholder="0459632145" />
           <Input value={state.salary} onChange={handleInputChange} name="salary" required type="salary" label="Desired Salary" placeholder="40000" />
+          <Input value={state.location} onChange={handleInputChange} name="location" required type="location" label="Location" placeholder="Melbourne" />
+
          <br></br>
          <label>Select your skills</label>
           <Select
@@ -238,7 +237,7 @@ console.log('Skills', Skills)*/
             label="Select your education"
             isMulti
             name="education"
-            options={typeofwork}
+            options={mapEducationToDropdown(educationData)}
             className="basic-multi-select"
             classNamePrefix="select"
             onChange={handleeducationChange}
@@ -258,6 +257,16 @@ console.log('Skills', Skills)*/
              </div>
             )
           }
+          <br></br>
+          <label>Select the Prioity of the fields(The total of these fields must equal 1)</label>
+          <div className="Priorities1">
+            <Input value={state.salary_p} onChange={handleInputChange}  name="salary_p" required type="salary_p" label="Salary Prioity" placeholder="0.20" />
+            <Input value={state.education_p} onChange={handleInputChange} name="education_p" required type="education_p" label="Education Prioity" placeholder="0.20" />
+            <Input value={state.location_p} onChange={handleInputChange} name="location_p" required type="location_p" label="Location Prioity" placeholder="0.20" />
+            <Input value={state.competence_p} onChange={handleInputChange} name="competence_p" required type="competence" label="Competence Prioity" placeholder="0.20" />
+            <Input value={state.typeofwork_p} onChange={handleInputChange} name="typeofwork_p" required type="typeofwork_p" label="Work Prioity" placeholder="0.20" />
+
+          </div>
 
             <Button 
             loading={authState.loggingIn} 

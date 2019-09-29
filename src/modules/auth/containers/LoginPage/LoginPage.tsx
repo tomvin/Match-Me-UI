@@ -34,17 +34,6 @@ const LoginPage = () => {
     
   });
 
-/*const register: ListItemVM = {
-  title: "Register",
-  description: "Don't have an account? Create one now!",
-  route: "/register",
-  pillText: "",
-  pillVariant: PillVariant.,
-  type: "icon",
-  icon: "user"
-
-}*/
-
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
