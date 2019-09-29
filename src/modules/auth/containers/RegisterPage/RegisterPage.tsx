@@ -35,7 +35,6 @@ interface RegisterPageState {
   }
 
 const RegisterPage = () => {
-  const dispatch = useDispatch();
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
   const [state, setState]: [RegisterPageState, any] = useState({
     attemptingLogin: false,
@@ -50,8 +49,6 @@ const RegisterPage = () => {
     competence:[],
     education: [],
     typeofwork: ''
-
-
   });
 
   const handleSubmit = (event: FormEvent) => {
@@ -104,6 +101,17 @@ const RegisterPage = () => {
     })
   }
 
+  const mapCompetencesToDropdown = (competences: any): { value: string, label: string }[] => {
+    if (!competences || !competences.competence) {
+      return [];
+    }
+
+    return competences.competence.map((competence: any) => ({
+      value: competence._id,
+      label: `${competence.skill} : ${competence.level}`
+    }));
+  }
+
 
  const Skills = [];
   //const Education = [];
@@ -117,28 +125,30 @@ education{
       }
   `)];
 
-const CompetenceArray = useQuery(gql`
-query {
-competence{
-    _id
-    skill
-    level
-      }
+const { loading: loadingCompetence, error: errorLoadingCompetence, data: competenceData } = useQuery(gql`
+  query AllCompetences {
+    competence {
+      _id
+      skill
+      level
     }
+  }
 `);
+/*
 console.log(CompetenceArray.data.competence)
 
 for (var i = 0; i < CompetenceArray.data.length; ++i )
 {
   console.log(CompetenceArray.data.competence[i].skill)
 } 
-/*for (var i = 0; i < CompetenceArray.data.competence; ++i) {
+for (var i = 0; i < CompetenceArray.data.competence.length; ++i) {
 
   var value = CompetenceArray.data.competence[i]._id
   var label = CompetenceArray.data.competence[i].skill + " : " + CompetenceArray.data.competence[i].level
   Skills.push({value: value, label: label})
 }
-console.log(Skills)
+
+console.log('Skills', Skills)*/
 /*for (var i = 0; i < educationArray.data.education.length; ++i) {
   var value = educationArray.data.education[i]._id
   var label = educationArray.data.education[i].level + " : " + educationArray.data.education[i].field
@@ -217,7 +227,7 @@ console.log(Skills)
             label="Select your skills"
             isMulti
             name="competence"
-            options={typeofwork}
+            options={mapCompetencesToDropdown(competenceData)}
             className="basic-multi-select"
             classNamePrefix="select"
             onChange={handleskillChange}
