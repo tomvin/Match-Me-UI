@@ -105,8 +105,8 @@ const RegisterPage = () => {
   }
 
 
-  const Skills = [];
-  const Education = [];
+ const Skills = [];
+  //const Education = [];
   const educationArray = [useQuery(gql`
   query {
 education{
@@ -126,17 +126,24 @@ competence{
       }
     }
 `);
-for (var i = 0; i < CompetenceArray.data.competence.length; ++i) {
+console.log(CompetenceArray.data.competence)
+
+for (var i = 0; i < CompetenceArray.data.length; ++i )
+{
+  console.log(CompetenceArray.data.competence[i].skill)
+} 
+/*for (var i = 0; i < CompetenceArray.data.competence; ++i) {
+
   var value = CompetenceArray.data.competence[i]._id
   var label = CompetenceArray.data.competence[i].skill + " : " + CompetenceArray.data.competence[i].level
   Skills.push({value: value, label: label})
-
 }
-for (var i = 0; i < educationArray.data.education.length; ++i) {
+console.log(Skills)
+/*for (var i = 0; i < educationArray.data.education.length; ++i) {
   var value = educationArray.data.education[i]._id
   var label = educationArray.data.education[i].level + " : " + educationArray.data.education[i].field
   Education.push({value: value, label: label})
-  }
+  }*/
   
 
   const typeofwork = [
@@ -210,7 +217,7 @@ for (var i = 0; i < educationArray.data.education.length; ++i) {
             label="Select your skills"
             isMulti
             name="competence"
-            options={Skills}
+            options={typeofwork}
             className="basic-multi-select"
             classNamePrefix="select"
             onChange={handleskillChange}
@@ -221,7 +228,7 @@ for (var i = 0; i < educationArray.data.education.length; ++i) {
             label="Select your education"
             isMulti
             name="education"
-            options={Education}
+            options={typeofwork}
             className="basic-multi-select"
             classNamePrefix="select"
             onChange={handleeducationChange}
