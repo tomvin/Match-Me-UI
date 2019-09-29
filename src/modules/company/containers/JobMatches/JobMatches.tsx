@@ -30,7 +30,7 @@ const JobMatches = (props: Props) => {
 
     return job.completeJobSeekerMatch.map<ListItemVM>(user => ({
       type: 'icon',
-      route: '',
+      route: `${props.jobId}/match/${user._id}?m=m`,
       title: user.email,
       description: user.jobSeeker ? user.jobSeeker.phone : '',
       pillText: `$${user.jobSeeker ? user.jobSeeker.salary.toFixed(0) : '0'}`,

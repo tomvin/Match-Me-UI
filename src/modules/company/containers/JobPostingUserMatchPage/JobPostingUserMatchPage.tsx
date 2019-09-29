@@ -17,11 +17,13 @@ import { ACCEPT_JOB_SEEKER, AcceptJobSeekerResult, AcceptJobSeekerVariables } fr
 interface Params {
   jobId: string;
   userId: string;
+  m: 'm' | undefined; // will be true if this is a complete match
 }
 
 const JobPostingUserMatchPage = (props: RouteComponentProps<Params>) => {
   const { loading, error, data } = useQuery<AllJobSeekerUsersResult>(ALL_JOB_SEEKER_USERS_QUERY);
   const [ acceptJobSeeker, { loading: acceptJobSeekerLoading, data: acceptJobSeekerResult }] = useMutation<AcceptJobSeekerResult, AcceptJobSeekerVariables>(ACCEPT_JOB_SEEKER);
+  const params = new URLSearchParams(props.location.search);
 
   const handleImInterestedClick = () => {
     const user: IUser | undefined = getUserFromQueryResult(data);
@@ -72,23 +74,30 @@ const JobPostingUserMatchPage = (props: RouteComponentProps<Params>) => {
     <div className="job-posting-user-match-page">
       <PageBackLink route={routeBackToJobPage} text="Back to Job" />
       <UserDetails user={user}></UserDetails>
-      <Card className="job-seeker-response">
-        <div className="job-seeker-response__text">
-          Are you interested in meeting with this job seeker?
-        </div>
-        <div className="job-seeker-response__buttons">
-          <Button 
-            loading={acceptJobSeekerLoading} 
-            disabled={(acceptJobSeekerLoading || acceptJobSeekerResult !== undefined)} 
-            onClick={handleImInterestedClick} 
-            className="interested-button" 
-            icon="check" 
-            variant="primary">
-              {acceptJobSeekerResult ? acceptJobSeekerResult.acceptJobSeeker : `I'm Interested` }
-          </Button>
-          <Button variant="secondary">I'm not interested</Button>
-        </div>
-      </Card>
+      {
+        // Only render the interested button if the route param "m"
+        // isn't defined. If it is defined that means we are viewing this
+        // as a matchd job.
+        params.get('m') ? '' : (
+          <Card className="job-seeker-response">
+            <div className="job-seeker-response__text">
+              Are you interested in meeting with this job seeker?
+            </div>
+            <div className="job-seeker-response__buttons">
+              <Button 
+                loading={acceptJobSeekerLoading} 
+                disabled={(acceptJobSeekerLoading || acceptJobSeekerResult !== undefined)} 
+                onClick={handleImInterestedClick} 
+                className="interested-button" 
+                icon="check" 
+                variant="primary">
+                  {acceptJobSeekerResult ? acceptJobSeekerResult.acceptJobSeeker : `I'm Interested` }
+              </Button>
+              <Button variant="secondary">I'm not interested</Button>
+            </div>
+          </Card>
+        )
+      }
     </div>
   )
 }
