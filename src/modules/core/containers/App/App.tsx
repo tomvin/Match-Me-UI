@@ -19,7 +19,7 @@ import Header from '../../components/Header/Header';
 import JobPostingsPage from '../../../company/containers/JobPostingsPage/JobPostingsPage';
 import MatchedJobDetailsPage from '../../../seeker/containers/MatchedJobDetailsPage/MatchedJobDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import JobPostingDetailsPage from '../../../company/containers/JobPostingDetailsPage';
+import JobPostingDetailsPage from '../../../company/containers/JobPostingDetailsPage/JobPostingDetailsPage';
 import CreateNewJob from '../../../company/containers/CreateNewJob';
 
 library.add(far, fas);

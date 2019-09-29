@@ -11,22 +11,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import JobDetails from '../../components/JobDetails/JobDetails';
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import { EUserType } from '../../../../models/UserType';
-import { MATCHED_JOB_DETAILS_QUERY, MatchedJobDetailsResult } from '../../../../api/queries/matchedJobDetailsQuery';
+import { ALL_JOB_DETAILS_QUERY, AllJobDetailsResult } from '../../../../api/queries/allJobsDetailsQuery';
 
 interface Params {
   jobId: string;
 }
 
 const MatchedJobDetailsPage = (props: RouteComponentProps<Params>) => {
-    const getJobFromQueryResult = (data: MatchedJobDetailsResult | undefined): IJob | undefined => {
-      if (!data || !data.matchedJobDetails) {
+    const getJobFromQueryResult = (data: AllJobDetailsResult | undefined): IJob | undefined => {
+      if (!data || !data.allJobDetails) {
         return undefined;
       }
   
-      return data.matchedJobDetails.find(job => job._id === props.match.params.jobId);
+      return data.allJobDetails.find(job => job._id === props.match.params.jobId);
     }
   
-    const { loading, error, data } = useQuery<MatchedJobDetailsResult>(MATCHED_JOB_DETAILS_QUERY);
+    const { loading, error, data } = useQuery<AllJobDetailsResult>(ALL_JOB_DETAILS_QUERY);
   
     if (loading) return <Loading />;
     if (error) return <Error route="/" />;
