@@ -253,23 +253,21 @@ const { loading: loadingCompetence, error: errorLoadingCompetence, data: compete
             classNamePrefix="select"
             onChange={handleworkChange}
           />
-             </div>
-             </div>
-            )
-          }
-          <br></br>
-          <label>Select the Prioity of the fields(The total of these fields must equal 1)</label>
+            <label>Select the Prioity of the fields(The total of these fields must equal 1)</label>
           <div className="Priorities1">
             <Input value={state.salary_p} onChange={handleInputChange}  name="salary_p" required type="salary_p" label="Salary Prioity" placeholder="0.20" />
             <Input value={state.education_p} onChange={handleInputChange} name="education_p" required type="education_p" label="Education Prioity" placeholder="0.20" />
             <Input value={state.location_p} onChange={handleInputChange} name="location_p" required type="location_p" label="Location Prioity" placeholder="0.20" />
             <Input value={state.competence_p} onChange={handleInputChange} name="competence_p" required type="competence" label="Competence Prioity" placeholder="0.20" />
             <Input value={state.typeofwork_p} onChange={handleInputChange} name="typeofwork_p" required type="typeofwork_p" label="Work Prioity" placeholder="0.20" />
-
           </div>
 
+             </div>
+             </div>
+            )
+          }
+          <br></br>
             <Button 
-            loading={authState.loggingIn} 
             className="form__button" 
             variant="primary" 
             type="submit">
