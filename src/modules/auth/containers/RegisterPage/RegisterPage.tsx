@@ -6,18 +6,14 @@ import Card from '../../../shared/components/Card/Card';
 import MatchMeLogo from '../../../shared/components/MatchMeLogo/MatchMeLogo';
 import Input from '../../../shared/components/Input/Input';
 import Button from '../../../shared/components/Button/Button';
-import { useDispatch } from 'react-redux';
 import { useSelector } from "react-redux";
-import { login, IAuthenticationState, fetchUser, modifyLoginForm } from "../../../../redux/slices/authenticationSlice";
+import { IAuthenticationState } from "../../../../redux/slices/authenticationSlice";
 import { IAppState } from '../../../../redux/appState';
 import { Redirect } from 'react-router-dom';
 import { EUserType } from '../../../../models/UserType';
-import { isFlowBaseAnnotation } from '@babel/types';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-
-
-
+import { CreateJobSeekerResult, CreateJobSeekerVariables, CREATE_JOB_SEEKER } from '../../../../api/mutations/createJobSeekerMutation';
 
 interface RegisterPageState {
   email: string;
@@ -25,20 +21,21 @@ interface RegisterPageState {
   company: string;
   fname: string;
   location: string;
-  salary: string;
+  salary: number;
   phone: string;
   option: 'Job Seeker' | 'Company';
   competence: string[];
   education: string[];
-  typeofwork: string;
-  education_p: string;
-  competence_p: string;
-  salary_p: string;
-  typeofwork_p: string;
-  location_p: string;
+  typeofwork: number;
+  education_p: number;
+  competence_p: number;
+  salary_p: number;
+  typeofwork_p: number;
+  location_p: number;
   }
 
 const RegisterPage = () => {
+  const [createJobSeeker, { loading: createJobSeekerLoading, data: createJobSeekerResult }] = useMutation<CreateJobSeekerResult, CreateJobSeekerVariables>(CREATE_JOB_SEEKER);
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
   const [state, setState]: [RegisterPageState, any] = useState({
     attemptingLogin: false,
@@ -47,33 +44,75 @@ const RegisterPage = () => {
     company: "",
     fname: "",
     location: "",
-    salary: "",
+    salary: 0,
     phone: "",
     option: "Job Seeker",
     competence:[],
     education: [],
-    typeofwork: '',
-    education_p: '',
-    competence_p: '',
-    salary_p: '',
-    typeofwork_p: '',
-    location_p: ''
+    typeofwork: 0,
+    education_p: 0.2,
+    competence_p: 0.2,
+    salary_p: 0.2,
+    typeofwork_p: 0.2,
+    location_p: 0.2
   });
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+
+    const createJobSeekerVariables: CreateJobSeekerVariables = {
+      jobSeekerInput: {
+        name: state.fname,
+        phone: state.phone,
+        education: state.education,
+        competence: state.competence,
+        location: state.location,
+        typeofwork: state.typeofwork,
+        salary: state.salary,
+        education_p: state.education_p,
+        competence_p: state.competence_p,
+        location_p: state.location_p,
+        typeofwork_p: state.typeofwork_p,
+        salary_p: state.salary_p
+      },
+      userInput: {
+        email: state.email,
+        password: state.password
+      }
+    };
+
+    createJobSeeker({
+      variables: createJobSeekerVariables 
+    });
   }
 
-  const handleInputChange = ({target: {name, value}}: any) => {
+  const handleInputChange = (event: any) => {
+    let parsedValue;
+    
+    // If type of input is one of the priorities, parse it into a float
+    if (event.target.type === 'salary_p' || 
+        event.target.type === 'typeofwork_p' ||
+        event.target.type === 'location_p' ||
+        event.target.type === 'competence_p' ||
+        event.target.type === 'education_p') {
+      parsedValue = parseFloat(event.target.value);
+    } else if (event.target.type === 'number') {
+      // Else if type of input is any other number then parse it into a int
+      parsedValue = parseInt(event.target.value);
+    } else {
+      // else just leave it as a string.
+      parsedValue = event.target.value;
+    }
+    
     setState({
       ...state,
-      [name]: value,
+      [event.target.name]: parsedValue,
     });
-    console.log(state)
+
   }
   const handleRadioChange = ({target: {checked, value}}: any) => {
   
-  if(checked == true)
+  if(checked === true)
   {
   setState({
       ...state,
@@ -132,9 +171,9 @@ const RegisterPage = () => {
     }));
   }
 
-  const { loading: loadingEducation, error: errorLoadingEducation, data: educationData } = useQuery(gql`
-  query {
-education{
+  const { data: educationData } = useQuery(gql`
+  query Education {
+    education{
       _id
       level
       field
@@ -142,7 +181,7 @@ education{
       }
   `);
 
-const { loading: loadingCompetence, error: errorLoadingCompetence, data: competenceData } = useQuery(gql`
+const { data: competenceData } = useQuery(gql`
   query AllCompetences {
     competence {
       _id
@@ -154,13 +193,13 @@ const { loading: loadingCompetence, error: errorLoadingCompetence, data: compete
 
 
   const typeofwork = [
-    { value: '1', label: 'Full Time' },
-    { value: '2', label: 'Part Time' },
-    { value: '3', label: 'Casual' },
-    { value: '4', label: 'Full Time/Casual' },
-    { value: '5', label: 'Part Time/Casual' },
-    { value: '6', label: 'Full Time/Part Time' },
-    { value: '7', label: 'Full Time/Part Time/Casual' },
+    { value: 1, label: 'Full Time' },
+    { value: 2, label: 'Part Time' },
+    { value: 3, label: 'Casual' },
+    { value: 4, label: 'Full Time/Casual' },
+    { value: 5, label: 'Part Time/Casual' },
+    { value: 6, label: 'Full Time/Part Time' },
+    { value: 7, label: 'Full Time/Part Time/Casual' },
 
   ];
 
@@ -216,8 +255,8 @@ const { loading: loadingCompetence, error: errorLoadingCompetence, data: compete
               <div>
           <div className="Job seeker">
           <Input value={state.fname} onChange={handleInputChange} name="fname" required type="text" label="Your Name" placeholder="John Johnson" />
-          <Input value={state.phone} onChange={handleInputChange} name="phone" required type="number" label="Your Phone number" placeholder="0459632145" />
-          <Input value={state.salary} onChange={handleInputChange} name="salary" required type="salary" label="Desired Salary" placeholder="40000" />
+          <Input value={state.phone} onChange={handleInputChange} name="phone" required type="text" label="Your Phone number" placeholder="0459632145" />
+          <Input value={state.salary} onChange={handleInputChange} name="salary" required type="number" label="Desired Salary" placeholder="40000" />
           <Input value={state.location} onChange={handleInputChange} name="location" required type="location" label="Location" placeholder="Melbourne" />
 
          <br></br>
@@ -274,6 +313,9 @@ const { loading: loadingCompetence, error: errorLoadingCompetence, data: compete
             Register
           </Button>
         </form>
+        {
+          createJobSeekerResult ? <div>User created successfully! </div> : ''
+        }
       </Card>
     </div>
   )
