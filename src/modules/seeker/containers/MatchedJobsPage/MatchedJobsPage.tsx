@@ -12,12 +12,12 @@ import { IJob } from '../../../../models/Job';
 import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels';
 import { EUserType } from '../../../../models/UserType';
 import { useQuery } from '@apollo/react-hooks';
-import { JOB_SEEKER_COMPLETE_MATCHES_QUERY, JobSeekerCompleteMatchesResult, JobSeekerCompleteMatchesVariables } from '../../../../api/queries/jobSeekerCompleteMatchesQuery';
+import { JOB_SEEKER_MATCH_OVERVIEWS_QUERY, JobSeekerMatchOverviewsResult, JobSeekerMatchOverviewsVariables } from '../../../../api/queries/jobSeekerCompleteMatchesQuery';
 
 const MatchedJobsPage = () => {
   const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
-  const { loading: loadingMatches, error: errorLoadingMatches, data: matches } = useQuery<JobSeekerCompleteMatchesResult, JobSeekerCompleteMatchesVariables>(
-    JOB_SEEKER_COMPLETE_MATCHES_QUERY,
+  const { loading: loadingMatches, error: errorLoadingMatches, data: matches } = useQuery<JobSeekerMatchOverviewsResult, JobSeekerMatchOverviewsVariables>(
+    JOB_SEEKER_MATCH_OVERVIEWS_QUERY,
     {
       variables: {
         userId: user ? user._id : '-1'
@@ -37,14 +37,14 @@ const MatchedJobsPage = () => {
 
   if (loadingMatches) return <Loading />;
   if (errorLoadingMatches) return <Error errorDescription="Failed to load matched jobs" />;
-  if (!matches || !matches.JobSeekerCompleteMatches || matches.JobSeekerCompleteMatches.length === 0) return <NoMatchesFound />;
+  if (!matches || !matches.JobSeekerMatchOverviews || matches.JobSeekerMatchOverviews.length === 0) return <NoMatchesFound />;
   
   return (
     <div className="matched-jobs-page">
       <div className="search-info">
-        Woohoo! You have successfully matched with {matches.JobSeekerCompleteMatches.length} jobs!
+        Woohoo! You have successfully matched with {matches.JobSeekerMatchOverviews.length} jobs!
       </div>
-      <List items={jobsToListItems(matches.JobSeekerCompleteMatches)} />
+      <List items={jobsToListItems(matches.JobSeekerMatchOverviews)} />
     </div>
   )
 }

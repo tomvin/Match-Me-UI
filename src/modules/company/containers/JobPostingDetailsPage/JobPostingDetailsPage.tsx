@@ -2,7 +2,6 @@ import React from 'react';
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import { EUserType } from '../../../../models/UserType';
 import { RouteComponentProps } from 'react-router-dom';
-import JobDetails from '../../../seeker/components/JobDetails/JobDetails';
 import { useQuery } from '@apollo/react-hooks';
 import { IJob } from '../../../../models/Job';
 import Loading from '../../../shared/components/Loading/Loading';
@@ -15,6 +14,7 @@ import TabGroup from '../../../shared/components/TabGroup/TabGroup';
 import Tab from '../../../shared/components/Tab/Tab';
 import JobMatches from '../JobMatches/JobMatches';
 import './JobPostingDetailsPage.scss';
+import JobDetails from '../../../shared/components/JobDetails/JobDetails';
 
 interface Params {
   jobId: string;

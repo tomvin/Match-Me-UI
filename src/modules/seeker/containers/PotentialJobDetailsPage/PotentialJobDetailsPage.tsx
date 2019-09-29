@@ -3,7 +3,6 @@ import './PotentialJobDetailsPage.scss';
 import { RouteComponentProps, NavLink } from "react-router-dom";
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import JobDetails from '../../components/JobDetails/JobDetails';
 import Card from '../../../shared/components/Card/Card';
 import Button from '../../../shared/components/Button/Button';
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -19,6 +18,7 @@ import { ACCEPT_JOB, AcceptJobResult, AcceptJobVariables } from '../../../../api
 import { IAppState } from '../../../../redux/appState';
 import { useSelector } from 'react-redux';
 import { IUser } from '../../../../models/User';
+import JobDetails from '../../../shared/components/JobDetails/JobDetails';
 
 const GET_JOBS = gql`
   query Jobs {

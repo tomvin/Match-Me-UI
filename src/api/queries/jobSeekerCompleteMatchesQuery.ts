@@ -1,16 +1,16 @@
 import gql from "graphql-tag";
 import { IJob } from "../../models/Job";
 
-export type JobSeekerCompleteMatchesVariables = {
+export type JobSeekerMatchOverviewsVariables = {
   userId: string;
 }
 
-export type JobSeekerCompleteMatchesResult = {
-  JobSeekerCompleteMatches: IJob[] | undefined;
+export type JobSeekerMatchOverviewsResult = {
+  JobSeekerMatchOverviews: IJob[] | undefined;
 }
 
-export const JOB_SEEKER_COMPLETE_MATCHES_QUERY =  gql`
-query JobSeekerCompleteMatches($userId:String!) {
+export const JOB_SEEKER_MATCH_OVERVIEWS_QUERY =  gql`
+query JobSeekerMatchOverviews($userId:String!) {
   JobSeekerMatchOverviews: jobSeekerCompleteMatches(jobSeekerUserId:$userId){
     _id
     name

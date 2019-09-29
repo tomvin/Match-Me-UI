@@ -9,7 +9,7 @@ export interface TabProps {
 
 const Tab = (props: TabProps) => {
   return (
-    <div className="tab">
+    <div className="tab-component">
       { props.children }
     </div>
   )

@@ -8,6 +8,7 @@ import { JobCompleteMatchResult, JobCompleteMatchVariables, JOB_COMPLETE_MATCH_Q
 import { IUser } from '../../../../models/User';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../../../../redux/appState';
+import Alert from '../../../shared/components/Alert/Alert';
 
 interface Props {
   jobId: string;
@@ -29,7 +30,7 @@ const JobMatches = (props: Props) => {
 
     return job.completeJobSeekerMatch.map<ListItemVM>(user => ({
       type: 'icon',
-      route: '',
+      route: `${props.jobId}/match/${user._id}?m=m`,
       title: user.email,
       description: user.jobSeeker ? user.jobSeeker.phone : '',
       pillText: `$${user.jobSeeker ? user.jobSeeker.salary.toFixed(0) : '0'}`,
@@ -41,7 +42,19 @@ const JobMatches = (props: Props) => {
 
   if (loadingJobMatches) return <Loading />
   if (errorLoadingJobMatches) return <div>Error loading job matches. </div>
-  return <List items={buildMatchedUsersList(jobMatches)} />
+
+  const matchedUsersList: ListItemVM[] = buildMatchedUsersList(jobMatches)
+  if (matchedUsersList.length === 0) {
+    return (
+      <Alert 
+        variant="purple" 
+        title={`No Matches`} 
+        message={`Start looking at new candidates we found for you`} 
+      />
+    )
+  }
+
+  return <List items={matchedUsersList} />
 }
 
 export default JobMatches
