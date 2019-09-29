@@ -14,9 +14,12 @@ import { EUserType } from '../../../../models/UserType';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { CreateJobSeekerResult, CreateJobSeekerVariables, CREATE_JOB_SEEKER } from '../../../../api/mutations/createJobSeekerMutation';
+import { CreateCompanyResult, CreateCompanyVariables, CREATE_COMPANY } from '../../../../api/mutations/createCompanyMutation';
+
 
 interface RegisterPageState {
   email: string;
+  email_company: string;
   password: string;
   company: string;
   fname: string;
@@ -36,10 +39,13 @@ interface RegisterPageState {
 
 const RegisterPage = () => {
   const [createJobSeeker, { loading: createJobSeekerLoading, data: createJobSeekerResult }] = useMutation<CreateJobSeekerResult, CreateJobSeekerVariables>(CREATE_JOB_SEEKER);
+  const [createCompany, { loading: createCompanyLoading, data: createCompanyResult }] = useMutation<CreateCompanyResult, CreateCompanyVariables>(CREATE_COMPANY);
+
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
   const [state, setState]: [RegisterPageState, any] = useState({
     attemptingLogin: false,
     email: '',
+    email_company: '',
     password: '',
     company: "",
     fname: "",
@@ -81,10 +87,30 @@ const RegisterPage = () => {
       }
     };
 
+    const CreateCompanyVariables: CreateCompanyVariables = {
+      companyInput: {
+        name: state.fname,
+        phone: state.phone,
+        email: state.email
+      },
+      userInput: {
+        email: state.email_company,
+        password: state.password
+      }
+    };
+if(state.option === "Company")
+{
+    createCompany({
+      variables : CreateCompanyVariables
+    });
+  }
+  else
+  {
     createJobSeeker({
       variables: createJobSeekerVariables 
     });
   }
+}
 
   const handleInputChange = (event: any) => {
     let parsedValue;
@@ -250,12 +276,24 @@ const { data: competenceData } = useQuery(gql`
             state.option === "Company" ? (
               <div className="Company">
               <Input value={state.company} onChange={handleInputChange} name="company" required type="company" label="Company Name" placeholder="MatchMe" />
+              <Input value={state.fname} onChange={handleInputChange} name="fname" required type="text" label="Your Name" placeholder="John Johnson" />
+              <Input value={state.email_company} onChange={handleInputChange} name="email_company" required type="email_company" label="Company Email Address" placeholder="username@company.com" />
+              <Input value={state.phone} onChange={handleInputChange} name="phone" required type="text" label="Company Phone number" placeholder="0459632145" />
+
+              <br></br>
+            <Button 
+            className="form__button" 
+            variant="primary" 
+            type="submit">
+            Register Company
+          </Button>
               </div>
+              
             ) : (
               <div>
           <div className="Job seeker">
           <Input value={state.fname} onChange={handleInputChange} name="fname" required type="text" label="Your Name" placeholder="John Johnson" />
-          <Input value={state.phone} onChange={handleInputChange} name="phone" required type="text" label="Your Phone number" placeholder="0459632145" />
+          <Input value={state.phone} onChange={handleInputChange} name="phone" required type="text" label="Phone number" placeholder="0459632145" />
           <Input value={state.salary} onChange={handleInputChange} name="salary" required type="number" label="Desired Salary" placeholder="40000" />
           <Input value={state.location} onChange={handleInputChange} name="location" required type="location" label="Location" placeholder="Melbourne" />
 
@@ -300,11 +338,6 @@ const { data: competenceData } = useQuery(gql`
             <Input value={state.competence_p} onChange={handleInputChange} name="competence_p" required type="competence" label="Competence Prioity" placeholder="0.20" />
             <Input value={state.typeofwork_p} onChange={handleInputChange} name="typeofwork_p" required type="typeofwork_p" label="Work Prioity" placeholder="0.20" />
           </div>
-
-             </div>
-             </div>
-            )
-          }
           <br></br>
             <Button 
             className="form__button" 
@@ -312,6 +345,11 @@ const { data: competenceData } = useQuery(gql`
             type="submit">
             Register
           </Button>
+             </div>
+             </div>
+            )
+          }
+
         </form>
         {
           createJobSeekerResult ? <div>User created successfully! </div> : ''
