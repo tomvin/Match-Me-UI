@@ -17,7 +17,7 @@ interface Props {
 
 const Button = (props: Props) => {
   return (
-    <button type={props.type ? props.type : 'button'} className={`button button--${props.variant} ${props.className} ${props.loading ? 'button--loading' : ''}`} onClick={props.onClick} disabled={props.disabled ? props.disabled : false}>
+    <button type={props.type ? props.type : 'button'} className={`button button--${props.variant} ${props.disabled ? 'button--disabled' : ''} ${props.className} ${props.loading ? 'button--loading' : ''}`} onClick={props.onClick} disabled={props.disabled ? props.disabled : false}>
       {
         props.loading !== true ? (
           <React.Fragment>

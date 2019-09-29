@@ -10,17 +10,11 @@ import Loading from '../../../shared/components/Loading/Loading';
 import Error from '../../../shared/components/Error/Error';
 import { useSelector } from 'react-redux';
 import { IAppState } from '../../../../redux/appState';
-import { PillVariant } from '../../../shared/components/Pill/Pill';
 import { EUserType } from '../../../../models/UserType';
+import { convertMatchScoreToPillVariant } from '../../../../utils/ConvertMatchScoreToPillVariant';
 
 const PotentialJobsPage = () => {  
   const userId = useSelector((state: IAppState) => state.authentication.user ? state.authentication.user._id : -1)
-
-  const convertJobMatchScoreToPillVariant = (percentage: number): PillVariant => {
-    if (percentage > .6) return 'green';
-    else if (percentage > .3) return 'orange';
-    else return 'red';
-  };
 
   const potentialJobsToListItems = (jobs: IJobSeekerMatch[]): ListItemVM[] => jobs.sort((jobA, jobB) => jobB.score - jobA.score).map<ListItemVM>(potentialJob => ({
     type: 'image',
@@ -28,8 +22,8 @@ const PotentialJobsPage = () => {
     imageUrl: potentialJob.job.company.logoUrl,
     title: potentialJob.job.name,
     description: potentialJob.job.description,
-    pillText: `${potentialJob.score * 100}% match!`,
-    pillVariant: convertJobMatchScoreToPillVariant(potentialJob.score),
+    pillText: `${(potentialJob.score * 100).toFixed(0)}% match!`,
+    pillVariant: convertMatchScoreToPillVariant(potentialJob.score),
     variant: 'primary'
   }));
 

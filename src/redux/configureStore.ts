@@ -7,7 +7,6 @@ import { IAppState, resetState } from './appState';
 import { ThunkAction } from 'redux-thunk';
 import { throttle } from 'lodash';
 import authentication from './slices/authenticationSlice';
-import jobSeekerMatches from './slices/jobSeekerMatchesSlice';
 
 export type AppThunk = ActionCreator<ThunkAction<void, IAppState, null, Action<string>>>;
 
@@ -16,8 +15,7 @@ const persistedState = loadState();
 const makeRootReducer =
   (state: IAppState | undefined, action: AnyAction) =>
   combineReducers({
-    authentication,
-    jobSeekerMatches 
+    authentication
   })(action.type === resetState.type ? undefined : state, action)
 
 const store = configureStore<IAppState>({
