@@ -15,6 +15,7 @@ import { EUserType } from '../../../../models/UserType';
 interface LoginPageState {
   email: string;
   password: string;
+  showRegisterRedirect: boolean;
 }
 
 const LoginPage = () => {
@@ -23,7 +24,10 @@ const LoginPage = () => {
   const [state, setState]: [LoginPageState, any] = useState({
     attemptingLogin: false,
     email: 'jobSeeker@match.com',
-    password: ''
+    password: '',
+    showRegisterRedirect: false
+    
+    
   });
 
   const handleSubmit = (event: FormEvent) => {
@@ -45,10 +49,21 @@ const LoginPage = () => {
     });
   }
 
+  const handleRegisterClick = (): any => {
+    dispatch(modifyLoginForm());
+    setState({
+      ...state,
+      showRegisterRedirect: true
+    });
+  }
+
   return (
     <div className="login-page">
       {
         authState.loggedIn ? <Redirect to="/" /> : ''
+      }
+      {
+        state.showRegisterRedirect ? <Redirect to="/register" /> : ''
       }
       <Card className="login-page-card">
         <MatchMeLogo className="login-page-card__logo" />
@@ -58,15 +73,25 @@ const LoginPage = () => {
           <Input value={state.email} onChange={handleInputChange} name="email" required type="email" label="Email Address" placeholder="username@email.com" />
           <Input value={state.password} onChange={handleInputChange} name="password" required type="password" label="Password" placeholder="******" />
           { authState.loginFailed ? <p className="color--red">{authState.loginFailureMessage}</p> : ''}
+          <div className="loginButton">
           <Button 
             loading={authState.loggingIn} 
-            className="form__button" 
+            className="form__button login" 
             variant="primary" 
             type="submit">
             Login
           </Button>
+          <Button 
+            className="form__button"
+            onClick={handleRegisterClick}
+            variant="primary" 
+            type="submit">
+            Register
+          </Button>
+          </div>
         </form>
       </Card>
+
     </div>
   )
 }

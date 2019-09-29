@@ -1,4 +1,4 @@
-.login-page {
+.register-page {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,19 +20,12 @@
     }
   }
 
+
+
   .form {
     &__button {
       width: 100%;
       margin-top: var(--spacing-3);
-    }
-  }
-
-  .loginButton {
-    display: flex;
-
-    .login {
-      width: 300%;
-      margin-right: 15px;
     }
   }
 }

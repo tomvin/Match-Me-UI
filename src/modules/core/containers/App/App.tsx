@@ -9,6 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import LoginPage from '../../../auth/containers/LoginPage/LoginPage';
+import RegisterPage from '../../../auth/containers/RegisterPage/RegisterPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { IUser } from '../../../../models/User';
 import { IAppState, resetState } from '../../../../redux/appState';
@@ -70,6 +71,7 @@ const App: React.FC = () => {
               <Route path="/potential-jobs" component={PotentialJobsPage}></Route>
               <Route path="/login" component={LoginPage}></Route>
               <Route path="/company/jobs/:jobId/match/:userId" component={JobPostingUserMatchPage}></Route>
+              <Route path="/register" component={RegisterPage}></Route>
               <Route path="/company/jobs/:jobId" component={JobPostingDetailsPage}></Route>
               <Route path="/company/jobs" component={JobPostingsPage}></Route>
               <Route path="/company/new" component={CreateNewJob}></Route>
