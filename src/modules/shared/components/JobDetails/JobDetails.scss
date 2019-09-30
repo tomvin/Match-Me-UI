@@ -2,11 +2,18 @@
   display: flex;
 
   &__left {
+    margin-right: var(--spacing-4);
+    width: 64px;
 
+    .job-details__logo {
+      width: 100%;
+      height: auto;
+    }
   }
 
-  &__right {
+  &__middle {
     flex-grow: 1;
+    margin-right: var(--spacing-4);
 
     .details-body {
       color: var(--gray-700);
@@ -32,30 +39,15 @@
           color: var(--purple-900);
         }
       }
-
-      .education-container {
-        .education {
-          display: flex;
-          align-items: center;
-          margin-bottom: var(--spacing-1);
-
-          &__icon {
-            font-size: 16px;
-            color: var(--purple-800);
-            margin-right: var(--spacing-1);
-          }
-
-          &__field {
-            color: var(--gray-700);
-          }
-        }
-      }
     }
   }
 
-  &__logo {
-    width: 64px;
-    height: auto;
-    margin-right: var(--spacing-4);
+  &__right {
+    flex-grow: 1;
+    min-width: 280px;
+
+    .job-details-list {
+      margin-bottom: 16px;
+    }
   }
 }

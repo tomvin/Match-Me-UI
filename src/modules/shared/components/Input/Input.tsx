@@ -10,7 +10,7 @@ interface InputProps {
   labelClassName?: string;
   tabIndex?: number;
   type?: string;
-  value?: string;
+  value?: string | number;
   required?: boolean;
   name?: string;
   onChange?: any;

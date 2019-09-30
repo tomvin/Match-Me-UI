@@ -9,6 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import LoginPage from '../../../auth/containers/LoginPage/LoginPage';
+import RegisterPage from '../../../auth/containers/RegisterPage/RegisterPage';
 import { useSelector, useDispatch } from 'react-redux';
 import { IUser } from '../../../../models/User';
 import { IAppState, resetState } from '../../../../redux/appState';
@@ -16,10 +17,12 @@ import Navigation from '../Navigation/Navigation';
 import PotentialJobsPage from '../../../seeker/containers/PotentialJobsPage/PotentialJobsPage';
 import PotentialJobDetailsPage from '../../../seeker/containers/PotentialJobDetailsPage/PotentialJobDetailsPage';
 import Header from '../../components/Header/Header';
-import JobPostingsPage from '../../../company/containers/JobPostingsPage';
+import JobPostingsPage from '../../../company/containers/JobPostingsPage/JobPostingsPage';
 import MatchedJobDetailsPage from '../../../seeker/containers/MatchedJobDetailsPage/MatchedJobDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import JobPostingDetailsPage from '../../../company/containers/JobPostingDetailsPage';
+import JobPostingDetailsPage from '../../../company/containers/JobPostingDetailsPage/JobPostingDetailsPage';
+import CreateNewJob from '../../../company/containers/CreateNewJob';
+import JobPostingUserMatchPage from '../../../company/containers/JobPostingUserMatchPage/JobPostingUserMatchPage';
 
 library.add(far, fas);
 
@@ -67,6 +70,8 @@ const App: React.FC = () => {
               <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>
               <Route path="/potential-jobs" component={PotentialJobsPage}></Route>
               <Route path="/login" component={LoginPage}></Route>
+              <Route path="/company/jobs/:jobId/match/:userId" component={JobPostingUserMatchPage}></Route>
+              <Route path="/register" component={RegisterPage}></Route>
               <Route path="/company/jobs/:jobId" component={JobPostingDetailsPage}></Route>
               <Route path="/company/jobs" component={JobPostingsPage}></Route>
               <Route exact path="/" render={() => {

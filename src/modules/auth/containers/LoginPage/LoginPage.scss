@@ -26,4 +26,13 @@
       margin-top: var(--spacing-3);
     }
   }
+
+  .loginButton {
+    display: flex;
+
+    .login {
+      width: 300%;
+      margin-right: 15px;
+    }
+  }
 }

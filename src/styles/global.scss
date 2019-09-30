@@ -1,10 +1,12 @@
 @import './colors';
 @import './header';
+@import './helpers';
 
 html,
 body {
   height: 100%;
   width: 100%;
+  background-color: var(--purple-700);
 }
 
 body {

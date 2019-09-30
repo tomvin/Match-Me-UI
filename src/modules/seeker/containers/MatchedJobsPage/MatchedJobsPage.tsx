@@ -1,10 +1,9 @@
 import React from 'react'
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import './MatchedJobsPage.scss';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { IAppState } from '../../../../redux/appState';
 import { IUser } from '../../../../models/User';
-import { fetchJobSeekerMatchOverviews } from '../../../../redux/slices/jobSeekerMatchesSlice';
 import NoMatchesFound from '../NoMatchesFound/NoMatchesFound';
 import Loading from '../../../shared/components/Loading/Loading';
 import Error from '../../../shared/components/Error/Error';
@@ -12,12 +11,18 @@ import List from '../../../shared/components/List/List';
 import { IJob } from '../../../../models/Job';
 import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels';
 import { EUserType } from '../../../../models/UserType';
+import { useQuery } from '@apollo/react-hooks';
+import { JOB_SEEKER_MATCH_OVERVIEWS_QUERY, JobSeekerMatchOverviewsResult, JobSeekerMatchOverviewsVariables } from '../../../../api/queries/jobSeekerCompleteMatchesQuery';
 
 const MatchedJobsPage = () => {
-  const dispatch = useDispatch();
-  const { matches, loadingMatches, loadingFailed, loadingFailureMessage } = useSelector((state: IAppState) => state.jobSeekerMatches);
   const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
-  dispatch(fetchJobSeekerMatchOverviews(user ? user._id : ''));
+  const { loading: loadingMatches, error: errorLoadingMatches, data: matches } = useQuery<JobSeekerMatchOverviewsResult, JobSeekerMatchOverviewsVariables>(
+    JOB_SEEKER_MATCH_OVERVIEWS_QUERY,
+    {
+      variables: {
+        userId: user ? user._id : '-1'
+      }
+    });
 
   const jobsToListItems = (jobs: IJob[]): ListItemVM[] => jobs.map<ListItemVM>(job => ({
     type: 'image',
@@ -31,15 +36,15 @@ const MatchedJobsPage = () => {
   }));
 
   if (loadingMatches) return <Loading />;
-  if (loadingFailed) return <Error errorDescription={loadingFailureMessage} />;
-  if (!matches || matches.length === 0) return <NoMatchesFound />;
+  if (errorLoadingMatches) return <Error errorDescription="Failed to load matched jobs" />;
+  if (!matches || !matches.JobSeekerMatchOverviews || matches.JobSeekerMatchOverviews.length === 0) return <NoMatchesFound />;
   
   return (
     <div className="matched-jobs-page">
       <div className="search-info">
-        Woohoo! You have successfully matched with {matches.length} job!
+        Woohoo! You have successfully matched with {matches.JobSeekerMatchOverviews.length} jobs!
       </div>
-      <List items={jobsToListItems(matches)} />
+      <List items={jobsToListItems(matches.JobSeekerMatchOverviews)} />
     </div>
   )
 }

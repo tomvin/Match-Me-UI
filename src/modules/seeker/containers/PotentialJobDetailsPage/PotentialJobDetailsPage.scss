@@ -33,9 +33,11 @@
 
     &__buttons {
       margin-left: 96px;
+      display: flex;
       
       .interested-button {
         margin-right: var(--spacing-1);
+        min-width: 180px;
       }
     }
   }
