@@ -33,7 +33,7 @@ const JobMatches = (props: Props) => {
       route: `${props.jobId}/match/${user._id}?m=m`,
       title: user.email,
       description: user.jobSeeker ? user.jobSeeker.phone : '',
-      pillText: `$${user.jobSeeker ? user.jobSeeker.salary.toFixed(0) : '0'}`,
+      pillText: `$${(user.jobSeeker && user.jobSeeker.salary) ? user.jobSeeker.salary.toFixed(0) : '0'}`,
       pillVariant: 'green',
       variant: 'primary',
       icon: 'user'

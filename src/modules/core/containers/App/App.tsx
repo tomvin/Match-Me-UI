@@ -74,7 +74,6 @@ const App: React.FC = () => {
               <Route path="/register" component={RegisterPage}></Route>
               <Route path="/company/jobs/:jobId" component={JobPostingDetailsPage}></Route>
               <Route path="/company/jobs" component={JobPostingsPage}></Route>
-              <Route path="/company/new" component={CreateNewJob}></Route>
               <Route exact path="/" render={() => {
                 if (user && user.isCompany) {
                   return (<Redirect to="/company/jobs" />)
