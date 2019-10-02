@@ -38,8 +38,8 @@ interface RegisterPageState {
   }
 
 const RegisterPage = () => {
-  const [createJobSeeker, { loading: createJobSeekerLoading, data: createJobSeekerResult }] = useMutation<CreateJobSeekerResult, CreateJobSeekerVariables>(CREATE_JOB_SEEKER);
-  const [createCompany, { loading: createCompanyLoading, data: createCompanyResult }] = useMutation<CreateCompanyResult, CreateCompanyVariables>(CREATE_COMPANY);
+  const [createJobSeeker, { data: createJobSeekerResult }] = useMutation<CreateJobSeekerResult, CreateJobSeekerVariables>(CREATE_JOB_SEEKER);
+  const [createCompany] = useMutation<CreateCompanyResult, CreateCompanyVariables>(CREATE_COMPANY);
 
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
   const [state, setState]: [RegisterPageState, any] = useState({
@@ -208,7 +208,7 @@ if(state.option === "Company")
   `);
 
 const { data: competenceData } = useQuery(gql`
-  query AllCompetences {
+  query Competences {
     competence {
       _id
       skill
@@ -363,11 +363,7 @@ export default pageWrapper(
   RegisterPage, 
   { 
     authorisedUserTypes: [
-      EUserType.Unknown,
-      EUserType.Company,
-      EUserType.Admin,
-      EUserType.JobSeeker
-
+      EUserType.Unknown
     ] 
   }
 );

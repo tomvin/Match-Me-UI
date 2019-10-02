@@ -21,8 +21,8 @@ import JobPostingsPage from '../../../company/containers/JobPostingsPage/JobPost
 import MatchedJobDetailsPage from '../../../seeker/containers/MatchedJobDetailsPage/MatchedJobDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import JobPostingDetailsPage from '../../../company/containers/JobPostingDetailsPage/JobPostingDetailsPage';
-import CreateNewJob from '../../../company/containers/CreateNewJob';
 import JobPostingUserMatchPage from '../../../company/containers/JobPostingUserMatchPage/JobPostingUserMatchPage';
+import ProfilePage from '../../../seeker/containers/ProfilePage/ProfilePage';
 
 library.add(far, fas);
 
@@ -65,6 +65,7 @@ const App: React.FC = () => {
               ) : ''
             }
             <Switch>
+              <Route path="/profile" component={ProfilePage}></Route>
               <Route path="/matched-jobs/:jobId" component={MatchedJobDetailsPage}></Route>
               <Route path="/matched-jobs" component={MatchedJobs}></Route>
               <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>

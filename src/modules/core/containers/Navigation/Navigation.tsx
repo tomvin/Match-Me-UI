@@ -24,6 +24,7 @@ const Navigation = () => {
     navItems = [
       { label: 'My Matches', route: '/matched-jobs', icon: ['far', 'handshake'] },
       { label: 'Potential Jobs', route: '/potential-jobs', icon: ['fas', 'search'] },
+      { label: 'My Profile', route: '/profile', icon: ['fas', 'user'] },
       ...navItems
     ];
   }
