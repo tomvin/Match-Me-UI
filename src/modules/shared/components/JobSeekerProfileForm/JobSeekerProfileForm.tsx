@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import './JobSeekerProfileForm.scss';
 import Input from '../Input/Input';
-import Select from 'react-select';
 import { useQuery } from '@apollo/react-hooks';
 import { ALL_COMPETENCES_QUERY, AllCompetencesResult } from '../../../../api/queries/allCompetencesQuery';
 import { AllEducationResult, ALL_EDUCATION_QUERY } from '../../../../api/queries/allEducationQuery';
 import { TYPE_OF_WORK_SELECT_OPTIONS } from '../../../../utils/TypeOfWorkSelectOptions';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
+import Select from '../Select/Select';
 
 interface Props {
   jobSeekerProfile?: JobSeekerProfile;
@@ -121,32 +121,26 @@ const JobSeekerProfileForm = ({ jobSeekerProfile, formChangeCallback }: Props) =
       <Input value={form.phone} onChange={handleInputChange} name="phone" required type="text" label="Phone number" placeholder="0459632145" />
       <Input value={form.salary} onChange={handleInputChange} name="salary" required type="number" label="Desired Salary" placeholder="40000" />
       <Input value={form.location} onChange={handleInputChange} name="location" required type="location" label="Location" placeholder="Melbourne" />
-      <label>Select your skills</label>
       <Select
         label="Select your skills"
         isMulti
         name="competence"
         options={mapCompetencesToSelect(competences)}
-        className="basic-multi-select"
         classNamePrefix="select"
         onChange={(e: any) => handleSelectChange(e, true, 'competence')}
       />
-      <label>Select your education</label>
       <Select
         label="Select your education"
         isMulti
         name="education"
         options={mapEducationToSelect(education)}
-        className="basic-multi-select"
         classNamePrefix="select"
         onChange={(e: any) => handleSelectChange(e, true, 'education')}
       />
-      <label>Select your work type</label>
       <Select
         label="Select your work type"
         name="typeofwork"
         options={TYPE_OF_WORK_SELECT_OPTIONS}
-        className="basic-single"
         classNamePrefix="select"
         onChange={(e: any) => handleSelectChange(e, false, 'typeofwork')}
       />
