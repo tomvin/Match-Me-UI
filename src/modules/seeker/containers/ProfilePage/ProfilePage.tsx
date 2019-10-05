@@ -6,7 +6,7 @@ import JobSeekerProfileForm, { JobSeekerProfile, DEFAULT_JOB_SEEKER_PROFILE } fr
 import { useSelector } from 'react-redux';
 import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
 import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ALL_JOB_SEEKER_USERS_FOR_PROFILE_QUERY, AllJobSeekerUsersForProfileResult, JobSeekerUserForProfile } from '../../../../api/queries/allJobSeekerUsersForProfileQuery';
 import Loading from '../../../shared/components/Loading/Loading';
 import Error from '../../../shared/components/Error/Error';
@@ -15,11 +15,13 @@ import { mapEducationsToSelect } from '../../../../utils/MapEducationToSelectIte
 import { mapTypeOfWorkToSelect } from '../../../../utils/MapTypeOfWorkToSelectItem';
 import Button from '../../../shared/components/Button/Button';
 import Card from '../../../shared/components/Card/Card';
+import { UpdateJobSeekerResult, UpdateJobSeekerVariables, UPDATE_JOB_SEEKER } from '../../../../api/mutations/updateJobSeekerMutation';
 
 const ProfilePage = () => {
   const user: LoggedInUser = useSelector(loggedInUserSelector);
   const { loading, error, data } = useQuery<AllJobSeekerUsersForProfileResult>(ALL_JOB_SEEKER_USERS_FOR_PROFILE_QUERY, { fetchPolicy: 'network-only' });
-  const [profile, setProfile] = useState<JobSeekerProfile | null>(null);
+  const [ profile, setProfile ] = useState<JobSeekerProfile | null>(null);
+  const [ updateJobSeeker, { data: updateResult, loading: saving, error: updateError } ] = useMutation<UpdateJobSeekerResult, UpdateJobSeekerVariables>(UPDATE_JOB_SEEKER);
 
   const canSaveChanges = (): boolean => {
     return profile !== null;
@@ -55,17 +57,52 @@ const ProfilePage = () => {
     }
   }
 
+  const handleUpdateProfile = (): void => {
+    if (!profile) {
+      return;
+    }
+
+    updateJobSeeker({
+      variables: {
+        jobSeekerUserId: user._id,
+        jobSeekerInput: {
+          name: profile.fname,
+          phone: profile.phone,
+          education: profile.education.map(e => e.value),
+          competence: profile.competence.map(e => e.value),
+          location: profile.location,
+          typeofwork: profile.typeofwork ? profile.typeofwork.value : 0,
+          salary: profile.salary,
+          education_p: profile.education_p,
+          competence_p: profile.competence_p,
+          location_p: profile.location_p,
+          typeofwork_p: profile.typeofwork_p,
+          salary_p: profile.salary_p
+        }
+      }
+    })
+  }
+
   const handleJobSeekerFormChange = (profile: JobSeekerProfile): void => {
     setProfile(profile);
   }
 
   if (loading) return <Loading />
-  if (error) return <Error />
+  if (error || updateError) return <Error />
   
   return (
     <div className="profile-page">
       <Card>
-        <Button icon="save" disabled={!canSaveChanges()} className="update-profile-button" variant="primary">Update Profile</Button>
+        <Button 
+          icon="save" 
+          loading={saving}
+          disabled={!canSaveChanges()} 
+          className="update-profile-button" 
+          variant="primary"
+          onClick={handleUpdateProfile}
+        >
+          { updateResult ? `Profile Updated` : `Update Profile` }
+        </Button>
         <JobSeekerProfileForm
           jobSeekerProfile={mapUserToJobSeekerProfile(getJobSeekerProfileFromData(data))}
           formChangeCallback={handleJobSeekerFormChange} />

@@ -16,7 +16,13 @@ interface Props {
 
 const JobMatches = (props: Props) => {
   const user: LoggedInUser = useSelector(loggedInUserSelector);
-  const { loading: loadingJobMatches, error: errorLoadingJobMatches, data: jobMatches } = useQuery<JobCompleteMatchResult, JobCompleteMatchVariables>(JOB_COMPLETE_MATCH_QUERY, { variables: { companyUserId: user ? user._id : '?' } });
+  const { loading: loadingJobMatches, error: errorLoadingJobMatches, data: jobMatches } = useQuery<JobCompleteMatchResult, JobCompleteMatchVariables>(
+    JOB_COMPLETE_MATCH_QUERY, { 
+      fetchPolicy: 'network-only',
+      variables: { 
+        companyUserId: user._id
+      } 
+    });
   
   const buildMatchedUsersList = (jobMatches: JobCompleteMatchResult | undefined): ListItemVM[] => {
     if (!jobMatches || !jobMatches.jobCompleteMatches) {
