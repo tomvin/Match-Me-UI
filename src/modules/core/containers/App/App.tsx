@@ -11,8 +11,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import LoginPage from '../../../auth/containers/LoginPage/LoginPage';
 import RegisterPage from '../../../auth/containers/RegisterPage/RegisterPage';
 import { useSelector, useDispatch } from 'react-redux';
-import { IUser } from '../../../../models/User';
-import { IAppState, resetState } from '../../../../redux/appState';
+import { resetState } from '../../../../redux/appState';
 import Navigation from '../Navigation/Navigation';
 import PotentialJobsPage from '../../../seeker/containers/PotentialJobsPage/PotentialJobsPage';
 import PotentialJobDetailsPage from '../../../seeker/containers/PotentialJobDetailsPage/PotentialJobDetailsPage';
@@ -23,6 +22,8 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import JobPostingDetailsPage from '../../../company/containers/JobPostingDetailsPage/JobPostingDetailsPage';
 import JobPostingUserMatchPage from '../../../company/containers/JobPostingUserMatchPage/JobPostingUserMatchPage';
 import ProfilePage from '../../../seeker/containers/ProfilePage/ProfilePage';
+import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
+import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
 
 library.add(far, fas);
 
@@ -42,7 +43,7 @@ const App: React.FC = () => {
   const [appState] = useState({
     appName: process.env.REACT_APP_TITLE,
   });
-  const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
+  const user: LoggedInUser = useSelector(loggedInUserSelector);
 
   const handleLogout = () => {
     dispatch(resetState());

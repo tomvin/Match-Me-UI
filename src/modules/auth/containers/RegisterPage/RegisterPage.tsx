@@ -244,8 +244,6 @@ const { data: competenceData } = useQuery(gql`
         <form className="register-page-card__form" onSubmit={handleSubmit}>
           <Input value={state.email} onChange={handleInputChange} name="email" required type="email" label="Email Address" placeholder="username@email.com" />
           <Input value={state.password} onChange={handleInputChange} name="password" required type="password" label="Password" placeholder="******" />
-
-          { authState.loginFailed ? <p className="color--red">{authState.loginFailureMessage}</p> : ''}
           <p className="register-page-card__subtitle">Are you a Company posting jobs or looking for jobs?</p>
           <label>
             <input

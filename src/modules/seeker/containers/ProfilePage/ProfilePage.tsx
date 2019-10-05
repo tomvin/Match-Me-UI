@@ -3,14 +3,14 @@ import './ProfilePage.scss';
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import { EUserType } from '../../../../models/UserType';
 import JobSeekerProfileForm, { JobSeekerProfile, DEFAULT_JOB_SEEKER_PROFILE } from '../../../shared/components/JobSeekerProfileForm/JobSeekerProfileForm';
-import { IUser } from '../../../../models/User';
 import { useSelector } from 'react-redux';
-import { IAppState } from '../../../../redux/appState';
 import Error from '../../../shared/components/Error/Error';
 import { IJobSeeker } from '../../../../models/JobSeeker';
+import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
+import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
 
 const ProfilePage = () => {
-  const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
+  const user: LoggedInUser = useSelector(loggedInUserSelector);
   if (!user || !user.jobSeeker) return <Error />
 
   const mapUserToJobSeekerProfile = (jobSeeker: IJobSeeker): JobSeekerProfile => {
@@ -38,7 +38,7 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
       <JobSeekerProfileForm
-        jobSeekerProfile={mapUserToJobSeekerProfile(user.jobSeeker)}
+        jobSeekerProfile={mapUserToJobSeekerProfile(user.jobSeeker as any)}
         formChangeCallback={handleJobSeekerFormChange} />
     </div>
   )

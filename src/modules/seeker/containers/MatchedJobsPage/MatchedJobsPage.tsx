@@ -2,8 +2,6 @@ import React from 'react'
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import './MatchedJobsPage.scss';
 import { useSelector } from 'react-redux';
-import { IAppState } from '../../../../redux/appState';
-import { IUser } from '../../../../models/User';
 import NoMatchesFound from '../NoMatchesFound/NoMatchesFound';
 import Loading from '../../../shared/components/Loading/Loading';
 import Error from '../../../shared/components/Error/Error';
@@ -13,9 +11,11 @@ import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels';
 import { EUserType } from '../../../../models/UserType';
 import { useQuery } from '@apollo/react-hooks';
 import { JOB_SEEKER_MATCH_OVERVIEWS_QUERY, JobSeekerMatchOverviewsResult, JobSeekerMatchOverviewsVariables } from '../../../../api/queries/jobSeekerCompleteMatchesQuery';
+import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
+import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
 
 const MatchedJobsPage = () => {
-  const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
+  const user: LoggedInUser = useSelector(loggedInUserSelector);
   const { loading: loadingMatches, error: errorLoadingMatches, data: matches } = useQuery<JobSeekerMatchOverviewsResult, JobSeekerMatchOverviewsVariables>(
     JOB_SEEKER_MATCH_OVERVIEWS_QUERY,
     {
