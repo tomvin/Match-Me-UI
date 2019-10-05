@@ -11,21 +11,6 @@ interface Props extends ReactSelectProps {
 }
 
 const CUSTOM_STYLE: Styles = {
-  /*option: (provided, state) => ({
-    ...provided,
-    borderBottom: '1px dotted pink',
-    color: state.isSelected ? 'red' : 'blue',
-    padding: 20,
-  }),
-  control: (provided, state) => ({
-    ...provided,
-    width: 200,
-  }),
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
-    const transition = 'opacity 300ms';
-    return { ...provided, opacity, transition };
-  }*/
   control: (provided, state) => ({
     ...provided,
     backgroundColor: 'var(--gray-200)',

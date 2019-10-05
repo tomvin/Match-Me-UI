@@ -10,7 +10,7 @@ import Error from '../Error/Error';
 import Select from '../Select/Select';
 
 interface Props {
-  jobSeekerProfile?: JobSeekerProfile;
+  jobSeekerProfile: JobSeekerProfile;
   formChangeCallback: (form: JobSeekerProfile) => any;
 }
 
@@ -29,7 +29,7 @@ export interface JobSeekerProfile {
   location_p: number;
 }
 
-const DEFAULT_PROFILE: JobSeekerProfile = {
+export const DEFAULT_JOB_SEEKER_PROFILE: JobSeekerProfile = {
   fname: '',
   location: '',
   salary: 0,
@@ -45,7 +45,7 @@ const DEFAULT_PROFILE: JobSeekerProfile = {
 }
 
 const JobSeekerProfileForm = ({ jobSeekerProfile, formChangeCallback }: Props) => {
-  const [form, setForm] = useState<JobSeekerProfile>( jobSeekerProfile ? jobSeekerProfile : DEFAULT_PROFILE);
+  const [form, setForm] = useState<JobSeekerProfile>( jobSeekerProfile ? jobSeekerProfile : DEFAULT_JOB_SEEKER_PROFILE);
   const { data: competences, loading: loadingCompetences, error: errorLoadingCompetences } = useQuery<AllCompetencesResult>(ALL_COMPETENCES_QUERY);
   const { data: education, loading: loadingEducation, error: errorLoadingEducation } = useQuery<AllEducationResult>(ALL_EDUCATION_QUERY);
 
@@ -83,7 +83,7 @@ const JobSeekerProfileForm = ({ jobSeekerProfile, formChangeCallback }: Props) =
   const handleSelectChange = (event: any, isArray: boolean, formProperty: string) => {
     const newForm: JobSeekerProfile = {
       ...form,
-      [formProperty]: isArray ? (event ? event.map((old: any) => old.value) : []) : (event ? event.value : ''),
+      [formProperty]: event //isArray ? (event ? event.map((old: any) => old.value) : []) : (event ? event.value : ''),
     };
 
     setForm(newForm);
@@ -122,6 +122,7 @@ const JobSeekerProfileForm = ({ jobSeekerProfile, formChangeCallback }: Props) =
       <Input value={form.salary} onChange={handleInputChange} name="salary" required type="number" label="Desired Salary" placeholder="40000" />
       <Input value={form.location} onChange={handleInputChange} name="location" required type="location" label="Location" placeholder="Melbourne" />
       <Select
+        required={true}
         label="Select your skills"
         isMulti
         name="competence"
@@ -133,6 +134,7 @@ const JobSeekerProfileForm = ({ jobSeekerProfile, formChangeCallback }: Props) =
         label="Select your education"
         isMulti
         name="education"
+        value={{ label: 'Test', value: 'test' }}
         options={mapEducationToSelect(education)}
         classNamePrefix="select"
         onChange={(e: any) => handleSelectChange(e, true, 'education')}
@@ -144,14 +146,12 @@ const JobSeekerProfileForm = ({ jobSeekerProfile, formChangeCallback }: Props) =
         classNamePrefix="select"
         onChange={(e: any) => handleSelectChange(e, false, 'typeofwork')}
       />
-      <label>Select the Prioity of the fields(The total of these fields must equal 1)</label>
-      <div className="Priorities1">
-        <Input value={form.salary_p} onChange={handleInputChange}  name="salary_p" required type="salary_p" label="Salary Prioity" placeholder="0.20" />
-        <Input value={form.education_p} onChange={handleInputChange} name="education_p" required type="education_p" label="Education Prioity" placeholder="0.20" />
-        <Input value={form.location_p} onChange={handleInputChange} name="location_p" required type="location_p" label="Location Prioity" placeholder="0.20" />
-        <Input value={form.competence_p} onChange={handleInputChange} name="competence_p" required type="competence" label="Competence Prioity" placeholder="0.20" />
-        <Input value={form.typeofwork_p} onChange={handleInputChange} name="typeofwork_p" required type="typeofwork_p" label="Work Prioity" placeholder="0.20" />
-      </div>
+      <p>Enter your prioity in terms of which fields you value more. The total of these fields must equal to 1. </p>
+      <Input value={form.salary_p} onChange={handleInputChange}  name="salary_p" required type="salary_p" label="Salary Prioity" placeholder="0.20" />
+      <Input value={form.education_p} onChange={handleInputChange} name="education_p" required type="education_p" label="Education Prioity" placeholder="0.20" />
+      <Input value={form.location_p} onChange={handleInputChange} name="location_p" required type="location_p" label="Location Prioity" placeholder="0.20" />
+      <Input value={form.competence_p} onChange={handleInputChange} name="competence_p" required type="competence" label="Competence Prioity" placeholder="0.20" />
+      <Input value={form.typeofwork_p} onChange={handleInputChange} name="typeofwork_p" required type="typeofwork_p" label="Work Prioity" placeholder="0.20" />
     </div>
   )
 }

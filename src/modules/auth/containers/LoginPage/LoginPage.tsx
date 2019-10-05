@@ -26,8 +26,6 @@ const LoginPage = () => {
     email: 'jobSeeker@match.com',
     password: '',
     showRegisterRedirect: false
-    
-    
   });
 
   const handleSubmit = (event: FormEvent) => {

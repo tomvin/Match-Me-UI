@@ -10,4 +10,9 @@ export interface IJobSeeker {
   location: string;
   typeofwork: number;
   salary: number;
+  education_p: number;
+  competence_p: number;
+  location_p: number;
+  typeofwork_p: number;
+  salary_p: number;
 }

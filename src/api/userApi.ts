@@ -22,6 +22,21 @@ const login = async (email: string, password: string): Promise<IUser | null> => 
       jobSeeker{
         _id
         name
+        phone
+        location
+        typeofwork
+        salary
+        education_p
+        competence_p
+        location_p
+        typeofwork_p
+        salary_p
+        competence {
+          _id
+        }
+        education {
+          _id
+        }
       }
       company{
         _id
