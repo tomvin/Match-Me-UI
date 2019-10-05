@@ -7,12 +7,10 @@ import Input from '../../../shared/components/Input/Input';
 import Button from '../../../shared/components/Button/Button';
 import { useDispatch } from 'react-redux';
 import { useSelector } from "react-redux";
-import { IAuthenticationState, loginSuccess } from "../../../../redux/slices/authenticationSlice";
+import { login, IAuthenticationState, fetchUser, modifyLoginForm } from "../../../../redux/slices/authenticationSlice";
 import { IAppState } from '../../../../redux/appState';
 import { Redirect } from 'react-router-dom';
 import { EUserType } from '../../../../models/UserType';
-import { useLazyQuery } from '@apollo/react-hooks';
-import { CHECK_USER_QUERY, CheckUserResult, CheckUserVariables } from '../../../../api/queries/checkUserQuery';
 
 interface LoginPageState {
   email: string;
@@ -20,33 +18,28 @@ interface LoginPageState {
   showRegisterRedirect: boolean;
 }
 
-const INITIAL_STATE: LoginPageState = {
-  email: 'tom@email.com',
-  password: '1234',
-  showRegisterRedirect: false,
-};
-
 const LoginPage = () => {
   const dispatch = useDispatch();
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
-  const [state, setState]: [LoginPageState, any] = useState(INITIAL_STATE);
-  const [attemptLogin, { loading: attemptingLogin, error: loginError, data: loginResult }] = useLazyQuery<CheckUserResult, CheckUserVariables>(CHECK_USER_QUERY, { fetchPolicy: 'network-only' });
-
-  if (loginResult && loginResult.checkUser) {
-    dispatch(loginSuccess({ user: loginResult.checkUser }));
-  }
+  const [state, setState] = useState<LoginPageState>({
+    email: 'jobSeeker@match.com',
+    password: '',
+    showRegisterRedirect: false
+  });
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    if (attemptingLogin) {
+    if (authState.loggingIn) {
       return;
     }
 
-    attemptLogin({ variables: {email: state.email, password: state.password}});
+    dispatch(login());
+    dispatch(fetchUser(state.email, state.password));
   }
 
   const handleInputChange = ({target: {name, value}}: any) => {
+    dispatch(modifyLoginForm());
     setState({
       ...state,
       [name]: value
@@ -54,6 +47,7 @@ const LoginPage = () => {
   }
 
   const handleRegisterClick = (): any => {
+    dispatch(modifyLoginForm());
     setState({
       ...state,
       showRegisterRedirect: true
@@ -75,22 +69,22 @@ const LoginPage = () => {
         <form className="login-page-card__form" onSubmit={handleSubmit}>
           <Input value={state.email} onChange={handleInputChange} name="email" required type="email" label="Email Address" placeholder="username@email.com" />
           <Input value={state.password} onChange={handleInputChange} name="password" required type="password" label="Password" placeholder="******" />
-          { loginError ? <p className="color--red">Invalid email or password. </p> : ''}
+          { authState.loginFailed ? <p className="color--red">{authState.loginFailureMessage}</p> : ''}
           <div className="loginButton">
-          <Button 
-            loading={attemptingLogin} 
-            className="form__button login" 
-            variant="primary" 
-            type="submit">
-            Login
-          </Button>
-          <Button 
-            className="form__button"
-            onClick={handleRegisterClick}
-            variant="primary" 
-            type="submit">
-            Register
-          </Button>
+            <Button 
+              loading={authState.loggingIn} 
+              className="form__button login" 
+              variant="primary" 
+              type="submit">
+              Login
+            </Button>
+            <Button 
+              className="form__button"
+              onClick={handleRegisterClick}
+              variant="primary" 
+              type="submit">
+              Register
+            </Button>
           </div>
         </form>
       </Card>
