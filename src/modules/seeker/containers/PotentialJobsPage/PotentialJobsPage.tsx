@@ -16,7 +16,12 @@ import { JobSeekerMatchCountVariables } from '../../../../api/queries/jobSeekerM
 
 const PotentialJobsPage = () => {  
   const user: LoggedInUser = useSelector(loggedInUserSelector);
-  const { loading, error, data } = useQuery<JobSeekerMatchResult, JobSeekerMatchCountVariables>(JOB_SEEKER_MATCH_QUERY, { variables: { jobSeekerUserId: user._id } });
+  const { loading, error, data } = useQuery<JobSeekerMatchResult, JobSeekerMatchCountVariables>(JOB_SEEKER_MATCH_QUERY, { 
+    variables: { 
+      jobSeekerUserId: user._id 
+    },
+    fetchPolicy: 'network-only'
+  });
 
   const potentialJobsToListItems = (matches: JobSeekerMatch[]): ListItemVM[] => matches.sort((jobA, jobB) => jobB.score - jobA.score).map<ListItemVM>(potentialJob => ({
     type: 'image',

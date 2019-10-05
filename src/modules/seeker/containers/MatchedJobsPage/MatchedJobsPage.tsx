@@ -21,7 +21,8 @@ const MatchedJobsPage = () => {
     {
       variables: {
         userId: user ? user._id : '-1'
-      }
+      },
+      fetchPolicy: 'network-only'
     });
 
   const jobsToListItems = (jobs: IJob[]): ListItemVM[] => jobs.map<ListItemVM>(job => ({

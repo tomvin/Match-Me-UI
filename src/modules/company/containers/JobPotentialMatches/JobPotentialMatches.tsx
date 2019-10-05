@@ -12,7 +12,13 @@ interface Props {
 }
 
 const JobPotentialMatches = (props: Props) => {
-  const { loading: loadingJobMatches, error: errorLoadingJobMatches, data: jobMatches } = useQuery<JobMatchResult, JobMatchVariables>(JOB_MATCH_QUERY, { variables: { jobId: props.jobId } });
+  const { loading: loadingJobMatches, error: errorLoadingJobMatches, data: jobMatches } = useQuery<JobMatchResult, JobMatchVariables>(
+    JOB_MATCH_QUERY, { 
+      fetchPolicy: 'network-only',
+      variables: { 
+        jobId: props.jobId 
+      } 
+    });
   
   const buildPotentialMatchUsersList = (jobMatches: JobMatchResult | undefined): ListItemVM[] => {
     if (!jobMatches || !jobMatches.jobMatch) {
