@@ -38,8 +38,8 @@ interface RegisterPageState {
   }
 
 const RegisterPage = () => {
-  const [createJobSeeker, { loading: createJobSeekerLoading, data: createJobSeekerResult }] = useMutation<CreateJobSeekerResult, CreateJobSeekerVariables>(CREATE_JOB_SEEKER);
-  const [createCompany, { loading: createCompanyLoading, data: createCompanyResult }] = useMutation<CreateCompanyResult, CreateCompanyVariables>(CREATE_COMPANY);
+  const [createJobSeeker, { data: createJobSeekerResult }] = useMutation<CreateJobSeekerResult, CreateJobSeekerVariables>(CREATE_JOB_SEEKER);
+  const [createCompany] = useMutation<CreateCompanyResult, CreateCompanyVariables>(CREATE_COMPANY);
 
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
   const [state, setState]: [RegisterPageState, any] = useState({
@@ -208,7 +208,7 @@ if(state.option === "Company")
   `);
 
 const { data: competenceData } = useQuery(gql`
-  query AllCompetences {
+  query Competences {
     competence {
       _id
       skill
@@ -244,8 +244,6 @@ const { data: competenceData } = useQuery(gql`
         <form className="register-page-card__form" onSubmit={handleSubmit}>
           <Input value={state.email} onChange={handleInputChange} name="email" required type="email" label="Email Address" placeholder="username@email.com" />
           <Input value={state.password} onChange={handleInputChange} name="password" required type="password" label="Password" placeholder="******" />
-
-          { authState.loginFailed ? <p className="color--red">{authState.loginFailureMessage}</p> : ''}
           <p className="register-page-card__subtitle">Are you a Company posting jobs or looking for jobs?</p>
           <label>
             <input
@@ -363,11 +361,7 @@ export default pageWrapper(
   RegisterPage, 
   { 
     authorisedUserTypes: [
-      EUserType.Unknown,
-      EUserType.Company,
-      EUserType.Admin,
-      EUserType.JobSeeker
-
+      EUserType.Unknown
     ] 
   }
 );

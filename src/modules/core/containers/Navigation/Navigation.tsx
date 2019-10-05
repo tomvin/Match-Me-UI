@@ -1,13 +1,13 @@
 import React from 'react'
 import './Navigation.scss';
 import { NavItem } from '../../components/NavigationItem/NavigationItem';
-import { IUser } from '../../../../models/User';
 import { useSelector } from 'react-redux';
-import { IAppState } from '../../../../redux/appState';
 import NavigationItemList from '../../components/NavigationItemList/NavigationItemList';
+import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
+import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
 
 const Navigation = () => {
-  const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
+  const user: LoggedInUser = useSelector(loggedInUserSelector);
   let navItems: NavItem[] = [
     // { label: 'Profile', route: '/profile', icon: ['far', 'user'] }
   ];
@@ -24,6 +24,7 @@ const Navigation = () => {
     navItems = [
       { label: 'My Matches', route: '/matched-jobs', icon: ['far', 'handshake'] },
       { label: 'Potential Jobs', route: '/potential-jobs', icon: ['fas', 'search'] },
+      { label: 'My Profile', route: '/profile', icon: ['fas', 'user'] },
       ...navItems
     ];
   }

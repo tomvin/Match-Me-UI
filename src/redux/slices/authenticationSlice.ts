@@ -4,13 +4,14 @@ import { EUserType } from '../../models/UserType';
 import { AppThunk } from '../configureStore';
 import userApi from '../../api/userApi';
 import { IAppState } from '../appState';
+import { LoggedInUser, CheckUserResult } from '../../api/queries/checkUserQuery';
 
 export interface IAuthenticationState {
   loggedIn: boolean;
   loggingIn: boolean;
   loginFailed: boolean;
   loginFailureMessage: string | null;
-  user: IUser | null;
+  user: LoggedInUser | null;
   userType: EUserType;
 }
 
@@ -28,24 +29,24 @@ interface ILoginFail {
 }
 
 interface ILoginSuccess {
-  user: IUser;
+  user: LoggedInUser;
 }
 
 export const fetchUser: AppThunk = (
   email: string, password: string
 ) => async (dispatch, state) => {
   try {
-    const user: IUser | null = await userApi.login(email, password)
+    const user: CheckUserResult = await userApi.login(email, password)
 
-    if (!user) {
+    if (!user || !user.checkUser) {
       dispatch(loginFail({ reasonForFailure: 'Invalid email address or password. ' }))
       return;
     } 
 
-    dispatch(loginSuccess({user}));
+    dispatch(loginSuccess({ user: user.checkUser }));
   } catch (err) {
     console.error(err);
-    dispatch(loginFail({ reasonForFailure: 'Error trying to login. ' }))
+    dispatch(loginFail({ reasonForFailure: 'Invalid email address or password. ' }))
   }
 };
 
@@ -87,7 +88,7 @@ export const userSelector = createSelector(
   (user: IUser) => user
 );
 
-const determineUserType = (user: IUser | undefined): EUserType => {
+const determineUserType = (user: LoggedInUser): EUserType => {
   if (!user) {
     return EUserType.Unknown;
   }

@@ -1,22 +1,24 @@
 import React from 'react'
-import { IJobSeekerMatch } from '../../../../models/JobSeekerMatch';
 import './PotentialJobsPage.scss';
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper';
 import List from '../../../shared/components/List/List';
 import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels';
 import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import Loading from '../../../shared/components/Loading/Loading';
 import Error from '../../../shared/components/Error/Error';
 import { useSelector } from 'react-redux';
-import { IAppState } from '../../../../redux/appState';
 import { EUserType } from '../../../../models/UserType';
 import { convertMatchScoreToPillVariant } from '../../../../utils/ConvertMatchScoreToPillVariant';
+import { JOB_SEEKER_MATCH_QUERY, JobSeekerMatchResult, JobSeekerMatch } from '../../../../api/queries/jobSeekerMatchQuery';
+import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
+import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
+import { JobSeekerMatchCountVariables } from '../../../../api/queries/jobSeekerMatchCountQuery';
 
 const PotentialJobsPage = () => {  
-  const userId = useSelector((state: IAppState) => state.authentication.user ? state.authentication.user._id : -1)
+  const user: LoggedInUser = useSelector(loggedInUserSelector);
+  const { loading, error, data } = useQuery<JobSeekerMatchResult, JobSeekerMatchCountVariables>(JOB_SEEKER_MATCH_QUERY, { variables: { jobSeekerUserId: user._id } });
 
-  const potentialJobsToListItems = (jobs: IJobSeekerMatch[]): ListItemVM[] => jobs.sort((jobA, jobB) => jobB.score - jobA.score).map<ListItemVM>(potentialJob => ({
+  const potentialJobsToListItems = (matches: JobSeekerMatch[]): ListItemVM[] => matches.sort((jobA, jobB) => jobB.score - jobA.score).map<ListItemVM>(potentialJob => ({
     type: 'image',
     route: `/potential-jobs/${potentialJob.job._id}`,
     imageUrl: potentialJob.job.company.logoUrl,
@@ -27,34 +29,16 @@ const PotentialJobsPage = () => {
     variant: 'primary'
   }));
 
-  const { loading, error, data } = useQuery(gql`
-  query JobSeekerMatch{
-    jobSeekerMatch(jobSeekerUserId:"${userId}"){
-      score
-      job{
-         _id
-        name
-        description
-        company{
-          _id
-          name
-          logoUrl
-        }
-      }
-    }
-  }
-  `);
-
   if (loading) return <Loading />;
-  if (error) return <Error />;
+  if (error || !data) return <Error />;
 
   return (
     <div className="potential-jobs">
       <div className="search-info">
-        We have found {data.jobSeekerMatch.length} jobs you might be interested in!
+        We have found {data.jobSeekerMatch ? data.jobSeekerMatch.length : 0} jobs you might be interested in!
       </div>
       <List 
-        items={potentialJobsToListItems(data.jobSeekerMatch)}
+        items={potentialJobsToListItems(data.jobSeekerMatch ? data.jobSeekerMatch : [])}
       />
     </div>
   )

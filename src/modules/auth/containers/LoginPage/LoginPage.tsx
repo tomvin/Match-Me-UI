@@ -21,13 +21,10 @@ interface LoginPageState {
 const LoginPage = () => {
   const dispatch = useDispatch();
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
-  const [state, setState]: [LoginPageState, any] = useState({
-    attemptingLogin: false,
-    email: 'jobSeeker@match.com',
-    password: '',
+  const [state, setState] = useState<LoginPageState>({
+    email: 'tom@email.com',
+    password: '1234',
     showRegisterRedirect: false
-    
-    
   });
 
   const handleSubmit = (event: FormEvent) => {
@@ -74,20 +71,20 @@ const LoginPage = () => {
           <Input value={state.password} onChange={handleInputChange} name="password" required type="password" label="Password" placeholder="******" />
           { authState.loginFailed ? <p className="color--red">{authState.loginFailureMessage}</p> : ''}
           <div className="loginButton">
-          <Button 
-            loading={authState.loggingIn} 
-            className="form__button login" 
-            variant="primary" 
-            type="submit">
-            Login
-          </Button>
-          <Button 
-            className="form__button"
-            onClick={handleRegisterClick}
-            variant="primary" 
-            type="submit">
-            Register
-          </Button>
+            <Button 
+              loading={authState.loggingIn} 
+              className="form__button login" 
+              variant="primary" 
+              type="submit">
+              Login
+            </Button>
+            <Button 
+              className="form__button"
+              onClick={handleRegisterClick}
+              variant="primary" 
+              type="submit">
+              Register
+            </Button>
           </div>
         </form>
       </Card>
@@ -101,9 +98,9 @@ export default pageWrapper(
   { 
     authorisedUserTypes: [
       EUserType.Unknown,
-      EUserType.Company,
       EUserType.Admin,
-      EUserType.JobSeeker
+      EUserType.JobSeeker,
+      EUserType.Company
     ] 
   }
 );

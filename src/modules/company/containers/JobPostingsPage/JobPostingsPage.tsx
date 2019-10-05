@@ -3,23 +3,23 @@ import { Link } from 'react-router-dom'
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper'
 import { EUserType } from '../../../../models/UserType'
 import List from '../../../shared/components/List/List'
-import { IJob } from '../../../../models/Job'
 import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels'
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import Loading from '../../../shared/components/Loading/Loading'
 import Error from '../../../shared/components/Error/Error'
 import { useSelector } from 'react-redux'
-import { userSelector } from '../../../../redux/slices/authenticationSlice'
-import { IUser } from '../../../../models/User'
 import './JobPostingsPage.scss'
+import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors'
+import { LoggedInUser } from '../../../../api/queries/checkUserQuery'
+import { COMPANY_JOB_POSTINGS_QUERY, CompanyJobPostingsResult, CompanyJobPosting } from '../../../../api/queries/companyJobPostingsQuery';
 
 const JobPostingsPage = () => {
-  const user: IUser = useSelector(userSelector);
+  const user: LoggedInUser = useSelector(loggedInUserSelector);
+  const { loading, error, data } = useQuery<CompanyJobPostingsResult>(COMPANY_JOB_POSTINGS_QUERY);
+  
+  const filterOutJobsNotPartOfUsersCompany = (jobs: CompanyJobPosting[]) => jobs.filter(job => job.company._id === (user.company ? user.company._id : -99999));
 
-  const filterOutJobsNotPartOfUsersCompany = (jobs: IJob[]) => jobs.filter(job => job.company._id === (user.company ? user.company._id : -99999));
-
-  const convertJobsToListItems = (jobs: IJob[]): ListItemVM[] => {
+  const convertJobsToListItems = (jobs: CompanyJobPosting[]): ListItemVM[] => {
     return jobs.map<ListItemVM>(job => ({
       type: 'icon',
       icon: 'file-alt',
@@ -40,30 +40,13 @@ const JobPostingsPage = () => {
    * to pass to the <List> component.
    * @param jobs Jobs to filter and pass to the job listing <List> component.
    */
-  const buildJobPostings = (jobs: IJob[]) => convertJobsToListItems(filterOutJobsNotPartOfUsersCompany(jobs));
-
-  /**
-   * Currently to get a list of relevant jobs I have to query for
-   * all jobs in the whole db. 
-   */
-  const { loading, error, data } = useQuery(gql`
-    query CompanyJobPostings {
-      jobs{
-        _id
-        name
-        description
-        company{
-          _id
-        }
-        jobSeekerInterest{
-          _id
-        }
-        completeJobSeekerMatch{
-          _id
-        }
-      }
+  const buildJobPostingsFromQueryResult = (data: CompanyJobPostingsResult | undefined): ListItemVM[] => {
+    if (!data || !data.companyJobPostings) {
+      return [];
     }
-  `);
+
+    return convertJobsToListItems(filterOutJobsNotPartOfUsersCompany(data.companyJobPostings))
+  };
 
   if (loading) return <Loading />;
   if (error) return <Error />;
@@ -71,7 +54,7 @@ const JobPostingsPage = () => {
   return (
     <div className="job-postings">
       <Link className="job-postings__new" to="/company/new">Create new job</Link>
-      <List items={buildJobPostings(data.jobs)}></List>
+      <List items={buildJobPostingsFromQueryResult(data)}></List>
     </div>
   )
 }
