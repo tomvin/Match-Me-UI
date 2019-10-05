@@ -10,6 +10,11 @@ interface Props extends ReactSelectProps {
   labelClassName?: string;
 }
 
+export interface SelectItem<T> {
+  label: string;
+  value: T;
+}
+
 const CUSTOM_STYLE: Styles = {
   control: (provided, state) => ({
     ...provided,

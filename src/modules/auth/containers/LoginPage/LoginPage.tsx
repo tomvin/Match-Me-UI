@@ -22,8 +22,8 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
   const [state, setState] = useState<LoginPageState>({
-    email: 'jobSeeker@match.com',
-    password: '',
+    email: 'tom@email.com',
+    password: '1234',
     showRegisterRedirect: false
   });
 
@@ -97,7 +97,10 @@ export default pageWrapper(
   LoginPage, 
   { 
     authorisedUserTypes: [
-      EUserType.Unknown
+      EUserType.Unknown,
+      EUserType.Admin,
+      EUserType.JobSeeker,
+      EUserType.Company
     ] 
   }
 );

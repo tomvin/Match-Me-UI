@@ -7,10 +7,12 @@ import { AllEducationResult, ALL_EDUCATION_QUERY } from '../../../../api/queries
 import { TYPE_OF_WORK_SELECT_OPTIONS } from '../../../../utils/TypeOfWorkSelectOptions';
 import Loading from '../Loading/Loading';
 import Error from '../Error/Error';
-import Select from '../Select/Select';
+import Select, { SelectItem } from '../Select/Select';
+import { mapCompetencesToSelect } from '../../../../utils/MapCompetenceToSelectItem';
+import { mapEducationsToSelect } from '../../../../utils/MapEducationToSelectItem';
 
 interface Props {
-  jobSeekerProfile: JobSeekerProfile;
+  jobSeekerProfile?: JobSeekerProfile;
   formChangeCallback: (form: JobSeekerProfile) => any;
 }
 
@@ -19,9 +21,9 @@ export interface JobSeekerProfile {
   location: string;
   salary: number;
   phone: string;
-  competence: string[];
-  education: string[];
-  typeofwork: number;
+  competence: SelectItem<string>[];
+  education: SelectItem<string>[];
+  typeofwork: SelectItem<any> | null;
   education_p: number;
   competence_p: number;
   salary_p: number;
@@ -36,7 +38,7 @@ export const DEFAULT_JOB_SEEKER_PROFILE: JobSeekerProfile = {
   phone: '',
   competence: [],
   education: [],
-  typeofwork: 0,
+  typeofwork: null,
   education_p: 0.2,
   competence_p: 0.2,
   salary_p: 0.2,
@@ -90,30 +92,15 @@ const JobSeekerProfileForm = ({ jobSeekerProfile, formChangeCallback }: Props) =
     formChangeCallback(newForm);
   }
 
-  const mapCompetencesToSelect = (competences: AllCompetencesResult | undefined): any[] => {
-    if (!competences || !competences.competence) {
-      return [];
-    }
-
-    return competences.competence.map((competence: any) => ({
-      value: competence._id,
-      label: `${competence.skill} : ${competence.level}`
-    }));
-  }
-
-  const mapEducationToSelect = (educations: AllEducationResult | undefined): any[] => {
-    if (!educations || !educations.education) {
-      return [];
-    }
-
-    return educations.education.map((education: any) => ({
-      value: education._id,
-      label: `${education.level} : ${education.field}`
-    }));
-  }
-
   if (loadingCompetences || loadingEducation) return <Loading />;
-  if (errorLoadingCompetences || errorLoadingEducation) return <Error errorDescription="There's a problem loading a education and competence data." />
+  if (errorLoadingCompetences || 
+    errorLoadingEducation ||
+    !competences ||
+    !education ||
+    !competences.competence ||
+    !education.education) {
+    return <Error errorDescription="There's a problem loading a education and competence data." />
+  }
 
   return (
     <div className="job-seeker-profile-form">
@@ -126,7 +113,8 @@ const JobSeekerProfileForm = ({ jobSeekerProfile, formChangeCallback }: Props) =
         label="Select your skills"
         isMulti
         name="competence"
-        options={mapCompetencesToSelect(competences)}
+        value={form.competence}
+        options={mapCompetencesToSelect(competences.competence)}
         classNamePrefix="select"
         onChange={(e: any) => handleSelectChange(e, true, 'competence')}
       />
@@ -134,14 +122,15 @@ const JobSeekerProfileForm = ({ jobSeekerProfile, formChangeCallback }: Props) =
         label="Select your education"
         isMulti
         name="education"
-        value={{ label: 'Test', value: 'test' }}
-        options={mapEducationToSelect(education)}
+        value={form.education}
+        options={mapEducationsToSelect(education.education)}
         classNamePrefix="select"
         onChange={(e: any) => handleSelectChange(e, true, 'education')}
       />
       <Select
         label="Select your work type"
         name="typeofwork"
+        value={form.typeofwork as SelectItem<any>}
         options={TYPE_OF_WORK_SELECT_OPTIONS}
         classNamePrefix="select"
         onChange={(e: any) => handleSelectChange(e, false, 'typeofwork')}

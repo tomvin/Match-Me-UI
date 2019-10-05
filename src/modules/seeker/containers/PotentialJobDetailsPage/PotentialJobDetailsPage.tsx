@@ -39,11 +39,7 @@ const PotentialJobDetailsPage = (props: RouteComponentProps<Params>) => {
   const [acceptJob, { loading: acceptJobLoading, data: acceptJobResult }] = useMutation<AcceptJobResult, AcceptJobVariables>(ACCEPT_JOB);
   const { loading, error, data } = useQuery(GET_JOBS);
   const user: LoggedInUser = useSelector(loggedInUserSelector);
-
-  if (!user) {
-    return <Error route="/login" />;
-  }
-
+  
   const getJobFromQueryResult = (jobs: IJob[]): IJob | undefined => {
     if (!jobs) {
       return undefined;
