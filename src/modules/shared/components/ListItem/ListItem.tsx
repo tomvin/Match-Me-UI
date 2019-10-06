@@ -1,10 +1,13 @@
 import React from 'react'
 import './ListItem.scss';
 import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pill from '../Pill/Pill';
 import { trimStringAddEllipsis } from '../../../../utils/TrimString';
 import { ListItemVM } from './ListItemModels';
+
 
 interface MatchListItemProps {
   className?: string;
@@ -16,14 +19,20 @@ interface Props {
   jobId: string
 }
 
-const onDelete = (e: any, jobId: string) => {
-  console.log("delete", jobId);
-  e.preventDefault();
-}
-
 const DeleteButton = (props: Props) => {
+  const [deleteJob] = useMutation(gql`
+      mutation {
+        deleteJob(jobId: "${props.jobId}")
+      }
+    `);
+
+  const onDelete = (e: any) => {
+    deleteJob();
+    e.preventDefault();
+  }
+
   return (
-    <div className="list-item__delete" onClick={(e: any) => onDelete(e, props.jobId)}>
+    <div className="list-item__delete" onClick={onDelete}>
       <FontAwesomeIcon icon="trash-alt" />
     </div>
   );
