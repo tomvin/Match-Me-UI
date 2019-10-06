@@ -12,6 +12,7 @@ import './JobPostingsPage.scss'
 import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors'
 import { LoggedInUser } from '../../../../api/queries/checkUserQuery'
 import { COMPANY_JOB_POSTINGS_QUERY, CompanyJobPostingsResult, CompanyJobPosting } from '../../../../api/queries/companyJobPostingsQuery';
+import Button from '../../../shared/components/Button/Button'
 
 const JobPostingsPage = () => {
   const user: LoggedInUser = useSelector(loggedInUserSelector);
@@ -53,8 +54,10 @@ const JobPostingsPage = () => {
   if (error) return <Error />;
 
   return (
-    <div className="job-postings">
-      <Link className="job-postings__new" to="/company/new">Create new job</Link>
+    <div className="job-postings-page">
+      <Link className="create-new-job" to="/company/jobs/new">
+        <Button variant="primary" icon="plus">Create New Job</Button>
+      </Link>
       <List canDelete={true} items={buildJobPostingsFromQueryResult(data)}></List>
     </div>
   )

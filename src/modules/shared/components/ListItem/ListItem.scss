@@ -11,7 +11,19 @@
   &__delete {
     padding: var(--spacing-1);
     margin-left: var(--spacing-3);
-    color: var(--red-600);
+    color: var(--red-300);
+    background: #f7fafc;
+    border-radius: 6px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      color: var(--red-600);
+      cursor: pointer;
+    }
   }
 
   &__left {

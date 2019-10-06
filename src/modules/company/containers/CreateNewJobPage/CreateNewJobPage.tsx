@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
+import './CreateNewJobPage.scss';
 import { useSelector } from "react-redux";
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import pageWrapper from '../../shared/components/PageWrapper/PageWrapper'
-import Card from '../../shared/components/Card/Card';
-import Select, { SelectItem } from '../../shared/components/Select/Select';
-import Input from '../../shared/components/Input/Input';
-import { mapCompetencesToSelect } from '../../../utils/MapCompetenceToSelectItem';
-import {mapEducationsToSelect} from '../../../utils/MapEducationToSelectItem';
-import { ALL_COMPETENCES_QUERY, AllCompetencesResult } from '../../../api/queries/allCompetencesQuery';
-import { AllEducationResult, ALL_EDUCATION_QUERY } from '../../../api/queries/allEducationQuery';
-import { CreateJobVariables, CreateJobResult, CREATE_JOB } from '../../../api/mutations/createJobMutation';
-import { IAuthenticationState } from "../../../redux/slices/authenticationSlice";
-import { IAppState } from '../../../redux/appState';
-import { EUserType } from '../../../models/UserType'
-import { TYPE_OF_WORK_SELECT_OPTIONS } from '../../../utils/TypeOfWorkSelectOptions';
+import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper'
+import Card from '../../../shared/components/Card/Card';
+import Select, { SelectItem } from '../../../shared/components/Select/Select';
+import Input from '../../../shared/components/Input/Input';
+import { mapCompetencesToSelect } from '../../../../utils/MapCompetenceToSelectItem';
+import {mapEducationsToSelect} from '../../../../utils/MapEducationToSelectItem';
+import { ALL_COMPETENCES_QUERY, AllCompetencesResult } from '../../../../api/queries/allCompetencesQuery';
+import { AllEducationResult, ALL_EDUCATION_QUERY } from '../../../../api/queries/allEducationQuery';
+import { CreateJobVariables, CreateJobResult, CREATE_JOB } from '../../../../api/mutations/createJobMutation';
+import { IAuthenticationState } from "../../../../redux/slices/authenticationSlice";
+import { IAppState } from '../../../../redux/appState';
+import { EUserType } from '../../../../models/UserType'
+import { TYPE_OF_WORK_SELECT_OPTIONS } from '../../../../utils/TypeOfWorkSelectOptions';
+import Loading from '../../../shared/components/Loading/Loading';
+import Error from '../../../shared/components/Error/Error';
+import Button from '../../../shared/components/Button/Button';
+import { Redirect } from 'react-router-dom';
 
 interface Job {
     jobTitle?: string,
@@ -49,7 +54,7 @@ const CreateNewJob = () => {
     const [ newJob, setNewJob ] = useState<Job>({});
     const { data: competenceData, loading: loadingCompetences, error: errorLoadingCompetences } = useQuery<AllCompetencesResult>(ALL_COMPETENCES_QUERY);
     const { data: educationData, loading: loadingEducation, error: errorLoadingEducation } = useQuery<AllEducationResult>(ALL_EDUCATION_QUERY);
-    const [createJob, { data: createJobResult, error: errorCreateJob }] = useMutation<CreateJobResult, CreateJobVariables>(CREATE_JOB);
+    const [createJob, { data: createJobResult, error: errorCreateJob, loading: creatingJob }] = useMutation<CreateJobResult, CreateJobVariables>(CREATE_JOB);
     const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
 
     const handleSelectChange = (value: any, action: any) => {
@@ -62,14 +67,15 @@ const CreateNewJob = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         const newJobVariables = transformNewJob(authState, newJob);
-        createJob({ variables: newJobVariables });
         event.preventDefault();
+        createJob({ variables: newJobVariables });
         // redirect to job postings page
     }
 
-    if (loadingCompetences || loadingEducation) return <div>Loading...</div>;
-    if (!competenceData || !competenceData.competence || !educationData || !educationData.education || errorLoadingCompetences || errorLoadingEducation) return <div>Error!</div>;
-
+    if (loadingCompetences || loadingEducation) return <Loading />;
+    if (!competenceData || !competenceData.competence || !educationData || !educationData.education || errorLoadingCompetences || errorLoadingEducation) return <Error />;
+    if (createJobResult && createJobResult.createJob && createJobResult.createJob._id) return <Redirect to={`/company/jobs/${createJobResult.createJob._id}`} />
+    
     return (
         <div className="profile-page">
             <Card>
@@ -105,7 +111,15 @@ const CreateNewJob = () => {
                         classNamePrefix="select"
                         onChange={handleSelectChange}
                     />
-                    <input type="submit" value="Create" className="button button--primary" />
+                    <Button 
+                        className="create-job-button"
+                        type="submit" 
+                        variant="primary" 
+                        icon="plus" 
+                        loading={creatingJob}
+                    >
+                        Create Job
+                    </Button>
                 </form>
                 { createJobResult ? <div>Job posted successfully! </div> : '' }
                 { errorCreateJob ? <div>Job cannot be created :(</div> : '' }

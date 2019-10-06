@@ -20,7 +20,7 @@ interface Props {
 
 const DeleteButton = (props: Props) => {
   return (
-    <div className="list-item__delete" onClick={(e: any) => props.onDelete(e, props.jobId)}>
+    <div title="Delete Job" className="list-item__delete" onClick={(e: any) => props.onDelete(e, props.jobId)}>
       <FontAwesomeIcon icon="trash-alt" />
     </div>
   );

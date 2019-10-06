@@ -24,7 +24,7 @@ import JobPostingUserMatchPage from '../../../company/containers/JobPostingUserM
 import ProfilePage from '../../../seeker/containers/ProfilePage/ProfilePage';
 import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
 import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
-import CreateNewJob from '../../../company/containers/CreateNewJob';
+import CreateNewJob from '../../../company/containers/CreateNewJobPage/CreateNewJobPage';
 import CompanyProfilePage from '../../../company/containers/CompanyProfilePage/CompanyProfilePage';
 library.add(far, fas);
 
@@ -76,9 +76,9 @@ const App: React.FC = () => {
               <Route path="/company/jobs/:jobId/match/:userId" component={JobPostingUserMatchPage}></Route>
               <Route path="/register" component={RegisterPage}></Route>
               <Route path="/company/profile" component={CompanyProfilePage}></Route>
+              <Route path="/company/jobs/new" component={CreateNewJob}></Route>
               <Route path="/company/jobs/:jobId" component={JobPostingDetailsPage}></Route>
               <Route path="/company/jobs" component={JobPostingsPage}></Route>
-              <Route path="/company/new" component={CreateNewJob}></Route>
               <Route exact path="/" render={() => {
                 if (user && user.isCompany) {
                   return (<Redirect to="/company/jobs" />)
