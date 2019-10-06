@@ -12,14 +12,18 @@ interface MatchListItemProps {
   canDelete: boolean
 }
 
-const onDelete = (e: any) => {
-  console.log("delete");
+interface Props {
+  jobId: string
+}
+
+const onDelete = (e: any, jobId: string) => {
+  console.log("delete", jobId);
   e.preventDefault();
 }
 
-const DeleteButton = () => {
+const DeleteButton = (props: Props) => {
   return (
-    <div className="list-item__delete" onClick={onDelete}>
+    <div className="list-item__delete" onClick={(e: any) => onDelete(e, props.jobId)}>
       <FontAwesomeIcon icon="trash-alt" />
     </div>
   );
@@ -46,7 +50,7 @@ const ListItem = (props: MatchListItemProps) => {
           <div className="info__header">
             <div className="header__title">{props.item.title}</div>
             <Pill text={props.item.pillText} variant={props.item.pillVariant} />
-            { props.canDelete ? <DeleteButton /> : null }
+            { props.canDelete ? <DeleteButton jobId={props.item.jobId} /> : null }
           </div>
           <div className="info__description">{trimStringAddEllipsis(props.item.description, 90)}</div>
         </div>
