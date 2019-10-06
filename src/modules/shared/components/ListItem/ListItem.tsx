@@ -1,38 +1,26 @@
 import React from 'react'
 import './ListItem.scss';
 import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pill from '../Pill/Pill';
 import { trimStringAddEllipsis } from '../../../../utils/TrimString';
 import { ListItemVM } from './ListItemModels';
 
-
 interface MatchListItemProps {
   className?: string;
   item: ListItemVM;
-  canDelete: boolean
+  canDelete: boolean,
+  onDelete: (e: any, jobId: string) => void
 }
 
 interface Props {
-  jobId: string
+  jobId: string,
+  onDelete: (e: any, jobId: string) => void
 }
 
 const DeleteButton = (props: Props) => {
-  const [deleteJob] = useMutation(gql`
-      mutation {
-        deleteJob(jobId: "${props.jobId}")
-      }
-    `);
-
-  const onDelete = (e: any) => {
-    deleteJob();
-    e.preventDefault();
-  }
-
   return (
-    <div className="list-item__delete" onClick={onDelete}>
+    <div className="list-item__delete" onClick={(e: any) => props.onDelete(e, props.jobId)}>
       <FontAwesomeIcon icon="trash-alt" />
     </div>
   );
@@ -59,7 +47,7 @@ const ListItem = (props: MatchListItemProps) => {
           <div className="info__header">
             <div className="header__title">{props.item.title}</div>
             <Pill text={props.item.pillText} variant={props.item.pillVariant} />
-            { props.canDelete ? <DeleteButton jobId={props.item.jobId} /> : null }
+            { props.canDelete ? <DeleteButton jobId={props.item.jobId} onDelete={props.onDelete} /> : null }
           </div>
           <div className="info__description">{trimStringAddEllipsis(props.item.description, 90)}</div>
         </div>
