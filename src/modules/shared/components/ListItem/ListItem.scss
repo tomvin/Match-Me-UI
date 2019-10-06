@@ -8,6 +8,12 @@
   border-radius: 6px;
   transition: .15s ease all;
 
+  &__delete {
+    padding: var(--spacing-1);
+    margin-left: var(--spacing-3);
+    color: var(--red-600);
+  }
+
   &__left {
     display: flex;
     align-items: center;

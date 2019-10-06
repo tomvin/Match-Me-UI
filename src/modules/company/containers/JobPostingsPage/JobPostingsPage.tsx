@@ -21,6 +21,7 @@ const JobPostingsPage = () => {
 
   const convertJobsToListItems = (jobs: CompanyJobPosting[]): ListItemVM[] => {
     return jobs.map<ListItemVM>(job => ({
+      jobId: job._id,
       type: 'icon',
       icon: 'file-alt',
       route: `/company/jobs/${job._id}`,
@@ -54,7 +55,7 @@ const JobPostingsPage = () => {
   return (
     <div className="job-postings">
       <Link className="job-postings__new" to="/company/new">Create new job</Link>
-      <List items={buildJobPostingsFromQueryResult(data)}></List>
+      <List canDelete={true} items={buildJobPostingsFromQueryResult(data)}></List>
     </div>
   )
 }

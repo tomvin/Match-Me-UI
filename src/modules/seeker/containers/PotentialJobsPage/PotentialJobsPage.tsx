@@ -24,6 +24,7 @@ const PotentialJobsPage = () => {
   });
 
   const potentialJobsToListItems = (matches: JobSeekerMatch[]): ListItemVM[] => matches.sort((jobA, jobB) => jobB.score - jobA.score).map<ListItemVM>(potentialJob => ({
+    jobId: potentialJob.job._id,
     type: 'image',
     route: `/potential-jobs/${potentialJob.job._id}`,
     imageUrl: potentialJob.job.company.logoUrl,

@@ -26,6 +26,7 @@ const MatchedJobsPage = () => {
     });
 
   const jobsToListItems = (jobs: IJob[]): ListItemVM[] => jobs.map<ListItemVM>(job => ({
+    jobId: job._id,
     type: 'image',
     route: `/matched-jobs/${job._id}`,
     imageUrl: job.company.logoUrl,
