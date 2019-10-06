@@ -26,6 +26,7 @@ const JobPotentialMatches = (props: Props) => {
     }
 
     return jobMatches.jobMatch.map<ListItemVM>(match => ({
+      jobId: props.jobId,
       type: 'icon',
       route: `${props.jobId}/match/${match.user._id}`,
       title: match.user.email,

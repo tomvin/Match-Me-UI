@@ -21,6 +21,7 @@ const JobPostingsPage = () => {
 
   const convertJobsToListItems = (jobs: CompanyJobPosting[]): ListItemVM[] => {
     return jobs.map<ListItemVM>(job => ({
+      jobId: job._id,
       type: 'icon',
       icon: 'file-alt',
       route: `/company/jobs/${job._id}`,
