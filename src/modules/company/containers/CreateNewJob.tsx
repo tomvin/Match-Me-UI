@@ -13,6 +13,7 @@ import { CreateJobVariables, CreateJobResult, CREATE_JOB } from '../../../api/mu
 import { IAuthenticationState } from "../../../redux/slices/authenticationSlice";
 import { IAppState } from '../../../redux/appState';
 import { EUserType } from '../../../models/UserType'
+import { TYPE_OF_WORK_SELECT_OPTIONS } from '../../../utils/TypeOfWorkSelectOptions';
 
 interface Job {
     jobTitle?: string,
@@ -23,16 +24,6 @@ interface Job {
     salary?: string,
     typeofwork?: SelectItem<number>
 }
-
-const TYPE_OF_WORK: any = [
-    { value: 1, label: 'Full Time' },
-    { value: 2, label: 'Part Time' },
-    { value: 3, label: 'Casual' },
-    { value: 4, label: 'Full Time/Casual' },
-    { value: 5, label: 'Part Time/Casual' },
-    { value: 6, label: 'Full Time/Part Time' },
-    { value: 7, label: 'Full Time/Part Time/Casual' },
-  ];
 
 const transformNewJob = (authState: IAuthenticationState, newJobState: Job): CreateJobVariables => {
     const companyId = authState.user && authState.user.company && authState.user.company._id;
@@ -90,7 +81,7 @@ const CreateNewJob = () => {
                     <Select
                         label="Select your work type"
                         name="typeofwork"
-                        options={TYPE_OF_WORK}
+                        options={TYPE_OF_WORK_SELECT_OPTIONS}
                         className="basic-single"
                         classNamePrefix="select"
                         onChange={handleSelectChange}

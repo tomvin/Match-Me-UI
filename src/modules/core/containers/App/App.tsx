@@ -25,6 +25,7 @@ import ProfilePage from '../../../seeker/containers/ProfilePage/ProfilePage';
 import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
 import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
 import CreateNewJob from '../../../company/containers/CreateNewJob';
+import CompanyProfilePage from '../../../company/containers/CompanyProfilePage/CompanyProfilePage';
 library.add(far, fas);
 
 // Setup apollo client for graphql queries, mutations, etc. 
@@ -74,6 +75,7 @@ const App: React.FC = () => {
               <Route path="/login" component={LoginPage}></Route>
               <Route path="/company/jobs/:jobId/match/:userId" component={JobPostingUserMatchPage}></Route>
               <Route path="/register" component={RegisterPage}></Route>
+              <Route path="/company/profile" component={CompanyProfilePage}></Route>
               <Route path="/company/jobs/:jobId" component={JobPostingDetailsPage}></Route>
               <Route path="/company/jobs" component={JobPostingsPage}></Route>
               <Route path="/company/new" component={CreateNewJob}></Route>
