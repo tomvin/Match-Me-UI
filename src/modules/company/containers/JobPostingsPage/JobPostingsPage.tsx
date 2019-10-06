@@ -54,7 +54,7 @@ const JobPostingsPage = () => {
   return (
     <div className="job-postings">
       <Link className="job-postings__new" to="/company/new">Create new job</Link>
-      <List items={buildJobPostingsFromQueryResult(data)}></List>
+      <List canDelete={true} items={buildJobPostingsFromQueryResult(data)}></List>
     </div>
   )
 }

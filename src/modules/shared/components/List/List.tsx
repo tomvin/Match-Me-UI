@@ -5,6 +5,7 @@ import { ListItemVM } from '../ListItem/ListItemModels';
 
 interface Props {
   items: ListItemVM[];
+  canDelete?: boolean;
 }
 
 const List = (props: Props) => {
@@ -13,7 +14,7 @@ const List = (props: Props) => {
       {
         props.items
           .map((item, i) => (
-            <ListItem className="list__item" key={i} item={item} />
+            <ListItem className="list__item" key={i} item={item} canDelete={props.canDelete|| false} />
           )
         )
       }
