@@ -6,6 +6,8 @@ export type UserForJobMatchFragment = {
   jobSeeker: {
     _id: string;
     name: string;
+    salary: number;
+    phone: string;
   }
 }
 
@@ -16,6 +18,8 @@ export const USER_FOR_JOB_MATCH_FRAGMENT = gql`
     jobSeeker {
       _id
       name
+      salary
+      phone
     }
   }
 `;

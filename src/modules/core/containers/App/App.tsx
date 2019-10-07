@@ -11,8 +11,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import LoginPage from '../../../auth/containers/LoginPage/LoginPage';
 import RegisterPage from '../../../auth/containers/RegisterPage/RegisterPage';
 import { useSelector, useDispatch } from 'react-redux';
-import { IUser } from '../../../../models/User';
-import { IAppState, resetState } from '../../../../redux/appState';
+import { resetState } from '../../../../redux/appState';
 import Navigation from '../Navigation/Navigation';
 import PotentialJobsPage from '../../../seeker/containers/PotentialJobsPage/PotentialJobsPage';
 import PotentialJobDetailsPage from '../../../seeker/containers/PotentialJobDetailsPage/PotentialJobDetailsPage';
@@ -21,9 +20,12 @@ import JobPostingsPage from '../../../company/containers/JobPostingsPage/JobPost
 import MatchedJobDetailsPage from '../../../seeker/containers/MatchedJobDetailsPage/MatchedJobDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import JobPostingDetailsPage from '../../../company/containers/JobPostingDetailsPage/JobPostingDetailsPage';
-import CreateNewJob from '../../../company/containers/CreateNewJob';
 import JobPostingUserMatchPage from '../../../company/containers/JobPostingUserMatchPage/JobPostingUserMatchPage';
-
+import ProfilePage from '../../../seeker/containers/ProfilePage/ProfilePage';
+import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
+import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
+import CreateNewJob from '../../../company/containers/CreateNewJobPage/CreateNewJobPage';
+import CompanyProfilePage from '../../../company/containers/CompanyProfilePage/CompanyProfilePage';
 library.add(far, fas);
 
 // Setup apollo client for graphql queries, mutations, etc. 
@@ -42,7 +44,7 @@ const App: React.FC = () => {
   const [appState] = useState({
     appName: process.env.REACT_APP_TITLE,
   });
-  const user: IUser | null = useSelector((state: IAppState) => state.authentication.user);
+  const user: LoggedInUser = useSelector(loggedInUserSelector);
 
   const handleLogout = () => {
     dispatch(resetState());
@@ -65,6 +67,7 @@ const App: React.FC = () => {
               ) : ''
             }
             <Switch>
+              <Route path="/profile" component={ProfilePage}></Route>
               <Route path="/matched-jobs/:jobId" component={MatchedJobDetailsPage}></Route>
               <Route path="/matched-jobs" component={MatchedJobs}></Route>
               <Route path="/potential-jobs/:jobId" component={PotentialJobDetailsPage}></Route>
@@ -72,6 +75,8 @@ const App: React.FC = () => {
               <Route path="/login" component={LoginPage}></Route>
               <Route path="/company/jobs/:jobId/match/:userId" component={JobPostingUserMatchPage}></Route>
               <Route path="/register" component={RegisterPage}></Route>
+              <Route path="/company/profile" component={CompanyProfilePage}></Route>
+              <Route path="/company/jobs/new" component={CreateNewJob}></Route>
               <Route path="/company/jobs/:jobId" component={JobPostingDetailsPage}></Route>
               <Route path="/company/jobs" component={JobPostingsPage}></Route>
               <Route exact path="/" render={() => {

@@ -1,21 +1,6 @@
-.job-postings {
-    text-align: center;
-
-    &__new {
-        padding: 12px 48px;
-        display: inline-block;
-        margin-bottom: var(--spacing-3);
-        border-radius: 16px;
-        color: var(--gray-800);
-        border: 1px solid var(--gray-800);
-
-        &:visited {
-            color: var(--gray-800);
-            text-decoration: none;
-        }
-
-        &:hover {
-            background: var(--purple-300);
-        }
-    }
+.job-postings-page {
+  .create-new-job {
+    margin-bottom: var(--spacing-3);
+    display: inline-block;
+  }
 }

@@ -15,6 +15,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { CreateJobSeekerResult, CreateJobSeekerVariables, CREATE_JOB_SEEKER } from '../../../../api/mutations/createJobSeekerMutation';
 import { CreateCompanyResult, CreateCompanyVariables, CREATE_COMPANY } from '../../../../api/mutations/createCompanyMutation';
+import { TYPE_OF_WORK_SELECT_OPTIONS } from '../../../../utils/TypeOfWorkSelectOptions';
 
 
 interface RegisterPageState {
@@ -38,8 +39,8 @@ interface RegisterPageState {
   }
 
 const RegisterPage = () => {
-  const [createJobSeeker, { loading: createJobSeekerLoading, data: createJobSeekerResult }] = useMutation<CreateJobSeekerResult, CreateJobSeekerVariables>(CREATE_JOB_SEEKER);
-  const [createCompany, { loading: createCompanyLoading, data: createCompanyResult }] = useMutation<CreateCompanyResult, CreateCompanyVariables>(CREATE_COMPANY);
+  const [createJobSeeker, { data: createJobSeekerResult }] = useMutation<CreateJobSeekerResult, CreateJobSeekerVariables>(CREATE_JOB_SEEKER);
+  const [createCompany] = useMutation<CreateCompanyResult, CreateCompanyVariables>(CREATE_COMPANY);
 
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
   const [state, setState]: [RegisterPageState, any] = useState({
@@ -208,7 +209,7 @@ if(state.option === "Company")
   `);
 
 const { data: competenceData } = useQuery(gql`
-  query AllCompetences {
+  query Competences {
     competence {
       _id
       skill
@@ -216,21 +217,6 @@ const { data: competenceData } = useQuery(gql`
     }
   }
 `);
-
-
-  const typeofwork = [
-    { value: 1, label: 'Full Time' },
-    { value: 2, label: 'Part Time' },
-    { value: 3, label: 'Casual' },
-    { value: 4, label: 'Full Time/Casual' },
-    { value: 5, label: 'Part Time/Casual' },
-    { value: 6, label: 'Full Time/Part Time' },
-    { value: 7, label: 'Full Time/Part Time/Casual' },
-
-  ];
-
-
-
 
   return (
     <div className="register-page">
@@ -244,8 +230,6 @@ const { data: competenceData } = useQuery(gql`
         <form className="register-page-card__form" onSubmit={handleSubmit}>
           <Input value={state.email} onChange={handleInputChange} name="email" required type="email" label="Email Address" placeholder="username@email.com" />
           <Input value={state.password} onChange={handleInputChange} name="password" required type="password" label="Password" placeholder="******" />
-
-          { authState.loginFailed ? <p className="color--red">{authState.loginFailureMessage}</p> : ''}
           <p className="register-page-card__subtitle">Are you a Company posting jobs or looking for jobs?</p>
           <label>
             <input
@@ -325,7 +309,7 @@ const { data: competenceData } = useQuery(gql`
           <Select
             label="Select your work type"
             name="typeofwork"
-            options={typeofwork}
+            options={TYPE_OF_WORK_SELECT_OPTIONS}
             className="basic-single"
             classNamePrefix="select"
             onChange={handleworkChange}
@@ -363,11 +347,7 @@ export default pageWrapper(
   RegisterPage, 
   { 
     authorisedUserTypes: [
-      EUserType.Unknown,
-      EUserType.Company,
-      EUserType.Admin,
-      EUserType.JobSeeker
-
+      EUserType.Unknown
     ] 
   }
 );

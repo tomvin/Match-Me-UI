@@ -9,6 +9,21 @@ import { ListItemVM } from './ListItemModels';
 interface MatchListItemProps {
   className?: string;
   item: ListItemVM;
+  canDelete: boolean,
+  onDelete: (e: any, jobId: string) => void
+}
+
+interface Props {
+  jobId: string,
+  onDelete: (e: any, jobId: string) => void
+}
+
+const DeleteButton = (props: Props) => {
+  return (
+    <div title="Delete Job" className="list-item__delete" onClick={(e: any) => props.onDelete(e, props.jobId)}>
+      <FontAwesomeIcon icon="trash-alt" />
+    </div>
+  );
 }
 
 const ListItem = (props: MatchListItemProps) => {
@@ -32,6 +47,7 @@ const ListItem = (props: MatchListItemProps) => {
           <div className="info__header">
             <div className="header__title">{props.item.title}</div>
             <Pill text={props.item.pillText} variant={props.item.pillVariant} />
+            { props.canDelete ? <DeleteButton jobId={props.item.jobId} onDelete={props.onDelete} /> : null }
           </div>
           <div className="info__description">{trimStringAddEllipsis(props.item.description, 90)}</div>
         </div>

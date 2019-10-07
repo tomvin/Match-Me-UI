@@ -54,13 +54,13 @@ const JobPostingDetailsPage = (props: RouteComponentProps<Params>) => {
       <TabGroup className="job-posting-details-page__tabs">
         <Tab 
           label="Matched Applicants" 
-          description="You have matched with 0 candidates!"
+          description="View job seekers which you have a 2 way match with"
         >
           <JobMatches jobId={props.match.params.jobId} />
         </Tab>
         <Tab 
           label="Find More Matches" 
-          description="Search for more candidates"
+          description="Search for more candidates to match with"
         >
           <JobPotentialMatches jobId={props.match.params.jobId} />
         </Tab>

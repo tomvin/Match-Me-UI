@@ -15,10 +15,10 @@ import Alert from '../../../shared/components/Alert/Alert';
 import { EUserType } from '../../../../models/UserType';
 import { JOB_DETAILS_FRAGMENT } from '../../../../api/fragments/jobDetailsFragment';
 import { ACCEPT_JOB, AcceptJobResult, AcceptJobVariables } from '../../../../api/mutations/acceptJobMutation';
-import { IAppState } from '../../../../redux/appState';
 import { useSelector } from 'react-redux';
-import { IUser } from '../../../../models/User';
 import JobDetails from '../../../shared/components/JobDetails/JobDetails';
+import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
+import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
 
 const GET_JOBS = gql`
   query Jobs {
@@ -38,12 +38,8 @@ interface Params {
 const PotentialJobDetailsPage = (props: RouteComponentProps<Params>) => {
   const [acceptJob, { loading: acceptJobLoading, data: acceptJobResult }] = useMutation<AcceptJobResult, AcceptJobVariables>(ACCEPT_JOB);
   const { loading, error, data } = useQuery(GET_JOBS);
-  const user: IUser | null = useSelector((state: IAppState) => state.authentication.user); 
-
-  if (!user) {
-    return <Error route="/login" />;
-  }
-
+  const user: LoggedInUser = useSelector(loggedInUserSelector);
+  
   const getJobFromQueryResult = (jobs: IJob[]): IJob | undefined => {
     if (!jobs) {
       return undefined;
