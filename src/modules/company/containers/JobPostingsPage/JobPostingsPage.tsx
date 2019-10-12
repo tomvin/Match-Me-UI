@@ -16,7 +16,9 @@ import Button from '../../../shared/components/Button/Button'
 
 const JobPostingsPage = () => {
   const user: LoggedInUser = useSelector(loggedInUserSelector);
-  const { loading, error, data } = useQuery<CompanyJobPostingsResult>(COMPANY_JOB_POSTINGS_QUERY);
+  const { loading, error, data } = useQuery<CompanyJobPostingsResult>(COMPANY_JOB_POSTINGS_QUERY, {
+    fetchPolicy: 'network-only'
+  });
   
   const filterOutJobsNotPartOfUsersCompany = (jobs: CompanyJobPosting[]) => jobs.filter(job => job.company._id === (user.company ? user.company._id : -99999));
 

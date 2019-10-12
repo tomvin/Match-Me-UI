@@ -31,7 +31,7 @@ const JobPotentialMatches = (props: Props) => {
         jobId: props.jobId,
         type: 'image',
         route: `${props.jobId}/match/${match.user._id}`,
-        title: match.user.email,
+        title: match.user.jobSeeker ? match.user.jobSeeker.name : match.user.email,
         pillText: `${(match.score * 100).toFixed(0)}% Match`,
         pillVariant: convertMatchScoreToPillVariant(match.score),
         variant: 'primary',
