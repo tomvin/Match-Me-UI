@@ -36,7 +36,8 @@ interface RegisterPageState {
   salary_p: number;
   typeofwork_p: number;
   location_p: number;
-  }
+  profilePictureUrl: string;
+}
 
 const RegisterPage = () => {
   const [createJobSeeker, { data: createJobSeekerResult }] = useMutation<CreateJobSeekerResult, CreateJobSeekerVariables>(CREATE_JOB_SEEKER);
@@ -61,7 +62,8 @@ const RegisterPage = () => {
     competence_p: 0.2,
     salary_p: 0.2,
     typeofwork_p: 0.2,
-    location_p: 0.2
+    location_p: 0.2,
+    profilePictureUrl: ''
   });
 
   const handleSubmit = (event: FormEvent) => {
@@ -84,7 +86,8 @@ const RegisterPage = () => {
       },
       userInput: {
         email: state.email,
-        password: state.password
+        password: state.password,
+        profilePictureUrl: state.profilePictureUrl
       }
     };
 
@@ -230,6 +233,7 @@ const { data: competenceData } = useQuery(gql`
         <form className="register-page-card__form" onSubmit={handleSubmit}>
           <Input value={state.email} onChange={handleInputChange} name="email" required type="email" label="Email Address" placeholder="username@email.com" />
           <Input value={state.password} onChange={handleInputChange} name="password" required type="password" label="Password" placeholder="******" />
+          <Input value={state.profilePictureUrl} onChange={handleInputChange} name="profilePictureUrl" required type="text" label="Profile Picture Url" placeholder="http://image.com/example.png" />
           <p className="register-page-card__subtitle">Are you a Company posting jobs or looking for jobs?</p>
           <label>
             <input

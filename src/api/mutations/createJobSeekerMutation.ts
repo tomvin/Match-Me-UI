@@ -18,6 +18,7 @@ export type CreateJobSeekerVariables = {
   userInput: {
     email: string;
     password: string;
+    profilePictureUrl: string;
   }
 }
 
