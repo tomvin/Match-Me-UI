@@ -15,6 +15,7 @@ export const USER_FOR_JOB_MATCH_FRAGMENT = gql`
   fragment UserForJobMatch on User {
     _id
     email
+    profilePictureUrl
     jobSeeker {
       _id
       name

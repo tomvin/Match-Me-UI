@@ -10,6 +10,7 @@ query AllJobSeekerUsers {
   users {
     _id
     email
+    profilePictureUrl
     jobSeeker {
       _id
       name

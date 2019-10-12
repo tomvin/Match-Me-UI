@@ -49,7 +49,11 @@ const ListItem = (props: MatchListItemProps) => {
             <Pill text={props.item.pillText} variant={props.item.pillVariant} />
             { props.canDelete ? <DeleteButton jobId={props.item.jobId} onDelete={props.onDelete} /> : null }
           </div>
-          <div className="info__description">{trimStringAddEllipsis(props.item.description, 90)}</div>
+          {
+            props.item.description ? (
+              <div className="info__description">{trimStringAddEllipsis(props.item.description, 90)}</div>
+            ) : ''
+          }
         </div>
       </div>
       <div className="list-item__extra">
