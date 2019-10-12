@@ -1,6 +1,6 @@
 module.exports = {
   client: {
-    service: {//"match-me"
+    service: {
       name: 'match-me',
       url: 'http://dev-match-me-backend-rmit.herokuapp.com/graphql'
     }

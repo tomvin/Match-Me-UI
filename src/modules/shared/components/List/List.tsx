@@ -32,7 +32,7 @@ const List = (props: Props) => {
       {
         items
           .map((item: ListItemVM, i: number) => (
-            <ListItem className="list__item" key={i} item={item} canDelete={props.canDelete|| false} onDelete={onDelete} />
+            <ListItem className="list__item" key={i} item={item} canDelete={props.canDelete || false} onDelete={onDelete} />
           )
         )
       }

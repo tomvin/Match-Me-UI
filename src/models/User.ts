@@ -7,4 +7,6 @@ export interface IUser {
   company: ICompany | undefined;
   jobSeeker: IJobSeeker | undefined;
   isCompany: boolean;
+  isAdmin: boolean;
+  profilePictureUrl: string;
 }

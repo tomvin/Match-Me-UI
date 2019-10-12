@@ -5,7 +5,7 @@ interface BaseListItemVM {
   jobId: string;
   route: string;
   title: string;
-  description: string;
+  description?: string;
   pillText: string;
   pillVariant: PillVariant;
   variant: 'primary' | 'gray';
