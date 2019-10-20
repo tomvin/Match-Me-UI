@@ -1,16 +1,22 @@
 import gql from "graphql-tag";
 import { IUser } from "../../models/User";
 
-export type AllJobSeekerUsersResult = {
+export type AllUsersResult = {
   users: IUser[] | undefined;
 }
 
-export const ALL_JOB_SEEKER_USERS_QUERY =  gql`
-query AllJobSeekerUsers {
+export const ALL_USERS_QUERY = gql`
+query AllUsers {
   users {
     _id
     email
+    isCompany
+    isAdmin
     profilePictureUrl
+    company {
+      _id
+      name
+    }
     jobSeeker {
       _id
       name

@@ -26,6 +26,9 @@ import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
 import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
 import CreateNewJob from '../../../company/containers/CreateNewJobPage/CreateNewJobPage';
 import CompanyProfilePage from '../../../company/containers/CompanyProfilePage/CompanyProfilePage';
+import JobsPage from '../../../admin/containers/JobsPage/JobsPage';
+import UsersPage from '../../../admin/containers/UsersPage/UsersPage';
+import CompaniesPage from '../../../admin/containers/CompaniesPage/CompaniesPage';
 library.add(far, fas);
 
 // Setup apollo client for graphql queries, mutations, etc. 
@@ -79,9 +82,14 @@ const App: React.FC = () => {
               <Route path="/company/jobs/new" component={CreateNewJob}></Route>
               <Route path="/company/jobs/:jobId" component={JobPostingDetailsPage}></Route>
               <Route path="/company/jobs" component={JobPostingsPage}></Route>
+              <Route path="/admin/jobs" component={JobsPage}></Route>
+              <Route path="/admin/users" component={UsersPage}></Route>
+              <Route path="/admin/companies" component={CompaniesPage}></Route>
               <Route exact path="/" render={() => {
                 if (user && user.isCompany) {
                   return (<Redirect to="/company/jobs" />)
+                } else if (user && user.isAdmin) {
+                  return (<Redirect to="/admin/users" />)
                 } else if (user && !user.isCompany) {
                   return (<Redirect to="/matched-jobs" />)
                 } else {

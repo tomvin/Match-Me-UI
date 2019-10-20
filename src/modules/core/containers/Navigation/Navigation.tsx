@@ -3,34 +3,36 @@ import './Navigation.scss';
 import { NavItem } from '../../components/NavigationItem/NavigationItem';
 import { useSelector } from 'react-redux';
 import NavigationItemList from '../../components/NavigationItemList/NavigationItemList';
-import { LoggedInUser } from '../../../../api/queries/checkUserQuery';
-import { loggedInUserSelector } from '../../../../redux/selectors/authenticationSelectors';
+import { selectLoggedInUserType } from '../../../../redux/selectors/authenticationSelectors';
+import { EUserType } from '../../../../models/UserType';
 
 const Navigation = () => {
-  const user: LoggedInUser = useSelector(loggedInUserSelector);
-  let navItems: NavItem[] = [
-    // { label: 'Profile', route: '/profile', icon: ['far', 'user'] }
-  ];
+  const userType: EUserType = useSelector(selectLoggedInUserType);
 
-  if (!user) {
-    return null;
-  } else if (user.isCompany) { // User is logged in as a company user so build company nav menu
-    navItems = [
-      { label: 'Job Postings', route: '/company/jobs', icon: ['fas', 'file-contract'] },
-      { label: 'My Company', route: '/company/profile', icon: ['fas', 'industry'] },
-      ...navItems
-    ];
-  } else { // User is logged in as a job seeker to build seeker menu
-    navItems = [
-      { label: 'My Matches', route: '/matched-jobs', icon: ['far', 'handshake'] },
-      { label: 'Potential Jobs', route: '/potential-jobs', icon: ['fas', 'search'] },
-      { label: 'My Profile', route: '/profile', icon: ['fas', 'user'] },
-      ...navItems
-    ];
+  const getNavItemsForUser = (type: EUserType): NavItem[] => {
+    switch (type) {
+      case EUserType.Admin: return [
+        { label: 'Users', route: '/admin/users', icon: ['fas', 'user'] },
+        { label: 'Jobs', route: '/admin/jobs', icon: ['fas', 'file-contract'] },
+        { label: 'Companies', route: '/admin/companies', icon: ['fas', 'industry'] },
+      ];
+      case EUserType.Company: return [
+        { label: 'Job Postings', route: '/company/jobs', icon: ['fas', 'file-contract'] },
+        { label: 'My Company', route: '/company/profile', icon: ['fas', 'industry'] },
+      ];
+      case EUserType.JobSeeker: return [
+        { label: 'My Matches', route: '/matched-jobs', icon: ['far', 'handshake'] },
+        { label: 'Potential Jobs', route: '/potential-jobs', icon: ['fas', 'search'] },
+        { label: 'My Profile', route: '/profile', icon: ['fas', 'user'] },
+      ]
+      case EUserType.Unknown: 
+      default:
+        return [];
+    }
   }
 
   return (
-    <NavigationItemList navItems={navItems}/>
+    <NavigationItemList navItems={getNavItemsForUser(userType)}/>
   )
 }
 

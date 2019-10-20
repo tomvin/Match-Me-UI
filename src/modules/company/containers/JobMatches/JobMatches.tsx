@@ -36,14 +36,14 @@ const JobMatches = (props: Props) => {
 
     return job.completeJobSeekerMatch.map<ListItemVM>(user => ({
       jobId: props.jobId,
-      type: 'icon',
+      type: 'image',
       route: `${props.jobId}/match/${user._id}?m=m`,
-      title: user.email,
+      title: user.jobSeeker ? user.jobSeeker.name : user.email,
       description: user.jobSeeker ? `Contact Number: ${user.jobSeeker.phone}` : '',
       pillText: `$${(user.jobSeeker && user.jobSeeker.salary) ? user.jobSeeker.salary.toLocaleString() : '0'}`,
       pillVariant: 'green',
       variant: 'primary',
-      icon: 'user'
+      imageUrl: user.profilePictureUrl
     }));
   }
 

@@ -2,7 +2,6 @@ import React from 'react'
 import './UserDetails.scss';
 import { IUser } from '../../../../models/User';
 import Card from '../Card/Card';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Error from '../Error/Error';
 import IconList from '../IconList/IconList';
 import { mapEducationToIconList } from '../../../../utils/MapEducationToIconList';
@@ -20,7 +19,7 @@ const UserDetails = (props: Props) => {
     <Card className="user-details">
       <div className="user-details__left">
         <div className="user-details-logo">
-          <FontAwesomeIcon className="user-details-logo__icon" icon="user" />
+          <img className="user-image" src={props.user.profilePictureUrl} alt="The potential job applicant" />
         </div>
       </div>
       <div className="user-details__right">
