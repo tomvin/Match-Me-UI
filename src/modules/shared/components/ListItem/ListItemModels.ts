@@ -9,6 +9,7 @@ interface BaseListItemVM {
   pillText: string;
   pillVariant: PillVariant;
   variant: 'primary' | 'gray';
+  deleteItem?: () => void;
 }
 
 interface ListItemImageVariantVM extends BaseListItemVM {

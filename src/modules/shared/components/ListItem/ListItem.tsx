@@ -9,18 +9,21 @@ import { ListItemVM } from './ListItemModels';
 interface MatchListItemProps {
   className?: string;
   item: ListItemVM;
-  canDelete: boolean,
-  onDelete: (e: any, jobId: string) => void
 }
 
 interface Props {
-  jobId: string,
-  onDelete: (e: any, jobId: string) => void
+  deleteItem: () => void
 }
 
 const DeleteButton = (props: Props) => {
+  const handleDelete = (event: any): void => {
+    event.preventDefault();
+    event.stopPropagation();
+    props.deleteItem();
+  }
+
   return (
-    <div title="Delete Job" className="list-item__delete" onClick={(e: any) => props.onDelete(e, props.jobId)}>
+    <div title="Delete Job" className="list-item__delete" onClick={(event: any) => handleDelete(event)}>
       <FontAwesomeIcon icon="trash-alt" />
     </div>
   );
@@ -47,7 +50,7 @@ const ListItem = (props: MatchListItemProps) => {
           <div className="info__header">
             <div className="header__title">{props.item.title}</div>
             <Pill text={props.item.pillText} variant={props.item.pillVariant} />
-            { props.canDelete ? <DeleteButton jobId={props.item.jobId} onDelete={props.onDelete} /> : null }
+            { props.item.deleteItem !== undefined ? <DeleteButton deleteItem={props.item.deleteItem} /> : null }
           </div>
           {
             props.item.description ? (

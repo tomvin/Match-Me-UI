@@ -60,7 +60,7 @@ const JobPostingsPage = () => {
       <Link className="create-new-job" to="/company/jobs/new">
         <Button variant="primary" icon="plus">Create New Job</Button>
       </Link>
-      <List canDelete={true} items={buildJobPostingsFromQueryResult(data)}></List>
+      <List items={buildJobPostingsFromQueryResult(data)}></List>
     </div>
   )
 }
