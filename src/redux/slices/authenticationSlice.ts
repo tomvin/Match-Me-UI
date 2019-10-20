@@ -97,6 +97,10 @@ const determineUserType = (user: LoggedInUser): EUserType => {
     return EUserType.Company;
   }
 
+  if (user.isAdmin) {
+    return EUserType.Admin;
+  }
+
   return EUserType.JobSeeker;
 }
 

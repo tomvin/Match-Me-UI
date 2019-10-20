@@ -13,6 +13,7 @@ export type LoggedInUser = {
   _id: string;
   email: string;
   isCompany: boolean;
+  isAdmin: boolean;
   jobSeeker: undefined | {
     _id: string;
     name: string;
@@ -29,6 +30,7 @@ query CheckUser($email:String!, $password:String!) {
     _id
     email
     isCompany
+    isAdmin
     jobSeeker{
       _id
       name

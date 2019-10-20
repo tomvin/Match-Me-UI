@@ -2,13 +2,13 @@ import { PillVariant } from "../Pill/Pill";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 interface BaseListItemVM {
-  jobId: string;
   route: string;
   title: string;
   description?: string;
   pillText: string;
   pillVariant: PillVariant;
   variant: 'primary' | 'gray';
+  deleteItem?: () => void;
 }
 
 interface ListItemImageVariantVM extends BaseListItemVM {
