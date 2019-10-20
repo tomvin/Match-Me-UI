@@ -2,7 +2,6 @@ import { PillVariant } from "../Pill/Pill";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 interface BaseListItemVM {
-  jobId: string;
   route: string;
   title: string;
   description?: string;
