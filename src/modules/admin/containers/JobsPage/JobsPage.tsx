@@ -22,20 +22,6 @@ const JobsPage = () => {
       variant: 'primary'
     }));
   
-    // const mapUserToUserType = (user: IUser): 'Admin' | 'Company Employee' | 'Job Seeker' | 'Unknown' => {
-    //   if (user.isAdmin) return 'Admin';
-    //   if (user.company) return 'Company Employee';
-    //   if (user.jobSeeker) return 'Job Seeker';
-    //   return 'Unknown';
-    // }
-  
-    // const mapUserToDescription = (user: IUser) => {
-    //   if (user.isAdmin) return 'An administrator of MatchMe';
-    //   if (user.company) return `This user works for a company named ${user.company.name}`;
-    //   if (user.jobSeeker) return 'This user is a job seeker looking for employment';
-    //   return ''; 
-    // }
-  
     if (loading) return <Loading />
     if (error || !data || !data.jobs) return <Error />
   
