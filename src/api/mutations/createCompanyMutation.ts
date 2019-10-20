@@ -5,10 +5,13 @@ export type CreateCompanyVariables = {
     name: string;
     phone: string;
     email: string;
+    logoUrl: string;
   }
   userInput: {
     email: string;
     password: string;
+    profilePictureUrl: string;
+
   }
 }
 

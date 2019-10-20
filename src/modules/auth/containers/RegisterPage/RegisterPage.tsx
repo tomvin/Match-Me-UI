@@ -37,11 +37,12 @@ interface RegisterPageState {
   typeofwork_p: number;
   location_p: number;
   profilePictureUrl: string;
+  logoUrl: string;
 }
 
 const RegisterPage = () => {
   const [createJobSeeker, { data: createJobSeekerResult }] = useMutation<CreateJobSeekerResult, CreateJobSeekerVariables>(CREATE_JOB_SEEKER);
-  const [createCompany] = useMutation<CreateCompanyResult, CreateCompanyVariables>(CREATE_COMPANY);
+  const [createCompany,{ data: createCompanyResult }] = useMutation<CreateCompanyResult, CreateCompanyVariables>(CREATE_COMPANY);
 
   const authState: IAuthenticationState = useSelector((state: IAppState) => state.authentication);
   const [state, setState]: [RegisterPageState, any] = useState({
@@ -63,7 +64,8 @@ const RegisterPage = () => {
     salary_p: 0.2,
     typeofwork_p: 0.2,
     location_p: 0.2,
-    profilePictureUrl: ''
+    profilePictureUrl: '',
+    logoUrl: ''
   });
 
   const handleSubmit = (event: FormEvent) => {
@@ -95,11 +97,15 @@ const RegisterPage = () => {
       companyInput: {
         name: state.fname,
         phone: state.phone,
-        email: state.email
+        email: state.email,
+        logoUrl: state.logoUrl
       },
       userInput: {
         email: state.email_company,
-        password: state.password
+        password: state.password,
+        profilePictureUrl: state.profilePictureUrl
+
+
       }
     };
 if(state.option === "Company")
@@ -267,6 +273,7 @@ const { data: competenceData } = useQuery(gql`
               <Input value={state.fname} onChange={handleInputChange} name="fname" required type="text" label="Your Name" placeholder="John Johnson" />
               <Input value={state.email_company} onChange={handleInputChange} name="email_company" required type="email_company" label="Company Email Address" placeholder="username@company.com" />
               <Input value={state.phone} onChange={handleInputChange} name="phone" required type="text" label="Company Phone number" placeholder="0459632145" />
+              <Input value={state.logoUrl} onChange={handleInputChange} name="logoUrl" required type="text" label="Company Picture Url" placeholder="http://image.com/example.png" />
 
               <br></br>
             <Button 
@@ -340,7 +347,10 @@ const { data: competenceData } = useQuery(gql`
 
         </form>
         {
-          createJobSeekerResult ? <div>User created successfully! </div> : ''
+          createJobSeekerResult ? <div>User created successfully!<Redirect to="/" />  </div> : ''
+        }
+          {
+          createCompanyResult ? <div>Company created successfully!<Redirect to="/" />  </div> : ''
         }
       </Card>
     </div>
