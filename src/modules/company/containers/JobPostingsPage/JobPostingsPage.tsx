@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper'
 import { EUserType } from '../../../../models/UserType'
@@ -17,12 +17,14 @@ import { DELETE_JOB, DeleteJobVariables, DeleteJobResult } from '../../../../api
 
 const JobPostingsPage = () => {
   const user: LoggedInUser = useSelector(loggedInUserSelector);
+  const [ deletedJobIds, setDeletedJobIds ] = useState<string[]>([]);
   const [ deleteJob ] = useMutation<DeleteJobResult, DeleteJobVariables>(DELETE_JOB);
   const { loading, error, data } = useQuery<CompanyJobPostingsResult>(COMPANY_JOB_POSTINGS_QUERY, {
     fetchPolicy: 'network-only'
   });
   
   const filterOutJobsNotPartOfUsersCompany = (jobs: CompanyJobPosting[]) => jobs.filter(job => job.company._id === (user.company ? user.company._id : -99999));
+  const filterOutDeletedJobs = (jobs: CompanyJobPosting[]): CompanyJobPosting[] => jobs.filter(job => !deletedJobIds.includes(job._id));
 
   const convertJobsToListItems = (jobs: CompanyJobPosting[]): ListItemVM[] => {
     return jobs.map<ListItemVM>(job => ({
@@ -35,7 +37,13 @@ const JobPostingsPage = () => {
       pillText: `${job.completeJobSeekerMatch.length} Matched Applicants`,
       pillVariant: 'green',
       variant: 'primary',
-      deleteItem: () => deleteJob({ variables: { jobId: job._id } })
+      deleteItem: () => {
+        deleteJob({ variables: { jobId: job._id } });
+        setDeletedJobIds([
+          ...deletedJobIds,
+          job._id
+        ]);
+      }
     }));
   }
 
@@ -52,7 +60,7 @@ const JobPostingsPage = () => {
       return [];
     }
 
-    return convertJobsToListItems(filterOutJobsNotPartOfUsersCompany(data.companyJobPostings))
+    return convertJobsToListItems(filterOutDeletedJobs(filterOutJobsNotPartOfUsersCompany(data.companyJobPostings)))
   };
 
   if (loading) return <Loading />;
