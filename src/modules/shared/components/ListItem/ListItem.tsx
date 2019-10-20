@@ -29,7 +29,7 @@ const DeleteButton = (props: Props) => {
   );
 }
 
-const InnerListItem = (props: MatchListItemProps) => {
+export const InnerListItem = (props: MatchListItemProps) => {
   return (
     <React.Fragment>
       <div className="list-item__left">
