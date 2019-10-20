@@ -29,9 +29,9 @@ const DeleteButton = (props: Props) => {
   );
 }
 
-const ListItem = (props: MatchListItemProps) => {
+const InnerListItem = (props: MatchListItemProps) => {
   return (
-    <Link to={props.item.route} className={`list-item list-item--${props.item.variant} ${props.className}`}>
+    <React.Fragment>
       <div className="list-item__left">
         {
          props.item.type === 'image' ? 
@@ -59,10 +59,26 @@ const ListItem = (props: MatchListItemProps) => {
           }
         </div>
       </div>
-      <div className="list-item__extra">
-        <FontAwesomeIcon className="extra__icon" icon={['fas', 'chevron-right']} />
-      </div>
-    </Link>
+    </React.Fragment>
+  )
+}
+
+const ListItem = (props: MatchListItemProps) => {
+  if (props.item.route !== '') {
+    return (
+      <Link to={props.item.route} className={`list-item list-item--hover list-item--${props.item.variant} ${props.className}`}>
+        <InnerListItem {...props} />
+        <div className="list-item__extra">
+          <FontAwesomeIcon className="extra__icon" icon={['fas', 'chevron-right']} />
+        </div>
+      </Link>
+    )
+  }
+
+  return (
+    <div className={`list-item list-item--${props.item.variant} ${props.className}`}>
+      <InnerListItem {...props} />
+    </div>
   )
 }
 
