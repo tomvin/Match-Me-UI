@@ -4,7 +4,7 @@ import pageWrapper from '../../../shared/components/PageWrapper/PageWrapper'
 import { EUserType } from '../../../../models/UserType'
 import List from '../../../shared/components/List/List'
 import { ListItemVM } from '../../../shared/components/ListItem/ListItemModels'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import Loading from '../../../shared/components/Loading/Loading'
 import Error from '../../../shared/components/Error/Error'
 import { useSelector } from 'react-redux'
@@ -13,9 +13,11 @@ import { loggedInUserSelector } from '../../../../redux/selectors/authentication
 import { LoggedInUser } from '../../../../api/queries/checkUserQuery'
 import { COMPANY_JOB_POSTINGS_QUERY, CompanyJobPostingsResult, CompanyJobPosting } from '../../../../api/queries/companyJobPostingsQuery';
 import Button from '../../../shared/components/Button/Button'
+import { DELETE_JOB, DeleteJobVariables, DeleteJobResult } from '../../../../api/mutations/deleteJobMutation'
 
 const JobPostingsPage = () => {
   const user: LoggedInUser = useSelector(loggedInUserSelector);
+  const [ deleteJob ] = useMutation<DeleteJobResult, DeleteJobVariables>(DELETE_JOB);
   const { loading, error, data } = useQuery<CompanyJobPostingsResult>(COMPANY_JOB_POSTINGS_QUERY, {
     fetchPolicy: 'network-only'
   });
@@ -32,7 +34,8 @@ const JobPostingsPage = () => {
       description: job.description,
       pillText: `${job.completeJobSeekerMatch.length} Matched Applicants`,
       pillVariant: 'green',
-      variant: 'primary'
+      variant: 'primary',
+      deleteItem: () => deleteJob({ variables: { jobId: job._id } })
     }));
   }
 
