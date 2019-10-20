@@ -5,7 +5,7 @@ export type AllUsersResult = {
   users: IUser[] | undefined;
 }
 
-export const ALL_USERS_QUERY =  gql`
+export const ALL_USERS_QUERY = gql`
 query AllUsers {
   users {
     _id
